@@ -1,12 +1,12 @@
 {
-    "name": "laravelcargo/laravel-cargo",
+    "name": "timothepearce/laravel-cargo",
     "description": "This is my package LaravelCargo",
     "keywords": [
         "LaravelCargo",
         "laravel",
         "laravel-cargo"
     ],
-    "homepage": "https://github.com/laravelcargo/laravel-cargo",
+    "homepage": "https://github.com/timothepearce/laravel-cargo",
     "license": "MIT",
     "authors": [
         {
