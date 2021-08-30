@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Laravelcargo\LaravelCargo\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelCargoCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-cargo';
 
     public $description = 'My command';
 

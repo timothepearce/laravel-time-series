@@ -1,17 +1,17 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "laravelcargo/laravel-cargo",
+    "description": "This is my package LaravelCargo",
     "keywords": [
-        ":vendor_name",
+        "LaravelCargo",
         "laravel",
-        "package_slug"
+        "laravel-cargo"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/laravelcargo/laravel-cargo",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Timothé Pearce",
+            "email": "timothe.pearce@gmail.com",
             "role": "Developer"
         }
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Laravelcargo\\LaravelCargo\\": "src",
+            "Laravelcargo\\LaravelCargo\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Laravelcargo\\LaravelCargo\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Laravelcargo\\LaravelCargo\\LaravelCargoServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "LaravelCargo": "Laravelcargo\\LaravelCargo\\LaravelCargoFacade"
             }
         }
     },
