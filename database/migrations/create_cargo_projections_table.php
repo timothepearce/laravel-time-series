@@ -11,9 +11,17 @@ return new class extends Migration
         Schema::create('cargo_projections', function (Blueprint $table) {
             $table->id();
 
-            // Add necessary fields...
+            $table->string('model_name');
+            $table->string('interval_name');
+
+            $table->date('interval_start');
+            $table->date('interval_end');
+
+            $table->json('content');
 
             $table->timestamps();
+
+            // Add composite key?
         });
     }
 
