@@ -6,7 +6,8 @@ use Illuminate\Console\Command;
 
 class LaravelCargoCommand extends Command
 {
-    public $signature = 'laravel-cargo';
+    // projection:content --model="" ?
+    public $signature = 'cargo';
 
     public $description = 'My command';
 

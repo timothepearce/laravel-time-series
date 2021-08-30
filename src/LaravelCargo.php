@@ -4,4 +4,5 @@ namespace Laravelcargo\LaravelCargo;
 
 class LaravelCargo
 {
+
 }
