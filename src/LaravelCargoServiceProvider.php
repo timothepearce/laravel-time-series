@@ -2,9 +2,9 @@
 
 namespace Laravelcargo\LaravelCargo;
 
+use Laravelcargo\LaravelCargo\Commands\LaravelCargoCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Laravelcargo\LaravelCargo\Commands\LaravelCargoCommand;
 
 class LaravelCargoServiceProvider extends PackageServiceProvider
 {

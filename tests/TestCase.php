@@ -3,8 +3,8 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Laravelcargo\LaravelCargo\LaravelCargoServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
