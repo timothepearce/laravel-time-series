@@ -2,8 +2,8 @@
 
 namespace Laravelcargo\LaravelCargo;
 
-use Laravelcargo\LaravelCargo\Commands\LaravelCargoCommand;
 use Illuminate\Support\ServiceProvider;
+use Laravelcargo\LaravelCargo\Commands\LaravelCargoCommand;
 
 class LaravelCargoServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class LaravelCargoServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/cargo.php' => config_path('cargo.php')
+            __DIR__.'/../config/cargo.php' => config_path('cargo.php'),
         ]);
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
