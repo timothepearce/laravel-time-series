@@ -8,12 +8,17 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel-cargo_table', function (Blueprint $table) {
+        Schema::create('cargo_projections', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            // Add necessary fields...
 
             $table->timestamps();
         });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('cargo_projections');
     }
 };
