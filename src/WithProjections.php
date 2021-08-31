@@ -18,7 +18,7 @@ trait WithProjections
     public static function bootWithProjections()
     {
         static::created(function (Model $model) {
-            $model->parseIntervals();
+            // $model->parseIntervals();
         });
     }
 

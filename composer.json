@@ -29,13 +29,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Laravelcargo\\LaravelCargo\\": "src",
-            "Laravelcargo\\LaravelCargo\\Database\\Factories\\": "database/factories"
+            "Laravelcargo\\LaravelCargo\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Laravelcargo\\LaravelCargo\\Tests\\": "tests"
+            "Laravelcargo\\LaravelCargo\\Tests\\": "tests",
+            "Laravelcargo\\LaravelCargo\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "scripts": {

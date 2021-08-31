@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Laravelcargo\\LaravelCargo\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Laravelcargo\\LaravelCargo\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
@@ -24,11 +24,29 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function defineEnvironment($app)
     {
-        config()->set('database.default', 'testing');
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+        ]);
+    }
 
-        $migration = include __DIR__.'/../database/migrations/create_cargo_projections_table.php';
-        $migration->up();
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 }
