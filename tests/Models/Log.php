@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Laravelcargo\LaravelCargo\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,8 @@ use Laravelcargo\LaravelCargo\WithProjections;
 
 class Log extends Model
 {
-    use HasFactory, WithProjections;
+    use HasFactory;
+    use WithProjections;
 
     /**
      * Lists the time intervals used to compute the projections.
@@ -27,7 +27,7 @@ class Log extends Model
         '1 month',
         '3 months',
         '1 year',
-        '*'
+        '*',
     ];
 
     /**
