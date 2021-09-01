@@ -9,9 +9,9 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
-        Log::factory()->create();
+        $log = Log::factory()->create();
+        $numberOfIntervals = $log->getIntervalCount();
 
-        // $this->assertDatabaseCount('cargo_projections', 1);
-        $this->assertTrue(true);
+        $this->assertDatabaseCount('cargo_projections', $numberOfIntervals);
     }
 }

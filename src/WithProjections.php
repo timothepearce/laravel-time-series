@@ -12,63 +12,65 @@ trait WithProjections
 {
     /**
      * Boot the trait.
-     *
-     * @return void
      */
-    public static function bootWithProjections()
+    public static function bootWithProjections(): void
     {
         static::created(function (Model $model) {
-            // $model->parseIntervals();
+            $model->parseIntervals();
         });
     }
 
     /**
      * Parse the intervals defined as class attribute.
-     *
-     * @return void
      */
-    private function parseIntervals()
+    private function parseIntervals(): void
     {
         collect($this->intervals)->each(fn ($interval) => $this->parseInterval($interval));
     }
 
     /**
      * Parse the given interval and return the projection.
-     *
-     * @param string $interval
-     *
-     * @return Projection
      */
-    private function parseInterval(string $interval)
+    private function parseInterval(string $interval): Projection
     {
-        [$unit, $period] = Str::of($interval)->split($interval, ' ');
+        [$unit, $period] = Str::of($interval)->split('/[\s]+/');
 
         return $this->findOrCreateProjection($interval, $unit, $period);
     }
 
     /**
      * Find or create the projection.
-     *
-     * @param string $interval
-     * @param string $unit
-     * @param int $period
-     *
-     * @return Collection
      */
-    private function findOrCreateProjection(string $interval, string $unit, int $period)
+    private function findOrCreateProjection(string $interval, string $unit, string $period): Projection
     {
+        return Projection::create([
+            'model_name' => 'model name',
+            'interval_name' => $interval,
+            'content' => 'content',
+            'interval_start' => Carbon::now(),
+            'interval_end' => Carbon::now()->add(1, 'minute'),
+        ]);
+
         // Find the end date (round to something ?)
         // Find the start date
         // Query the model filtered by the period name and between the dates computed
 
         // Format to UTC?
-        $endDate = Carbon::now()->floorUnit($unit, $period)->format('H:i:s.u');
+        // $endDate = Carbon::now()->floorUnit($unit, $period)->format('H:i:s.u');
 
         // Call the right unit function
-        $startDate = $endDate->minMinutes($period);
+        // $startDate = $endDate->minMinutes($period);
 
-        return Projection::between($startDate, $endDate)
-            ->where('interval', $interval)
-            ->findOrCreate($this->defaultProjection());
+        // return Projection::between($startDate, $endDate)
+        //     ->where('interval', $interval)
+        //     ->findOrCreate($this->defaultProjection());
+    }
+
+    /**
+     * Get the interval count.
+     */
+    public function getIntervalCount(): int
+    {
+        return count($this->intervals);
     }
 }

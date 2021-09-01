@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Projection extends Model
 {
     use HasFactory;
+
+    protected $table = 'cargo_projections';
+
+    protected $guarded = [];
 }

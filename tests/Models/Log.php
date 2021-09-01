@@ -18,7 +18,7 @@ class Log extends Model
      *
      * @var string[]
      */
-    protected $intervals = [
+    protected array $intervals = [
         '5 minutes',
         '1 hour',
         '6 hours',
@@ -27,7 +27,7 @@ class Log extends Model
         '1 month',
         '3 months',
         '1 year',
-        '*'
+        // '*'
     ];
 
     /**
