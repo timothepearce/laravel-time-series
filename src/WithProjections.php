@@ -72,4 +72,12 @@ trait WithProjections
     {
         return count($this->intervals);
     }
+
+    /**
+     * Set the intervals.
+     */
+    public function setInterval(array $newIntervals): void
+    {
+        $this->intervals = $newIntervals;
+    }
 }

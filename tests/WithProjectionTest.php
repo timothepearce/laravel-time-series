@@ -2,6 +2,8 @@
 
 namespace Laravelcargo\LaravelCargo\Tests;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
 
 class WithProjectionTest extends TestCase
@@ -14,5 +16,30 @@ class WithProjectionTest extends TestCase
         $numberOfIntervals = $log->getIntervalCount();
 
         $this->assertDatabaseCount('cargo_projections', $numberOfIntervals);
+    }
+
+    /** @test */
+    public function it_creates_a_new_projection_when_the_interval_is_ended()
+    {
+        $intervals = ['5 minutes'];
+        $this->travelTo(Carbon::today());
+        $this->createModelWithIntervals(Log::class, $intervals);
+
+        $this->travel(6)->minutes();
+        $this->createModelWithIntervals(Log::class, $intervals);
+
+        $this->assertDatabaseCount('cargo_projections', 2);
+    }
+
+    /**
+     * Creates the model with the given intervals.
+     */
+    private function createModelWithIntervals(string $model, array $intervals): Model
+    {
+        $model = $model::factory()->make();
+        $model->setInterval($intervals);
+        $model->save();
+
+        return $model;
     }
 }
