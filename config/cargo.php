@@ -12,4 +12,9 @@ return [
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
+
+    /*
+     * The fully qualified class name of the projection model.
+     */
+    // 'projection_model' => \Laravelcargo\LaravelCargo\Models\Projection::class,
 ];
