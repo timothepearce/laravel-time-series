@@ -19,6 +19,19 @@ class WithProjectionTest extends TestCase
     }
 
     /** @test */
+    public function it_get_the_projection_when_the_interval_is_in_completion()
+    {
+        $intervals = ['5 minutes'];
+        $this->travelTo(Carbon::today());
+        $this->createModelWithIntervals(Log::class, $intervals);
+
+        $this->travel(3)->minutes();
+        $this->createModelWithIntervals(Log::class, $intervals);
+
+        $this->assertDatabaseCount('cargo_projections', 1);
+    }
+
+    /** @test */
     public function it_creates_a_new_projection_when_the_interval_is_ended()
     {
         $intervals = ['5 minutes'];

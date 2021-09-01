@@ -42,13 +42,17 @@ trait WithProjections
      */
     private function findOrCreateProjection(string $interval, string $unit, string $period): Projection
     {
-        return Projection::create([
-            'model_name' => 'model name',
+        $projection = Projection::firstOrNew([
+            'model_name' => self::class,
             'interval_name' => $interval,
-            'content' => 'content',
-            'interval_start' => Carbon::now(),
-            'interval_end' => Carbon::now()->add(1, 'minute'),
+            'interval_start'=> Carbon::now()->floorUnit($period, (int) $unit),
+            'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
         ]);
+
+        $projection->content = "Content";
+        $projection->save();
+
+        return $projection;
 
         // Find the end date (round to something ?)
         // Find the start date
