@@ -49,12 +49,22 @@ trait WithProjections
             'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
         ]);
 
+        $projection = $this->computeContent($projection);
+        $projection->save();
+
+        return $projection;
+    }
+
+    /**
+     * Compute the content of the projection.
+     */
+    private function computeContent(Projection $projection): Projection
+    {
         if (is_null($projection->content)) {
             $projection->content = $this->defaultProjection();
         }
 
-        $projection->content = $this->project($projection);
-        $projection->save();
+        $this->project($projection);
 
         return $projection;
     }
