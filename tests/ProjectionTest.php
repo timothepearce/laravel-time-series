@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Laravelcargo\LaravelCargo\Tests;
 
-use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\Tests\Models\Log;
 
 class ProjectionTest extends TestCase
 {
