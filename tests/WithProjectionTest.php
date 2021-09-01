@@ -3,8 +3,8 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Queue;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
