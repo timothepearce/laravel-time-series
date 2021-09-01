@@ -46,6 +46,15 @@ class WithProjectionTest extends TestCase
     }
 
     /** @test */
+    public function it_computes_the_content_of_the_projection_from_the_default_one()
+    {
+        $intervals = ['5 minutes'];
+        $this->createModelWithIntervals(Log::class, $intervals);
+
+        $this->assertEquals(1, Projection::first()->content["number of logs"]);
+    }
+
+    /** @test */
     public function it_computes_the_content_of_the_projection()
     {
         $intervals = ['5 minutes'];
