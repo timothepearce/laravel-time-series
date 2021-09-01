@@ -88,6 +88,14 @@ class WithProjectionTest extends TestCase
         Queue::assertPushedOn('named', ProcessProjection::class);
     }
 
+    /** @test */
+    public function it_has_a_relationship_with_the_projection()
+    {
+        $log = Log::factory()->create();
+
+        $this->assertNotNull($log->projections);
+    }
+
     /**
      * Creates the model with the given intervals.
      */

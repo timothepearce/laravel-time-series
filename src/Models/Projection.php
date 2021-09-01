@@ -4,6 +4,7 @@ namespace Laravelcargo\LaravelCargo\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Projection extends Model
 {
@@ -21,4 +22,12 @@ class Projection extends Model
     protected $casts = [
         'content' => 'json',
     ];
+
+    /**
+     * Get all the models from the projection.
+     */
+    public function from(string $modelName): MorphToMany
+    {
+        return $this->morphedByMany($modelName, 'projectable', 'cargo_projectables');
+    }
 }
