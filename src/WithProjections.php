@@ -45,7 +45,7 @@ trait WithProjections
         $projection = Projection::firstOrNew([
             'model_name' => self::class,
             'interval_name' => $interval,
-            'interval_start'=> Carbon::now()->floorUnit($period, (int) $unit),
+            'interval_start' => Carbon::now()->floorUnit($period, (int) $unit),
             'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
         ]);
 
