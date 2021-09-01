@@ -52,15 +52,7 @@ class Log extends Model
     }
 
     /**
-     * Each time a model is created, we dispatch an event for each interval defined.
-     *
-     * The time interval is used to query all the models between now and (now - time interval).
-     *
-     * Then, we call the projection method by passing it :
-     * - The CargoProjection model (a default projection will be provided if no one exists)
-     * - The collection of the previously queried models
-     *
-     * The projection method will return an array which will be stored as the `content` attribute of the CargoProjection model.
+     * API wip.
      */
     public function relationWithCargoProjection()
     {

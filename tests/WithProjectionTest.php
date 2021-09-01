@@ -3,7 +3,9 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Carbon;
+use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
 
@@ -62,6 +64,28 @@ class WithProjectionTest extends TestCase
         $this->createModelWithIntervals(Log::class, $intervals);
 
         $this->assertEquals(2, Projection::first()->content["number of logs"]);
+    }
+
+    /** @test */
+    public function it_dispatch_a_job_when_the_queue_config_is_enabled()
+    {
+        Queue::fake();
+        config(['cargo.queue' => true]);
+
+        $this->createModelWithIntervals(Log::class, ['5 minutes']);
+
+        Queue::assertPushed(ProcessProjection::class);
+    }
+
+    /** @test */
+    public function it_dispatch_a_job_to_the_named_queue()
+    {
+        Queue::fake();
+        config(['cargo.queue' => true, 'cargo.queue_name' => 'named']);
+
+        $this->createModelWithIntervals(Log::class, ['5 minutes']);
+
+        Queue::assertPushedOn('named', ProcessProjection::class);
     }
 
     /**

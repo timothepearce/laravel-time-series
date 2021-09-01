@@ -3,6 +3,7 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravelcargo\LaravelCargo\LaravelCargoServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -32,6 +33,7 @@ class TestCase extends Orchestra
      */
     protected function defineEnvironment($app)
     {
+        $app['config']->set('cargo.queue', false);
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',

@@ -5,6 +5,7 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 
 trait WithProjections
@@ -15,14 +16,16 @@ trait WithProjections
     public static function bootWithProjections(): void
     {
         static::created(function (Model $model) {
-            $model->parseIntervals();
+            config('cargo.queue') ?
+                ProcessProjection::dispatch($model) :
+                $model->parseIntervals();
         });
     }
 
     /**
      * Parse the intervals defined as class attribute.
      */
-    private function parseIntervals(): void
+    public function parseIntervals(): void
     {
         collect($this->intervals)->each(fn ($interval) => $this->parseInterval($interval));
     }

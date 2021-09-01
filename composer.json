@@ -50,10 +50,7 @@
         "laravel": {
             "providers": [
                 "Laravelcargo\\LaravelCargo\\LaravelCargoServiceProvider"
-            ],
-            "aliases": {
-                "LaravelCargo": "Laravelcargo\\LaravelCargo\\LaravelCargoFacade"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
