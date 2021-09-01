@@ -12,4 +12,13 @@ class Projection extends Model
     protected $table = 'cargo_projections';
 
     protected $guarded = [];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'content' => 'json',
+    ];
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\WithProjections;
 
 class Log extends Model
@@ -32,27 +33,23 @@ class Log extends Model
 
     /**
      * The default projection content.
-     *
-     * @return array
      */
-    public function defaultProjection()
+    public function defaultProjection(): array
     {
         return [
             'total words' => 0,
-            'number of log' => 0,
+            'number of logs' => 0,
         ];
     }
 
     /**
      * Compute the projection.
-     *
-     * @return array
      */
-    public function project(CargoProjection $projection, Collection $previousLogs)
+    public function project(Projection $projection): array
     {
         return [
-            'total words' => $projection['average message words'] + Str::length($this->message),
-            'number of logs' => $previousLogs->count() + 1,
+            'total words' => $projection->content['total words'],
+            'number of logs' => $projection->content['number of logs'] + 1,
         ];
     }
 

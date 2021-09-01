@@ -49,24 +49,14 @@ trait WithProjections
             'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
         ]);
 
-        $projection->content = "Content";
+        if (is_null($projection->content)) {
+            $projection->content = $this->defaultProjection();
+        }
+
+        $projection->content = $this->project($projection);
         $projection->save();
 
         return $projection;
-
-        // Find the end date (round to something ?)
-        // Find the start date
-        // Query the model filtered by the period name and between the dates computed
-
-        // Format to UTC?
-        // $endDate = Carbon::now()->floorUnit($unit, $period)->format('H:i:s.u');
-
-        // Call the right unit function
-        // $startDate = $endDate->minMinutes($period);
-
-        // return Projection::between($startDate, $endDate)
-        //     ->where('interval', $interval)
-        //     ->findOrCreate($this->defaultProjection());
     }
 
     /**
