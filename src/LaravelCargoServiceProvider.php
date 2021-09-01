@@ -35,7 +35,8 @@ class LaravelCargoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/cargo.php', 'cargo'
+            __DIR__.'/../config/cargo.php',
+            'cargo'
         );
     }
 }
