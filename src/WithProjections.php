@@ -64,7 +64,7 @@ trait WithProjections
             $projection->content = $this->defaultProjection();
         }
 
-        $this->project($projection);
+        $projection->content = $this->project($projection);
 
         return $projection;
     }
