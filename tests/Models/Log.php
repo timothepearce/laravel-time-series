@@ -9,7 +9,8 @@ use Laravelcargo\LaravelCargo\WithProjections;
 
 class Log extends Model
 {
-    use HasFactory, WithProjections;
+    use HasFactory;
+    use WithProjections;
 
     /**
      * Lists the time intervals used to compute the projections.
