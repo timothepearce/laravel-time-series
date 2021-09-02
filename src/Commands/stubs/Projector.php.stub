@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\Projector;
+
+class {{ class }} extends Projector
+{
+    /**
+     * The list of time intervals.
+     *
+     * @var string[]
+     */
+    protected array $intervals = [];
+
+    /**
+     * The default projection content.
+     */
+    public function defaultContent(): array
+    {
+        return [];
+    }
+
+    /**
+     * Compute the projection.
+     */
+    public function handle(Projection $projection): array
+    {
+        return [];
+    }
+}

@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Models\B;
 use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
 
 class WithProjectionTest extends TestCase
 {

@@ -27,4 +27,9 @@ return [
      * When enabled,
      */
     // 'enable_api' => false
+
+    /*
+     * The namespace of the projector class.
+     */
+    // 'projectors_namespace => ''
 ];
