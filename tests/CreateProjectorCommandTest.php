@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Laravelcargo\LaravelCargo\Tests;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 class CreateProjectorCommandTest extends TestCase
 {
