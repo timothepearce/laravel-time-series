@@ -26,7 +26,8 @@ trait WithProjections
      */
     public function bootProjectors(): void
     {
-        collect($this->projectors)->each(fn (string $projector) =>
+        collect($this->projectors)->each(
+            fn (string $projector) =>
             (new $projector($this))->parseIntervals()
         );
     }

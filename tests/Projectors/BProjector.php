@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
-
 
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;

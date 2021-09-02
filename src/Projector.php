@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Laravelcargo\LaravelCargo;
-
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
