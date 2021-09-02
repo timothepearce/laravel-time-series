@@ -22,4 +22,9 @@ return [
      * When enabled, Cargo will delete the projections when the related model is also deleted.
      */
     // 'on_cascade_delete' => false,
+
+    /*
+     * When enabled,
+     */
+    // 'enable_api' => false
 ];

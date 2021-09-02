@@ -36,6 +36,6 @@ class ProcessProjection implements ShouldQueue
      */
     public function handle()
     {
-        $this->model->parseIntervals();
+        $this->model->bootProjectors();
     }
 }
