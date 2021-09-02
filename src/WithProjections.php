@@ -38,4 +38,12 @@ trait WithProjections
     {
         return $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
     }
+
+    /**
+     * Set the projectors.
+     */
+    public function setProjectors(array $projectors)
+    {
+        $this->projectors = $projectors;
+    }
 }

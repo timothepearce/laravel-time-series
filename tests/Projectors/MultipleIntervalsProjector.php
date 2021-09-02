@@ -7,7 +7,7 @@ namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
-class AProjector extends Projector
+class MultipleIntervalsProjector extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.

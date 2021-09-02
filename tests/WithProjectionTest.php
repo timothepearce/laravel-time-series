@@ -2,19 +2,22 @@
 
 namespace Laravelcargo\LaravelCargo\Tests;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Tests\Models\A;
+use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Tests\Models\B;
+use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
 
 class WithProjectionTest extends TestCase
 {
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
-        A::factory()->create();
+        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
 
         $this->assertDatabaseCount('cargo_projections', 8);
     }
@@ -23,10 +26,10 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projection_when_the_interval_is_in_completion()
     {
         $this->travelTo(Carbon::today());
-        B::factory()->create();
+        Log::factory()->create();
 
         $this->travel(3)->minutes();
-        B::factory()->create();
+        Log::factory()->create();
 
         $this->assertDatabaseCount('cargo_projections', 1);
     }
@@ -35,10 +38,10 @@ class WithProjectionTest extends TestCase
     public function it_creates_a_new_projection_when_the_interval_is_ended()
     {
         $this->travelTo(Carbon::today());
-        B::factory()->create();
+        Log::factory()->create();
 
         $this->travel(6)->minutes();
-        B::factory()->create();
+        Log::factory()->create();
 
         $this->assertDatabaseCount('cargo_projections', 2);
     }
@@ -46,7 +49,7 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_computes_the_content_of_the_projection_from_the_default_one()
     {
-        B::factory()->create();
+        Log::factory()->create();
 
         $this->assertEquals(1, Projection::first()->content["number of logs"]);
     }
@@ -54,7 +57,7 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_computes_the_content_of_the_projection()
     {
-        B::factory()->count(2)->create();
+        Log::factory()->count(2)->create();
 
         $this->assertEquals(2, Projection::first()->content["number of logs"]);
     }
@@ -65,7 +68,7 @@ class WithProjectionTest extends TestCase
         Queue::fake();
         config(['cargo.queue' => true]);
 
-        B::factory()->create();
+        Log::factory()->create();
 
         Queue::assertPushed(ProcessProjection::class);
     }
@@ -76,7 +79,7 @@ class WithProjectionTest extends TestCase
         Queue::fake();
         config(['cargo.queue' => true, 'cargo.queue_name' => 'named']);
 
-        B::factory()->create();
+        Log::factory()->create();
 
         Queue::assertPushedOn('named', ProcessProjection::class);
     }
@@ -84,8 +87,21 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_has_a_relationship_with_the_projection()
     {
-        $log = A::factory()->create();
+        $log = Log::factory()->create();
 
         $this->assertNotNull($log->projections);
+    }
+
+    /**
+     * Create the model with the given projectors.
+     */
+    private function createModelWithProjectors(string $modelName, array $projectors): Model
+    {
+        $model = $modelName::factory()->make();
+
+        $model->setProjectors($projectors);
+        $model->save();
+
+        return $model;
     }
 }

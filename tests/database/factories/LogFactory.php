@@ -3,11 +3,11 @@
 namespace Laravelcargo\LaravelCargo\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Laravelcargo\LaravelCargo\Tests\Models\A;
+use Laravelcargo\LaravelCargo\Tests\Models\Log;
 
-class AFactory extends Factory
+class LogFactory extends Factory
 {
-    protected $model = A::class;
+    protected $model = Log::class;
 
     public function definition()
     {

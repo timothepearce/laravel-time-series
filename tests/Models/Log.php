@@ -4,20 +4,18 @@ namespace Laravelcargo\LaravelCargo\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Tests\Projectors\AProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
 use Laravelcargo\LaravelCargo\WithProjections;
 
-class A extends Model
+class Log extends Model
 {
     use HasFactory;
     use WithProjections;
 
-    protected $table = 'a';
-
     /**
      * The lists of the projectors.
      */
-    protected array $projectors = [AProjector::class];
+    protected array $projectors = [SingleIntervalProjector::class];
 
 //    /**
 //     * API wip.
