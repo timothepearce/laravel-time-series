@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('model_name');
             $table->string('interval_name');
 
-            $table->date('interval_start');
-            $table->date('interval_end');
+            $table->timestamp('interval_start');
+            $table->timestamp('interval_end');
 
             $table->json('content');
 
