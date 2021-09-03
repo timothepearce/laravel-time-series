@@ -12,7 +12,7 @@ class MultipleIntervalsProjector extends Projector
      *
      * @var string[]
      */
-    protected array $intervals = [
+    protected array $periods = [
         '5 minutes',
         '1 hour',
         '6 hours',

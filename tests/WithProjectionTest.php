@@ -2,7 +2,6 @@
 
 namespace Laravelcargo\LaravelCargo\Tests;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
@@ -12,6 +11,8 @@ use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
 
 class WithProjectionTest extends TestCase
 {
+    use WithProjectableFactory;
+
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
@@ -88,18 +89,5 @@ class WithProjectionTest extends TestCase
         $log = Log::factory()->create();
 
         $this->assertNotEmpty($log->projections);
-    }
-
-    /**
-     * Create the model with the given projectors.
-     */
-    private function createModelWithProjectors(string $modelName, array $projectors): Model
-    {
-        $model = $modelName::factory()->make();
-
-        $model->setProjectors($projectors);
-        $model->save();
-
-        return $model;
     }
 }

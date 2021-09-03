@@ -17,48 +17,47 @@ abstract class Projector
     }
 
     /**
-     * Parse the intervals defined as class attribute.
+     * Parse the periods defined as class attribute.
      */
-    public function parseIntervals(): void
+    public function parsePeriods(): void
     {
-        collect($this->intervals)->each(fn ($interval) => $this->parseInterval($interval));
+        collect($this->periods)->each(fn (string $period) => $this->parsePeriod($period));
     }
 
     /**
-     * Parse the given interval and return the projection.
+     * Parse the given period
      */
-    private function parseInterval(string $interval): Projection
+    private function parsePeriod(string $period): void
     {
-        [$unit, $period] = Str::of($interval)->split('/[\s]+/');
+        [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
-        return $this->findOrCreateProjection($interval, $unit, $period);
+        $this->findOrCreateProjection($period, (int) $quantity, $periodType);
     }
 
     /**
      * Find or create the projection.
      */
-    private function findOrCreateProjection(string $interval, string $unit, string $period): Projection
+    private function findOrCreateProjection(string $period, int $quantity, string $periodType): void
     {
         $projection = Projection::firstOrNew([
             'model_name' => $this->model::class,
-            'interval_name' => $interval,
-            'interval_start' => Carbon::now()->floorUnit($period, (int) $unit),
-            'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
+            'interval_name' => $period,
+            'interval_start' => Carbon::now()->floorUnit($periodType, $quantity),
+            'interval_end' => Carbon::now()->floorUnit($periodType, $quantity)->add($quantity, $periodType),
         ], ['content' => $this->defaultContent()]);
 
         $projection->content = $this->handle($projection);
 
         $projection->save();
-        $this->model->projections()->attach($projection);
 
-        return $projection;
+        $this->model->projections()->attach($projection);
     }
 
     /**
-     * Set the intervals.
+     * Set the periods.
      */
-    public function setInterval(array $newIntervals): void
+    public function setPeriods(array $newPeriods): void
     {
-        $this->intervals = $newIntervals;
+        $this->periods = $newPeriods;
     }
 }

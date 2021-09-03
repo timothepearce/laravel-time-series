@@ -28,7 +28,7 @@ trait WithProjections
     {
         collect($this->projectors)->each(
             fn (string $projector) =>
-            (new $projector($this))->parseIntervals()
+            (new $projector($this))->parsePeriods()
         );
     }
 

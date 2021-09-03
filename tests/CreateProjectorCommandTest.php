@@ -52,11 +52,11 @@ use Laravelcargo\LaravelCargo\Projector;
 class ProjectorClass extends Projector
 {
     /**
-     * The list of time intervals.
+     * Lists the time intervals used to compute the projections.
      *
      * @var string[]
      */
-    protected array \$intervals = [];
+    protected array \$periods = [];
 
     /**
      * The default projection content.

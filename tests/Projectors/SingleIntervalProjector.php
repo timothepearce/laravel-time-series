@@ -12,7 +12,7 @@ class SingleIntervalProjector extends Projector
      *
      * @var string[]
      */
-    protected array $intervals = ['5 minutes'];
+    protected array $periods = ['5 minutes'];
 
     /**
      * The default projection content.
