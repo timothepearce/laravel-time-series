@@ -13,6 +13,6 @@ class ProjectionTest extends TestCase
         Log::factory()->create();
         $projection = Projection::first();
 
-        $this->assertNotNull($projection->from(Log::class)->get());
+        $this->assertNotEmpty($projection->from(Log::class)->get());
     }
 }

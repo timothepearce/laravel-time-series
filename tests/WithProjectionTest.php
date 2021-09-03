@@ -87,7 +87,7 @@ class WithProjectionTest extends TestCase
     {
         $log = Log::factory()->create();
 
-        $this->assertNotNull($log->projections);
+        $this->assertNotEmpty($log->projections);
     }
 
     /**
