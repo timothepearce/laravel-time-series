@@ -41,9 +41,8 @@ abstract class Projector
     {
         $projection = Projection::firstOrNew([
             'model_name' => $this->model::class,
-            'interval_name' => $period,
-            'interval_start' => Carbon::now()->floorUnit($periodType, $quantity),
-            'interval_end' => Carbon::now()->floorUnit($periodType, $quantity)->add($quantity, $periodType),
+            'period' => $period,
+            'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
         ], ['content' => $this->defaultContent()]);
 
         $projection->content = $this->handle($projection);

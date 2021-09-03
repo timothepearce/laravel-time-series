@@ -12,10 +12,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('model_name');
-            $table->string('interval_name');
+            $table->string('period');
 
-            $table->timestamp('interval_start');
-            $table->timestamp('interval_end');
+            $table->timestamp('start_date');
 
             $table->json('content');
 

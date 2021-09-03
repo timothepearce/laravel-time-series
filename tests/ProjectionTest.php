@@ -18,4 +18,17 @@ class ProjectionTest extends TestCase
 
         $this->assertNotEmpty($projection->from(Log::class)->get());
     }
+
+    /** @test */
+    public function it_get_all_the_projections_from_a_single_period()
+    {
+        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 1
+        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 1
+        $this->travel(6)->minutes();
+        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 2
+
+        $numberOf5MinutesProjections = Projection::period('5 minutes')->count();
+
+        $this->assertEquals($numberOf5MinutesProjections, 2);
+    }
 }
