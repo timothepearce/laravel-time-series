@@ -40,28 +40,16 @@ abstract class Projector
     private function findOrCreateProjection(string $interval, string $unit, string $period): Projection
     {
         $projection = Projection::firstOrNew([
-            'model_name' => self::class,
+            'model_name' => $this->model::class,
             'interval_name' => $interval,
             'interval_start' => Carbon::now()->floorUnit($period, (int) $unit),
             'interval_end' => Carbon::now()->floorUnit($period, (int) $unit)->add((int) $unit, $period),
-        ]);
-
-        $projection = $this->computeContent($projection);
-        $projection->save();
-
-        return $projection;
-    }
-
-    /**
-     * Compute the content of the projection.
-     */
-    private function computeContent(Projection $projection): Projection
-    {
-        if (is_null($projection->content)) {
-            $projection->content = $this->defaultContent();
-        }
+        ], ['content' => $this->defaultContent()]);
 
         $projection->content = $this->handle($projection);
+
+        $projection->save();
+        $this->model->projections()->attach($projection);
 
         return $projection;
     }
