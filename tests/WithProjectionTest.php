@@ -90,4 +90,28 @@ class WithProjectionTest extends TestCase
 
         $this->assertNotEmpty($log->projections);
     }
+
+    // /** @test */
+    public function it_get_the_projections_from_a_single_type()
+    {
+        // @todo
+
+        // $log->projections(SingleIntervalProjector::class)->get();
+    }
+
+    // /** @test */
+    public function it_get_the_projections_from_a_single_type_and_period()
+    {
+        // @todo
+
+        // $log->projections(SingleIntervalProjector::class, '5 minutes')->get();
+    }
+
+    // /** @test */
+    public function it_get_the_projections_from_a_single_type_and_multiple_periods()
+    {
+        // @todo
+
+        // $log->projections(SingleIntervalProjector::class, ['5 minutes', '1 day'])->get();
+    }
 }
