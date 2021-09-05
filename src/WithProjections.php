@@ -35,7 +35,7 @@ trait WithProjections
     /**
      * Get all the projections of the model.
      */
-    public function projections(string|null $projectionName = null, string|array|null $periods = null): MorphToMany
+    public function projections(string | null $projectionName = null, string | array | null $periods = null): MorphToMany
     {
         $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
 
@@ -45,9 +45,7 @@ trait WithProjections
 
         if (isset($periods) && gettype($periods) === 'string') {
             $query->where('period', $periods);
-        }
-
-        else if (isset($periods) && gettype($periods) === 'array') {
+        } elseif (isset($periods) && gettype($periods) === 'array') {
             $query->where(function ($query) use (&$periods) {
                 collect($periods)->each(function (string $period, $key) use (&$query) {
                     $key === 0 ?
