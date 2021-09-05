@@ -35,9 +35,15 @@ trait WithProjections
     /**
      * Get all the projections of the model.
      */
-    public function projections(): MorphToMany
+    public function projections(string|null $projectionName = null): MorphToMany
     {
-        return $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
+        $relation = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
+
+        if (isset($projectionName)) {
+            $relation->where('projection_name', $projectionName);
+        }
+
+        return $relation;
     }
 
     /**

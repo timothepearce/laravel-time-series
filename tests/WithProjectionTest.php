@@ -8,6 +8,7 @@ use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
 
 class WithProjectionTest extends TestCase
 {
@@ -91,12 +92,17 @@ class WithProjectionTest extends TestCase
         $this->assertNotEmpty($log->projections);
     }
 
-    // /** @test */
+    /** @test */
     public function it_get_the_projections_from_a_single_type()
     {
-        // @todo
+        $log = $this->createModelWithProjectors(Log::class, [
+            SingleIntervalProjector::class,
+            MultipleIntervalsProjector::class,
+        ]);
 
-        // $log->projections(SingleIntervalProjector::class)->get();
+        $projections = $log->projections(SingleIntervalProjector::class)->get();
+
+        $this->assertCount(1, $projections);
     }
 
     // /** @test */

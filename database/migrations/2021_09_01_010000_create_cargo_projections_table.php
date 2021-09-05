@@ -11,11 +11,9 @@ return new class extends Migration
         Schema::create('cargo_projections', function (Blueprint $table) {
             $table->id();
 
-            $table->string('model_name');
+            $table->string('projection_name');
             $table->string('period');
-
             $table->timestamp('start_date');
-
             $table->json('content');
 
             $table->timestamps();

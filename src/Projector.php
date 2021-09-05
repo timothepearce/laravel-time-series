@@ -39,8 +39,13 @@ abstract class Projector
      */
     private function findOrCreateProjection(string $period, int $quantity, string $periodType): void
     {
+//        $projection = $this->model
+//            ->projections(self::class, $period)
+//            ->firstWhere('start_date', Carbon::now()->floorUnit($periodType, $quantity));
+//
+//        if (is_null($projection)) { // createProjection }
         $projection = Projection::firstOrNew([
-            'model_name' => $this->model::class,
+            'projection_name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
         ], ['content' => $this->defaultContent()]);
