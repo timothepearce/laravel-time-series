@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Queue;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
+use Laravelcargo\LaravelCargo\Tests\Models\Message;
 use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
 use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
 
@@ -137,14 +138,38 @@ class WithProjectionTest extends TestCase
         });
     }
 
-    /** @test */
-    public function it_get_the_projections_from_key()
-    {
-        $log->projections()
-            ->period(['5 minutes', '1 hour'])
-            ->key('my key')
-            ->get();
+//    /** @test */
+//    public function it_creates_a_projection_for_each_projectable_type()
+//    {
+//        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+//        $this->createModelWithProjectors(Message::class, [SingleIntervalProjector::class]);
+//
+//        $this->assertEquals(2, Projection::count());
+//    }
 
-        // $log->projections()->key('my key');
-    }
+//    /** @test */
+//    public function it_updates_a_projection_for_a_single_projectable_type()
+//    {
+//        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+//        $message = $this->createModelWithProjectors(Message::class, [SingleIntervalProjector::class]);
+//
+//        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+//
+//        $logProjection = $log->projections()->first();
+//        $messageProjection = $message->projections()->first();
+//
+//        $this->assertEquals(2, $logProjection->content['number of logs']);
+//        $this->assertEquals(1, $messageProjection->content['number of logs']);
+//    }
+
+//    /** @test */
+//    public function it_get_the_projections_from_key()
+//    {
+//        $log->projections()
+//            ->period(['5 minutes', '1 hour'])
+//            ->key('my key')
+//            ->get();
+//
+//        // $log->projections()->key('my key');
+//    }
 }
