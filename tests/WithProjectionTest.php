@@ -102,6 +102,9 @@ class WithProjectionTest extends TestCase
         $projections = $log->projections(MultipleIntervalsProjector::class)->get();
 
         $this->assertCount(8, $projections);
+        $projections->each(function (Projection $projection) {
+            $this->assertEquals(MultipleIntervalsProjector::class, $projection->name);
+        });
     }
 
     /** @test */
@@ -115,13 +118,22 @@ class WithProjectionTest extends TestCase
         $projections = $log->projections(MultipleIntervalsProjector::class, '5 minutes')->get();
 
         $this->assertCount(1, $projections);
+        $this->assertEquals('5 minutes', $projections->first()->period);
     }
 
-    // /** @test */
+    /** @test */
     public function it_get_the_projections_from_a_single_type_and_multiple_periods()
     {
-        // @todo
+        $log = $this->createModelWithProjectors(Log::class, [
+            SingleIntervalProjector::class,
+            MultipleIntervalsProjector::class
+        ]);
 
-        // $log->projections(SingleIntervalProjector::class, ['5 minutes', '1 day'])->get();
+        $projections = $log->projections(MultipleIntervalsProjector::class, ['5 minutes', '1 hour'])->get();
+
+        $this->assertCount(2, $projections);
+        $projections->each(function (Projection $projection) {
+            $this->assertTrue(collect(['5 minutes', '1 hour'])->contains($projection->period));
+        });
     }
 }

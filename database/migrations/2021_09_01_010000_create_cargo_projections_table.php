@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('cargo_projections', function (Blueprint $table) {
             $table->id();
 
-            $table->string('projection_name');
+            $table->string('name');
             $table->string('period');
             $table->timestamp('start_date');
             $table->json('content');

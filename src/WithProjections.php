@@ -35,19 +35,29 @@ trait WithProjections
     /**
      * Get all the projections of the model.
      */
-    public function projections(string|null $projectionName = null, string|null $period = null): MorphToMany
+    public function projections(string|null $projectionName = null, string|array|null $periods = null): MorphToMany
     {
-        $relation = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
+        $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
 
         if (isset($projectionName)) {
-            $relation->where('projection_name', $projectionName);
+            $query->where('name', $projectionName);
         }
 
-        if (isset($period)) {
-            $relation->where('period', $period);
+        if (isset($periods) && gettype($periods) === 'string') {
+            $query->where('period', $periods);
         }
 
-        return $relation;
+        else if (isset($periods) && gettype($periods) === 'array') {
+            $query->where(function ($query) use (&$periods) {
+                collect($periods)->each(function (string $period, $key) use (&$query) {
+                    $key === 0 ?
+                        $query->where('period', $period) :
+                        $query->orWhere('period', $period);
+                });
+            });
+        }
+
+        return $query;
     }
 
     /**

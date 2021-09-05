@@ -45,7 +45,7 @@ abstract class Projector
 //
 //        if (is_null($projection)) { // createProjection }
         $projection = Projection::firstOrNew([
-            'projection_name' => $this::class,
+            'name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
         ], ['content' => $this->defaultContent()]);
