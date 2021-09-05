@@ -99,18 +99,22 @@ class WithProjectionTest extends TestCase
             SingleIntervalProjector::class,
             MultipleIntervalsProjector::class,
         ]);
+        $projections = $log->projections(MultipleIntervalsProjector::class)->get();
 
-        $projections = $log->projections(SingleIntervalProjector::class)->get();
-
-        $this->assertCount(1, $projections);
+        $this->assertCount(8, $projections);
     }
 
-    // /** @test */
+    /** @test */
     public function it_get_the_projections_from_a_single_type_and_period()
     {
-        // @todo
+        $log = $this->createModelWithProjectors(Log::class, [
+            SingleIntervalProjector::class,
+            MultipleIntervalsProjector::class
+        ]);
 
-        // $log->projections(SingleIntervalProjector::class, '5 minutes')->get();
+        $projections = $log->projections(MultipleIntervalsProjector::class, '5 minutes')->get();
+
+        $this->assertCount(1, $projections);
     }
 
     // /** @test */

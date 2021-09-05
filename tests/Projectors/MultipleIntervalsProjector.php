@@ -21,7 +21,6 @@ class MultipleIntervalsProjector extends Projector
         '1 month',
         '3 months',
         '1 year',
-        // '*'
     ];
 
     /**

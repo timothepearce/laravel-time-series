@@ -35,12 +35,16 @@ trait WithProjections
     /**
      * Get all the projections of the model.
      */
-    public function projections(string|null $projectionName = null): MorphToMany
+    public function projections(string|null $projectionName = null, string|null $period = null): MorphToMany
     {
         $relation = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
 
         if (isset($projectionName)) {
             $relation->where('projection_name', $projectionName);
+        }
+
+        if (isset($period)) {
+            $relation->where('period', $period);
         }
 
         return $relation;
