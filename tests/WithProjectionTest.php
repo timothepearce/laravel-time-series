@@ -136,4 +136,15 @@ class WithProjectionTest extends TestCase
             $this->assertTrue(collect(['5 minutes', '1 hour'])->contains($projection->period));
         });
     }
+
+    /** @test */
+    public function it_get_the_projections_from_key()
+    {
+        $log->projections()
+            ->period(['5 minutes', '1 hour'])
+            ->key('my key')
+            ->get();
+
+        // $log->projections()->key('my key');
+    }
 }

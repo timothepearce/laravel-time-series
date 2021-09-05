@@ -35,13 +35,13 @@ class MultipleIntervalsProjector extends Projector
     }
 
     /**
-     * Compute the projection.
+     * Compute the projection's content.
      */
-    public function handle(Projection $projection): array
+    public function handle(array $content): array
     {
         return [
-            'total words' => $projection->content['total words'],
-            'number of logs' => $projection->content['number of logs'] + 1,
+            'total words' => $content['total words'],
+            'number of logs' => $content['number of logs'] + 1,
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
-use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
 class SingleIntervalProjector extends Projector
@@ -28,11 +27,11 @@ class SingleIntervalProjector extends Projector
     /**
      * Compute the projection.
      */
-    public function handle(Projection $projection): array
+    public function handle(array $content): array
     {
         return [
-            'total words' => $projection->content['total words'],
-            'number of logs' => $projection->content['number of logs'] + 1,
+            'total words' => $content['total words'],
+            'number of logs' => $content['number of logs'] + 1,
         ];
     }
 }
