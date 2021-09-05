@@ -112,7 +112,7 @@ class WithProjectionTest extends TestCase
     {
         $log = $this->createModelWithProjectors(Log::class, [
             SingleIntervalProjector::class,
-            MultipleIntervalsProjector::class
+            MultipleIntervalsProjector::class,
         ]);
 
         $projections = $log->projections(MultipleIntervalsProjector::class, '5 minutes')->get();
@@ -126,7 +126,7 @@ class WithProjectionTest extends TestCase
     {
         $log = $this->createModelWithProjectors(Log::class, [
             SingleIntervalProjector::class,
-            MultipleIntervalsProjector::class
+            MultipleIntervalsProjector::class,
         ]);
 
         $projections = $log->projections(MultipleIntervalsProjector::class, ['5 minutes', '1 hour'])->get();
