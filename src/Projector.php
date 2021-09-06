@@ -25,39 +25,61 @@ abstract class Projector
     }
 
     /**
-     * Parse the given period
+     * Parses the given period
      */
     private function parsePeriod(string $period): void
     {
         [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
-        $this->findOrCreateProjection($period, (int) $quantity, $periodType);
+        $projection = $this->findProjection($period, (int) $quantity, $periodType);
+
+        is_null($projection) ?
+            $this->createProjection($period, (int) $quantity, $periodType) :
+            $this->updateProjection($projection);
     }
 
     /**
-     * Find or create the projection.
+     * Try to find the projection.
      */
-    private function findOrCreateProjection(string $period, int $quantity, string $periodType): void
+    private function findProjection(string $period, int $quantity, string $periodType): Projection|null
     {
-        // @todo: Query by model to prevents conflicts from other models using the same projector
-        //
-        //        $projection = $this->model
-        //            ->projections(self::class, $period)
-        //            ->firstWhere('start_date', Carbon::now()->floorUnit($periodType, $quantity));
-        //        if (is_null($projection)) { $this->createProjection() }
-        //        else { $this->updateProjection($projection) }
+        return Projection::firstWhere([
+            ['name', $this::class],
+            ['period', $period],
+            ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
+        ]);
 
-        $projection = Projection::firstOrNew([
+//        return $this->model
+//            ->projections($this::class, $period)
+//            ->where('start_date', Carbon::now()->floorUnit($periodType, $quantity))
+//            ->first();
+    }
+
+    /**
+     * Creates the projection.
+     */
+    private function createProjection(string $period, int $quantity, string $periodType): void
+    {
+        $projection = $this->model->projections()->create([
             'name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-        ], ['content' => $this->defaultContent()]);
-
-        $projection->content = $this->handle($projection->content);
+            'content' => $this->handle($this->defaultContent())
+        ]);
 
         $projection->save();
 
         $this->model->projections()->attach($projection);
+    }
+
+    /**
+     * Updates the projection.
+     */
+    private function updateProjection(Projection $projection): void
+    {
+        $projection->content = $this->handle($projection->content);
+
+        $projection->save();
     }
 
     /**
