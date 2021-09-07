@@ -46,6 +46,7 @@ class CreateProjectorCommandTest extends TestCase
 
 namespace App\Projectors;
 
+use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
@@ -69,7 +70,7 @@ class ProjectorClass extends Projector
     /**
      * Compute the projection.
      */
-    public function handle(Projection \$projection): array
+    public function handle(Projection \$projection, Model \$model): array
     {
         return [];
     }

@@ -64,7 +64,7 @@ abstract class Projector
             'name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->handle($this->defaultContent())
+            'content' => $this->handle($this->defaultContent(), $this->model)
         ]);
     }
 
@@ -73,7 +73,7 @@ abstract class Projector
      */
     private function updateProjection(Projection $projection): void
     {
-        $projection->content = $this->handle($projection->content);
+        $projection->content = $this->handle($projection->content, $this->model);
 
         $projection->save();
     }

@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
@@ -25,7 +26,7 @@ class {{ class }} extends Projector
     /**
      * Compute the projection.
      */
-    public function handle(Projection $projection): array
+    public function handle(Projection $projection, Model $model): array
     {
         return [];
     }
