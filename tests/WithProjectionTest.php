@@ -147,20 +147,20 @@ class WithProjectionTest extends TestCase
         $this->assertEquals(1, Projection::count());
     }
 
-//    /** @test */
-//    public function it_updates_a_projection_for_a_single_projectable_type()
-//    {
-//        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
-//        $message = $this->createModelWithProjectors(Message::class, [SingleIntervalProjector::class]);
-//
-//        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
-//
-//        $logProjection = $log->projections()->first();
-//        $messageProjection = $message->projections()->first();
-//
-//        $this->assertEquals(2, $logProjection->content['number of logs']);
-//        $this->assertEquals(1, $messageProjection->content['number of logs']);
-//    }
+    /** @test */
+    public function it_updates_a_projection_for_a_single_projectable_type_and_interval()
+    {
+        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+        $message = $this->createModelWithProjectors(Message::class, [MultipleIntervalsProjector::class]);
+
+        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+
+        $logProjection = $log->projections(SingleIntervalProjector::class, '5 minutes')->first();
+        $messageProjection = $message->projections(MultipleIntervalsProjector::class, '5 minutes')->first();
+
+        $this->assertEquals(2, $logProjection->content['number of logs']);
+        $this->assertEquals(1, $messageProjection->content['number of logs']);
+    }
 
 //    /** @test */
 //    public function it_get_the_projections_from_key()
