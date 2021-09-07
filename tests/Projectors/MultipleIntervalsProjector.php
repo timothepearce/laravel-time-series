@@ -2,6 +2,7 @@
 
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
+use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
@@ -37,7 +38,7 @@ class MultipleIntervalsProjector extends Projector
     /**
      * Compute the projection's content.
      */
-    public function handle(array $content): array
+    public function handle(array $content, Model $model): array
     {
         return [
             'total words' => $content['total words'],

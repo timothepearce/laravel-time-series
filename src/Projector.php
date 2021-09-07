@@ -41,7 +41,7 @@ abstract class Projector
     /**
      * Try to find the projection.
      */
-    private function findProjection(string $period, int $quantity, string $periodType): Projection|null
+    private function findProjection(string $period, int $quantity, string $periodType): Projection | null
     {
         return Projection::firstWhere([
             ['name', $this::class],
