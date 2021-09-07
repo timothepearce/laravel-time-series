@@ -64,7 +64,7 @@ abstract class Projector
             'name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->handle($this->defaultContent(), $this->model)
+            'content' => $this->handle($this->defaultContent(), $this->model),
         ]);
     }
 
