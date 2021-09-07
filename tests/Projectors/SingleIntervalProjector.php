@@ -20,7 +20,6 @@ class SingleIntervalProjector extends Projector
     public function defaultContent(): array
     {
         return [
-            'total words' => 0,
             'number of logs' => 0,
         ];
     }
@@ -31,7 +30,6 @@ class SingleIntervalProjector extends Projector
     public function handle(array $content, Model $model): array
     {
         return [
-            'total words' => $content['total words'],
             'number of logs' => $content['number of logs'] + 1,
         ];
     }

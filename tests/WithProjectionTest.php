@@ -161,15 +161,4 @@ class WithProjectionTest extends TestCase
         $this->assertEquals(2, $logProjection->content['number of logs']);
         $this->assertEquals(1, $messageProjection->content['number of logs']);
     }
-
-//    /** @test */
-//    public function it_get_the_projections_from_key()
-//    {
-//        $log->projections()
-//            ->period(['5 minutes', '1 hour'])
-//            ->key('my key')
-//            ->get();
-//
-//        // $log->projections()->key('my key');
-//    }
 }
