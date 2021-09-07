@@ -40,7 +40,7 @@ class CreateProjectorCommand extends GeneratorCommand
     }
 
     /**
-     * @Get the options of the command.
+     * Get the options of the command.
      */
     protected function getOptions()
     {
