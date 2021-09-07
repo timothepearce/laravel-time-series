@@ -38,8 +38,7 @@ trait WithProjections
     public function projections(
         string | null $projectionName = null,
         string | array | null $periods = null,
-    ): MorphToMany
-    {
+    ): MorphToMany {
         $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
 
         if (isset($projectionName)) {

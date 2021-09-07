@@ -51,7 +51,7 @@ class Projection extends Model
     /**
      * Scope a query to filter by key.
      */
-    public function scopeKey(Builder $query, array|string|int $keys): Builder
+    public function scopeKey(Builder $query, array | string | int $keys): Builder
     {
         if (gettype($keys) === 'array') {
             return $query->where(function ($query) use (&$keys) {

@@ -3,7 +3,6 @@
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Laravelcargo\LaravelCargo\Projector;
 
 class SingleIntervalProjectorWithUniqueKey extends Projector
