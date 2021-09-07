@@ -17,7 +17,7 @@ abstract class Projector
     }
 
     /**
-     * Parse the periods defined as class attribute.
+     * Parses the periods defined as class attribute.
      */
     public function parsePeriods(): void
     {
@@ -25,7 +25,7 @@ abstract class Projector
     }
 
     /**
-     * Parses the given period
+     * Parses the given period.
      */
     private function parsePeriod(string $period): void
     {
@@ -45,14 +45,10 @@ abstract class Projector
     {
         return Projection::firstWhere([
             ['name', $this::class],
+            ['key', $this->hasKey() ? $this->key($this->model) : null],
             ['period', $period],
             ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
         ]);
-
-//        return $this->model
-//            ->projections($this::class, $period)
-//            ->where('start_date', Carbon::now()->floorUnit($periodType, $quantity))
-//            ->first();
     }
 
     /**
@@ -62,6 +58,7 @@ abstract class Projector
     {
         $this->model->projections()->create([
             'name' => $this::class,
+            'key' => $this->hasKey() ? $this->key($this->model) : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
             'content' => $this->handle($this->defaultContent(), $this->model),
@@ -76,6 +73,14 @@ abstract class Projector
         $projection->content = $this->handle($projection->content, $this->model);
 
         $projection->save();
+    }
+
+    /**
+     * Determines whether the class has a key.
+     */
+    private function hasKey(): bool
+    {
+        return method_exists($this, 'key');
     }
 
     /**

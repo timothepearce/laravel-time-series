@@ -10,6 +10,7 @@ use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Tests\Models\Message;
 use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
 use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjectorWithUniqueKey;
 
 class WithProjectionTest extends TestCase
 {
@@ -160,5 +161,14 @@ class WithProjectionTest extends TestCase
 
         $this->assertEquals(2, $logProjection->content['number of logs']);
         $this->assertEquals(1, $messageProjection->content['number of logs']);
+    }
+
+    /** @test */
+    public function it_creates_a_projection_for_each_different_key()
+    {
+        $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
+        $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
+
+        $this->assertEquals(2, Projection::count());
     }
 }

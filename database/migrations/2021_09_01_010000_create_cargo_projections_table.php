@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('key')->nullable();
             $table->string('period');
             $table->timestamp('start_date');
             $table->json('content');
