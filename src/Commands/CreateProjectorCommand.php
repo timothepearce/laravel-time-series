@@ -45,7 +45,7 @@ class CreateProjectorCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['key', null, InputOption::VALUE_NONE, 'Add a key method to the generated class']
+            ['key', null, InputOption::VALUE_NONE, 'Add a key method to the generated class'],
         ];
     }
 
