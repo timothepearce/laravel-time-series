@@ -181,4 +181,14 @@ class WithProjectionTest extends TestCase
 
         $this->assertEquals(1, Projection::count());
     }
+
+    /** @test */
+    public function it_get_the_projections_from_key()
+    {
+        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalKeyedProjector::class]);
+
+        $projection = $log->projections(SingleIntervalKeyedProjector::class, '5 minutes', '1')->first();
+
+        $this->assertNotNull($projection);
+    }
 }
