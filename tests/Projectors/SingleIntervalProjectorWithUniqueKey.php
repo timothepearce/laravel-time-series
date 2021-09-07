@@ -30,7 +30,7 @@ class SingleIntervalProjectorWithUniqueKey extends Projector
      */
     public function key(Model $model): string
     {
-        return (string) Str::uuid();
+        return (string) $model->id;
     }
 
     /**

@@ -33,10 +33,36 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to only include one period of time.
+     * Scope a query to filter by name.
+     */
+    public function scopeName(Builder $query, string $name): Builder
+    {
+        return $query->where('name', $name);
+    }
+
+    /**
+     * Scope a query to filter by period.
      */
     public function scopePeriod(Builder $query, string $period): Builder
     {
         return $query->where('period', $period);
+    }
+
+    /**
+     * Scope a query to filter by key.
+     */
+    public function scopeKey(Builder $query, array|string|int $keys): Builder
+    {
+        if (gettype($keys) === 'array') {
+            return $query->where(function ($query) use (&$keys) {
+                collect($keys)->each(function ($key, $index) use (&$query) {
+                    return $index === 0 ?
+                        $query->where('key', (string) $key) :
+                        $query->orWhere('key', (string) $key);
+                });
+            });
+        }
+
+        return $query->where('key', (string) $keys);
     }
 }
