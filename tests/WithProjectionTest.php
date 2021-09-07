@@ -141,7 +141,7 @@ class WithProjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_single_projection_for_projectables_with_the_same_projection()
+    public function it_creates_a_single_projection_for_models_with_the_same_projection()
     {
         $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
         $this->createModelWithProjectors(Message::class, [SingleIntervalProjector::class]);

@@ -1,0 +1,41 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\Projector;
+
+class {{ class }} extends Projector
+{
+    /**
+     * Lists the time intervals used to compute the projections.
+     *
+     * @var string[]
+     */
+    protected array $periods = [];
+
+    /**
+     * The default projection content.
+     */
+    public function defaultContent(): array
+    {
+        return [];
+    }
+
+    /**
+     * The key used to query the projection.
+     */
+    public function key(Model $model): string
+    {
+        return $model->id;
+    }
+
+    /**
+     * Compute the projection.
+     */
+    public function handle(Projection $projection, Model $model): array
+    {
+        return [];
+    }
+}
