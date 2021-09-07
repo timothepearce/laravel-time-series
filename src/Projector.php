@@ -60,16 +60,12 @@ abstract class Projector
      */
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
-        $projection = $this->model->projections()->create([
+        $this->model->projections()->create([
             'name' => $this::class,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
             'content' => $this->handle($this->defaultContent())
         ]);
-
-        $projection->save();
-
-        $this->model->projections()->attach($projection);
     }
 
     /**
