@@ -3,9 +3,11 @@
 namespace Laravelcargo\LaravelCargo\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Laravelcargo\LaravelCargo\ProjectionCollection;
 
 class Projection extends Model
 {
@@ -23,6 +25,14 @@ class Projection extends Model
     protected $casts = [
         'content' => 'json',
     ];
+
+    /**
+     * Create a new Eloquent Collection instance.
+     */
+    public function newCollection(array $models = []) : Collection
+    {
+        return new ProjectionCollection($models);
+    }
 
     /**
      * Get all the models from the projection.

@@ -3,6 +3,7 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
 use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
@@ -11,6 +12,16 @@ use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjectorWithUnique
 class ProjectionTest extends TestCase
 {
     use WithProjectableFactory;
+
+    /** @test */
+    public function it_get_a_custom_collection()
+    {
+        Log::factory()->count(2)->create();
+
+        $collection = Projection::all();
+
+        $this->assertInstanceOf(ProjectionCollection::class, $collection);
+    }
 
     /** @test */
     public function it_has_a_relationship_with_the_model()
