@@ -12,6 +12,8 @@ class ProjectionCollectionTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         $this->travelTo(Carbon::today()->addHour());
     }
 

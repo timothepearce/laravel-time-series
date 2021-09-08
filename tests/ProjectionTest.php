@@ -2,6 +2,7 @@
 
 namespace Laravelcargo\LaravelCargo\Tests;
 
+use Illuminate\Support\Carbon;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
@@ -12,6 +13,13 @@ use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjectorWithUnique
 class ProjectionTest extends TestCase
 {
     use WithProjectableFactory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->travelTo(Carbon::today());
+    }
 
     /** @test */
     public function it_get_a_custom_collection()
