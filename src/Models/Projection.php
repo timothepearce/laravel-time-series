@@ -29,7 +29,7 @@ class Projection extends Model
     /**
      * Create a new Eloquent Collection instance.
      */
-    public function newCollection(array $models = []) : Collection
+    public function newCollection(array $models = []): Collection
     {
         return new ProjectionCollection($models);
     }
