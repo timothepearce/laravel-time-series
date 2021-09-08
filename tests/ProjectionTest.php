@@ -3,6 +3,8 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
@@ -62,6 +64,44 @@ class ProjectionTest extends TestCase
         $numberOfProjections = Projection::period('5 minutes')->count();
 
         $this->assertEquals(2, $numberOfProjections);
+    }
+
+    /** @test */
+    public function it_raises_an_exception_when_using_the_between_scope_without_a_period()
+    {
+        $this->expectException(MissingProjectionNameException::class);
+
+        Projection::between(now()->subMinute(), now());
+    }
+
+    /** @test */
+    public function it_raises_an_exception_when_using_the_between_scope_without_a_name()
+    {
+        $this->expectException(MissingProjectionPeriodException::class);
+
+        Projection::name(SingleIntervalProjector::class)->between(now()->subMinute(), now());
+    }
+
+    /** @test */
+    public function it_get_the_projections_between_the_given_dates()
+    {
+        Log::factory()->create();  // Should be excluded
+        $this->travel(5)->minutes();
+        Log::factory()->create();
+        $this->travel(5)->minutes();
+        Log::factory()->create();
+        $this->travel(5)->minutes();
+        Log::factory()->create(); // Should be excluded
+
+        $betweenProjections = Projection::period('5 minutes')
+            ->between(
+                Carbon::today()->addMinutes(5),
+                Carbon::today()->addMinutes(10)
+            )->get();
+
+        $this->assertEquals(2, $betweenProjections->count());
+        $this->assertEquals($betweenProjections->first()->start_date, Carbon::today()->addMinutes(5));
+        $this->assertEquals($betweenProjections->last()->start_date, Carbon::today()->addMinutes(10));
     }
 
     /** @test */

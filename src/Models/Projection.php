@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 
 class Projection extends Model
@@ -25,6 +29,16 @@ class Projection extends Model
     protected $casts = [
         'content' => 'json',
     ];
+
+    /**
+     * The projection's name used in query.
+     */
+    protected string|null $queryName = null;
+
+    /**
+     * The projection's period used in query.
+     */
+    protected string|null $queryPeriod = null;
 
     /**
      * Create a new Eloquent Collection instance.
@@ -47,6 +61,8 @@ class Projection extends Model
      */
     public function scopeName(Builder $query, string $name): Builder
     {
+        $this->queryName = $name;
+
         return $query->where('name', $name);
     }
 
@@ -55,7 +71,32 @@ class Projection extends Model
      */
     public function scopePeriod(Builder $query, string $period): Builder
     {
+        $this->queryPeriod = $period;
+
         return $query->where('period', $period);
+    }
+
+    /**
+     * Scope a query to filter between dates
+     * @throws MissingProjectionPeriodException
+     * @throws MissingProjectionNameException
+     */
+    public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
+    {
+        if (is_null($this->queryName)) {
+            throw new MissingProjectionNameException();
+        }
+
+        if (is_null($this->queryPeriod)) {
+            throw new MissingProjectionPeriodException();
+        }
+
+        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
+
+        return $query->whereBetween('start_date', [
+            $startDate->floorUnit($periodType, $quantity),
+            $endDate->floorUnit($periodType, $quantity),
+        ]);
     }
 
     /**
