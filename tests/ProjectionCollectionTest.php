@@ -2,15 +2,19 @@
 
 namespace Laravelcargo\LaravelCargo\Tests;
 
+use Illuminate\Support\Carbon;
+use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\Tests\Models\Log;
+
 class ProjectionCollectionTest extends TestCase
 {
     use WithProjectableFactory;
 
     public function setUp(): void
     {
-        // set a fixed time.
+        $this->travelTo(Carbon::today()->addHour());
     }
-//
+
 //    /** @test */
 //    public function it_makes_the_missing_prior_period_when_filled()
 //    {
