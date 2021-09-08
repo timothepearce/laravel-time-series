@@ -37,6 +37,7 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections()->last()->id);
     }
+
 //
 //    /** @test */
 //    public function it_makes_the_missing_subsequent_period_when_filled()
