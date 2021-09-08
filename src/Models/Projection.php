@@ -33,12 +33,12 @@ class Projection extends Model
     /**
      * The projection's name used in query.
      */
-    protected string|null $queryName = null;
+    protected string | null $queryName = null;
 
     /**
      * The projection's period used in query.
      */
-    protected string|null $queryPeriod = null;
+    protected string | null $queryPeriod = null;
 
     /**
      * Create a new Eloquent Collection instance.
