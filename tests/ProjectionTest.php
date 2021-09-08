@@ -93,10 +93,11 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
-        $betweenProjections = Projection::period('5 minutes')
+        $betweenProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
             ->between(
-                Carbon::today()->addMinutes(5),
-                Carbon::today()->addMinutes(10)
+                Carbon::today()->addMinutes(6), // date will be rounded to the floor to 5 minutes
+                Carbon::today()->addMinutes(14) // date will be rounded to the floor to 10 minutes
             )->get();
 
         $this->assertEquals(2, $betweenProjections->count());

@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProjectionCollection extends Collection
 {
-    // @todo
+    /**
+     * Fills the collection with empty
+     */
 }
