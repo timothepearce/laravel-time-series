@@ -10,6 +10,7 @@ class ProjectionCollectionTest extends TestCase
     {
         // set a fixed time.
     }
+
 //
 //    /** @test */
 //    public function it_makes_the_missing_prior_period_when_filled()
