@@ -22,7 +22,7 @@ class ProjectionCollection extends Collection
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
 
-        $allPeriods->each(function (Carbon $period) use (&$allProjections) {
+        $allPeriods->each(function (Carbon $period) use (&$allProjections, &$startDate) {
             $projection = $this->firstWhere('start_date', $period);
 
             is_null($projection) ?
