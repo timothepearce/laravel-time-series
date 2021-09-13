@@ -21,7 +21,7 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function it_makes_the_missing_prior_period_when_filled()
     {
-        $startDate = Carbon::now()->subMinute();
+        $startDate = Carbon::now()->subMinutes(5);
         $endDate = now();
         Log::factory()->create();
 
@@ -32,7 +32,7 @@ class ProjectionCollectionTest extends TestCase
 
         $filledProjections = Projection::name(SingleIntervalProjector::class)
               ->period('5 minutes')
-              ->fillBetween($startDate, $endDate)->get();
+              ->fillBetween($startDate, $endDate);
         $this->assertCount(2, $filledProjections);
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections()->last()->id);

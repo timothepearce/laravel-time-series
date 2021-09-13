@@ -77,7 +77,25 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter between dates
+     * Scope a query to filter by key.
+     */
+    public function scopeKey(Builder $query, array | string | int $keys): Builder
+    {
+        if (gettype($keys) === 'array') {
+            return $query->where(function ($query) use (&$keys) {
+                collect($keys)->each(function ($key, $index) use (&$query) {
+                    return $index === 0 ?
+                        $query->where('key', (string) $key) :
+                        $query->orWhere('key', (string) $key);
+                });
+            });
+        }
+
+        return $query->where('key', (string) $keys);
+    }
+
+    /**
+     * Scope a query to filter by the given dates
      * @throws MissingProjectionPeriodException
      * @throws MissingProjectionNameException
      */
@@ -100,20 +118,17 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter by key.
+     * Scope a query to filter by the given dates and fill with empty period if necessary.
      */
-    public function scopeKey(Builder $query, array | string | int $keys): Builder
+    public function scopeFillBetween(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection
     {
-        if (gettype($keys) === 'array') {
-            return $query->where(function ($query) use (&$keys) {
-                collect($keys)->each(function ($key, $index) use (&$query) {
-                    return $index === 0 ?
-                        $query->where('key', (string) $key) :
-                        $query->orWhere('key', (string) $key);
-                });
-            });
-        }
+        $projections = $query->between($startDate, $endDate)->get();
 
-        return $query->where('key', (string) $keys);
+        return $projections->fillBetween(
+            $this->queryName,
+            $this->queryPeriod,
+            $startDate,
+            $endDate,
+        );
     }
 }
