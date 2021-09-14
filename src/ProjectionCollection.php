@@ -23,8 +23,7 @@ class ProjectionCollection extends Collection
         Carbon $endDate,
         string | null $projectorName = null,
         string | null $period = null,
-    ): ProjectionCollection
-    {
+    ): ProjectionCollection {
         [$projectorName, $period] = $this->resolveGuessParameters($projectorName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
