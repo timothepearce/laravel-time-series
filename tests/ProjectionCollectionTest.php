@@ -35,23 +35,28 @@ class ProjectionCollectionTest extends TestCase
               ->fillBetween($startDate, $endDate);
         $this->assertCount(2, $filledProjections);
 
-        $this->assertEquals($unfilledProjections->first()->id, $filledProjections()->last()->id);
+        $this->assertEquals($unfilledProjections->first()->id, $filledProjections->last()->id);
     }
 
-//
-//    /** @test */
-//    public function it_makes_the_missing_subsequent_period_when_filled()
-//    {
-//        Log::factory()->create();
-//
-//        $projections = Projection::period('5 minutes')
-//            ->between(Carbon::now()->addMinutes(6), Carbon::now())
-//            ->filled();
-//
-//        $this->assertCount(1, $projectionsDB = Projection::all());
-//        $this->assertCount(2, $projections);
-//        $this->assertEquals($projectionsDB->first()->id, $projections()->first()->id);
-//    }
+    /** @test */
+    public function it_makes_the_missing_subsequent_period_when_filled()
+    {
+        $startDate = now();
+        $endDate = Carbon::now()->addMinutes(5);
+        Log::factory()->create();
+
+        $unfilledProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
+            ->between($startDate, $endDate)->get();
+        $this->assertCount(1, $unfilledProjections);
+
+        $filledProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
+            ->fillBetween($startDate, $endDate);
+        $this->assertCount(2, $filledProjections);
+
+        $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
+    }
 //
 //    /** @test */
 //    public function it_makes_the_missing_between_period_when_filled()

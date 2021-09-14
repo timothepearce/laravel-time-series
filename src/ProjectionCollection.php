@@ -22,11 +22,11 @@ class ProjectionCollection extends Collection
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
 
-        $allPeriods->each(function (Carbon $period) use (&$allProjections, &$startDate) {
-            $projection = $this->firstWhere('start_date', $period);
+        $allPeriods->each(function (string $projectionPeriod) use (&$projectionName, &$period, &$allProjections) {
+            $projection = $this->firstWhere('start_date', $projectionPeriod);
 
             is_null($projection) ?
-                $allProjections->push($this->makeEmptyProjection($startDate, $period)) :
+                $allProjections->push($this->makeEmptyProjection($projectionName, $period, $projectionPeriod)) :
                 $allProjections->push($projection);
         });
 
@@ -50,10 +50,10 @@ class ProjectionCollection extends Collection
         return $allProjectionsDates;
     }
 
-    private function makeEmptyProjection(Carbon $startDate, string $period)
+    private function makeEmptyProjection(string $projectionName, string $period, string $startDate)
     {
         return Projection::make([
-            'name' => 'name',
+            'name' => $projectionName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
