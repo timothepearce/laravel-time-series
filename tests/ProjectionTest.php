@@ -3,8 +3,8 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
 use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
@@ -43,12 +43,12 @@ class ProjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_projections_from_name()
+    public function it_get_the_projections_from_projector_name()
     {
         $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
         $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
 
-        $numberOfProjections = Projection::name(SingleIntervalProjector::class)->count();
+        $numberOfProjections = Projection::fromProjector(SingleIntervalProjector::class)->count();
 
         $this->assertEquals(1, $numberOfProjections);
     }
@@ -69,17 +69,17 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_raises_an_exception_when_using_the_between_scope_without_a_period()
     {
-        $this->expectException(MissingProjectionNameException::class);
+        $this->expectException(MissingProjectorNameException::class);
 
         Projection::between(now()->subMinute(), now());
     }
 
     /** @test */
-    public function it_raises_an_exception_when_using_the_between_scope_without_a_name()
+    public function it_raises_an_exception_when_using_the_between_scope_without_the_projector_name()
     {
         $this->expectException(MissingProjectionPeriodException::class);
 
-        Projection::name(SingleIntervalProjector::class)->between(now()->subMinute(), now());
+        Projection::fromProjector(SingleIntervalProjector::class)->between(now()->subMinute(), now());
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
-        $betweenProjections = Projection::name(SingleIntervalProjector::class)
+        $betweenProjections = Projection::fromProjector(SingleIntervalProjector::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(6), // date will be rounded to the floor to 5 minutes

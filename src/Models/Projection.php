@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
 use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 
 class Projection extends Model
@@ -31,9 +31,9 @@ class Projection extends Model
     ];
 
     /**
-     * The projection's name used in query.
+     * The projector's name used in query.
      */
-    protected string | null $queryName = null;
+    protected string | null $projectorName = null;
 
     /**
      * The projection's period used in query.
@@ -59,11 +59,11 @@ class Projection extends Model
     /**
      * Scope a query to filter by name.
      */
-    public function scopeName(Builder $query, string $name): Builder
+    public function scopeFromProjector(Builder $query, string $projectorName): Builder
     {
-        $this->queryName = $name;
+        $this->projectorName = $projectorName;
 
-        return $query->where('name', $name);
+        return $query->where('projector_name', $projectorName);
     }
 
     /**
@@ -74,29 +74,6 @@ class Projection extends Model
         $this->queryPeriod = $period;
 
         return $query->where('period', $period);
-    }
-
-    /**
-     * Scope a query to filter between dates
-     * @throws MissingProjectionPeriodException
-     * @throws MissingProjectionNameException
-     */
-    public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
-    {
-        if (is_null($this->queryName)) {
-            throw new MissingProjectionNameException();
-        }
-
-        if (is_null($this->queryPeriod)) {
-            throw new MissingProjectionPeriodException();
-        }
-
-        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
-
-        return $query->whereBetween('start_date', [
-            $startDate->floorUnit($periodType, $quantity),
-            $endDate->floorUnit($periodType, $quantity),
-        ]);
     }
 
     /**
@@ -115,5 +92,43 @@ class Projection extends Model
         }
 
         return $query->where('key', (string) $keys);
+    }
+
+    /**
+     * Scope a query to filter by the given dates
+     * @throws MissingProjectorNameException
+     * @throws MissingProjectionPeriodException
+     */
+    public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
+    {
+        if (is_null($this->projectorName)) {
+            throw new MissingProjectorNameException();
+        }
+
+        if (is_null($this->queryPeriod)) {
+            throw new MissingProjectionPeriodException();
+        }
+
+        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
+
+        return $query->whereBetween('start_date', [
+            $startDate->floorUnit($periodType, $quantity),
+            $endDate->floorUnit($periodType, $quantity),
+        ]);
+    }
+
+    /**
+     * Scope a query to filter by the given dates and fill with empty period if necessary.
+     */
+    public function scopeFillBetween(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection
+    {
+        $projections = $query->between($startDate, $endDate)->get();
+
+        return $projections->fillBetween(
+            $this->projectorName,
+            $this->queryPeriod,
+            $startDate,
+            $endDate,
+        );
     }
 }

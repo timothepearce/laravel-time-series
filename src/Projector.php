@@ -44,7 +44,7 @@ abstract class Projector
     private function findProjection(string $period, int $quantity, string $periodType): Projection | null
     {
         return Projection::firstWhere([
-            ['name', $this::class],
+            ['projector_name', $this::class],
             ['key', $this->hasKey() ? $this->key($this->model) : null],
             ['period', $period],
             ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
@@ -57,11 +57,11 @@ abstract class Projector
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
         $this->model->projections()->create([
-            'name' => $this::class,
+            'projector_name' => $this::class,
             'key' => $this->hasKey() ? $this->key($this->model) : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->handle($this->defaultContent(), $this->model),
+            'content' => $this->handle($this::defaultContent(), $this->model),
         ]);
     }
 

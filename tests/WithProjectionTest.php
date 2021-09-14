@@ -106,7 +106,7 @@ class WithProjectionTest extends TestCase
 
         $this->assertCount(8, $projections);
         $projections->each(function (Projection $projection) {
-            $this->assertEquals(MultipleIntervalsProjector::class, $projection->name);
+            $this->assertEquals(MultipleIntervalsProjector::class, $projection->projector_name);
         });
     }
 
