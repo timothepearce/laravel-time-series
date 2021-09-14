@@ -92,6 +92,7 @@ class ProjectionCollectionTest extends TestCase
             $this->assertEquals($filledProjection->content, SingleIntervalProjector::defaultContent());
         });
     }
+
 //
 //    /** @test */
 //    public function it_makes_the_missing_between_period_when_filled()
