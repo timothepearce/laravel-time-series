@@ -57,31 +57,41 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
     }
-//
-//    /** @test */
-//    public function it_makes_the_missing_between_period_when_filled()
-//    {
-//        Log::factory()->create();
-//
-//        $projections = Projection::period('5 minutes')
-//            ->between(Carbon::now()->addMinutes(11), Carbon::now())
-//            ->filled();
-//
-//        $this->assertCount(1, $projectionsDB = Projection::all());
-//        $this->assertCount(2, $projections);
-//        $this->assertEquals($projectionsDB->first()->id, $projections()->first()->id);
-//    }
-//
-//    /** @test */
-//    public function missing_periods_are_filled_with_default_content()
-//    {
-//        $projections = Projection::period('5 minutes')
-//            ->between(Carbon::now()->subMinute(), Carbon::now())
-//            ->filled();
-//
-//        $this->assertCount(1, $projectionsDB = Projection::all());
-//        $this->assertCount(2, $projections);
-//    }
+
+    /** @test */
+    public function it_makes_the_missing_between_period_when_filled()
+    {
+        $startDate = now();
+        $endDate = Carbon::now()->addMinutes(10);
+        Log::factory()->create();
+        $this->travel(10)->minutes();
+        Log::factory()->create();
+
+        $unfilledProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
+            ->between($startDate, $endDate)->get();
+        $this->assertCount(2, $unfilledProjections);
+
+        $filledProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
+            ->fillBetween($startDate, $endDate);
+        $this->assertCount(3, $filledProjections);
+
+        $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
+        $this->assertEquals($unfilledProjections->last()->id, $filledProjections->last()->id);
+    }
+
+    /** @test */
+    public function missing_periods_are_filled_with_default_content()
+    {
+        $filledProjections = Projection::name(SingleIntervalProjector::class)
+            ->period('5 minutes')
+            ->fillBetween(now(), Carbon::now()->addMinutes(10));
+
+        $filledProjections->each(function (Projection $filledProjection) {
+            $this->assertEquals($filledProjection->content, SingleIntervalProjector::defaultContent());
+        });
+    }
 //
 //    /** @test */
 //    public function it_raises_an_exception_when_a_multiple_periods_collection_is_filled()

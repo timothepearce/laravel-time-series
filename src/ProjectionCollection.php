@@ -44,12 +44,18 @@ class ProjectionCollection extends Collection
 
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
-        $allProjectionsDates->push($cursorDate);
+            $allProjectionsDates->push(clone $cursorDate);
         endwhile;
 
         return $allProjectionsDates;
     }
 
+    /**
+     * @param string $projectionName
+     * @param string $period
+     * @param string $startDate
+     * @return mixed
+     */
     private function makeEmptyProjection(string $projectionName, string $period, string $startDate)
     {
         return Projection::make([
@@ -57,7 +63,7 @@ class ProjectionCollection extends Collection
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
-            'content' => [],
+            'content' => $projectionName::defaultContent(),
         ]);
     }
 }

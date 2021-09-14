@@ -17,7 +17,7 @@ class SingleIntervalProjector extends Projector
     /**
      * The default projection content.
      */
-    public function defaultContent(): array
+    public static function defaultContent(): array
     {
         return [
             'number of logs' => 0,

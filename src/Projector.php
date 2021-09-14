@@ -61,7 +61,7 @@ abstract class Projector
             'key' => $this->hasKey() ? $this->key($this->model) : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->handle($this->defaultContent(), $this->model),
+            'content' => $this->handle($this::defaultContent(), $this->model),
         ]);
     }
 
