@@ -168,6 +168,7 @@ class ProjectionCollectionTest extends TestCase
 
         $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
     }
+
 //
 //    /** @test */
 //    public function it_guess_the_period_if_no_one_is_given_when_filled()
