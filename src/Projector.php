@@ -15,7 +15,9 @@ abstract class Projector implements ProjectorContract
      */
     protected array $periods;
 
-    public function __construct(protected Model $model) {}
+    public function __construct(protected Model $model)
+    {
+    }
 
     /**
      * The key used to query the projection.
