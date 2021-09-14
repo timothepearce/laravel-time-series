@@ -5,9 +5,10 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingParametersOnEmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
 use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
+use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 
 class ProjectionCollection extends Collection
@@ -15,7 +16,7 @@ class ProjectionCollection extends Collection
     /**
      * Fills the collection with empty projection between the given dates.
      *
-     * @throws MultipleProjectorsException|MultiplePeriodsException|EmptyProjectionCollectionException
+     * @throws MultipleProjectorsException|MultiplePeriodsException|MissingParametersOnEmptyProjectionCollectionException|OverlappingFillBetweenDatesException
      */
     public function fillBetween(
         Carbon $startDate,
@@ -23,13 +24,8 @@ class ProjectionCollection extends Collection
         string | null $projectorName = null,
         string | null $period = null,
     ) {
-        $projectorName = $this->resolveProjectorName($projectorName);
-        $period = $this->resolvePeriod($period);
-
-        [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
-
-        $startDate->floorUnit($periodType, $periodQuantity);
-        $endDate->floorUnit($periodType, $periodQuantity);
+        [$projectorName, $period] =  $this->resolveGuessParameters($projectorName, $period);
+        [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
@@ -46,9 +42,50 @@ class ProjectionCollection extends Collection
     }
 
     /**
+     * Validates and resolve the guess parameters.
+     *
+     * @throws MissingParametersOnEmptyProjectionCollectionException|MultipleProjectorsException|MultiplePeriodsException
+     */
+    private function resolveGuessParameters(string | null $projectorName, string | null $period): array
+    {
+        if ($this->count() === 0 && $this->shouldGuessParameters($projectorName, $period)) {
+            throw new MissingParametersOnEmptyProjectionCollectionException();
+        }
+
+        return [$this->resolveProjectorName($projectorName), $this->resolvePeriod($period)];
+    }
+
+    /**
+     * Validates and resolve the dates parameters.
+     *
+     * @throws OverlappingFillBetweenDatesException
+     */
+    private function resolveDatesParameters(string $period, Carbon $startDate, Carbon $endDate): array
+    {
+        [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
+
+        $startDate->floorUnit($periodType, $periodQuantity);
+        $endDate->floorUnit($periodType, $periodQuantity);
+
+        if ($startDate->greaterThanOrEqualTo($endDate)) {
+            throw new OverlappingFillBetweenDatesException();
+        }
+
+        return [$startDate, $endDate];
+    }
+
+    /**
+     * Asserts the parameters should be guessed.
+     */
+    private function shouldGuessParameters(string | null $projectorName, string | null $period): bool
+    {
+        return is_null($projectorName) || is_null($period);
+    }
+
+    /**
      * Resolves the projector name.
      *
-     * @throws MultipleProjectorsException|EmptyProjectionCollectionException
+     * @throws MultipleProjectorsException|MissingParametersOnEmptyProjectionCollectionException
      */
     private function resolveProjectorName(string | null $projectorName): string
     {
@@ -100,14 +137,10 @@ class ProjectionCollection extends Collection
     /**
      * Guess the projector name.
      *
-     * @throws EmptyProjectionCollectionException
+     * @throws MissingParametersOnEmptyProjectionCollectionException
      */
     private function guessProjectorName(): string
     {
-        if ($this->count() === 0) {
-            throw new EmptyProjectionCollectionException();
-        }
-
         return $this->first()->projector_name;
     }
 

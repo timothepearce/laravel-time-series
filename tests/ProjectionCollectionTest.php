@@ -3,8 +3,9 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingParametersOnEmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
+use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
@@ -116,32 +117,37 @@ class ProjectionCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_projector_name()
+    public function it_raises_an_exception_if_the_collection_is_empty_while_parameters_must_be_guessed()
     {
-        $this->expectException(EmptyProjectionCollectionException::class);
+        $this->expectException(MissingParametersOnEmptyProjectionCollectionException::class);
 
+        /** @var ProjectionCollection $emptyProjectionCollection */
         $emptyProjectionCollection = Projection::all();
 
         $emptyProjectionCollection->fillBetween(now(), now()->addMinute());
     }
-//
-//    /** @test */
-//    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_period()
-//    {
-//        // @todo
-//    }
-//
-//    /** @test */
-//    public function it_raises_an_exception_if_the_start_date_equals_the_end_date()
-//    {
-//        // @todo
-//    }
-//
-//    /** @test */
-//    public function it_raises_an_exception_if_the_end_date_is_before_the_start_date()
-//    {
-//        // @todo
-//    }
+
+    /** @test */
+    public function it_raises_an_exception_if_the_start_date_equals_the_end_date()
+    {
+        $this->expectException(OverlappingFillBetweenDatesException::class);
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $collection->fillBetween(now(), now(), SingleIntervalProjector::class, '5 minutes');
+    }
+
+    /** @test */
+    public function it_raises_an_exception_if_the_end_date_is_before_the_start_date()
+    {
+        $this->expectException(OverlappingFillBetweenDatesException::class);
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
+    }
 //
 //    /** @test */
 //    public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
