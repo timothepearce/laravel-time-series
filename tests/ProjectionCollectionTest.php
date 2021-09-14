@@ -5,6 +5,7 @@ namespace Laravelcargo\LaravelCargo\Tests;
 use Illuminate\Support\Carbon;
 use Laravelcargo\LaravelCargo\Exceptions\MissingParametersOnEmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
+use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
 use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
@@ -98,6 +99,25 @@ class ProjectionCollectionTest extends TestCase
         });
     }
 
+
+    /** @test */
+    public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
+    {
+        $this->expectException(MultipleProjectorsException::class);
+
+        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class, MultipleIntervalsProjector::class]);
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $collection->fillBetween(
+            now(),
+            now()->addMinute(),
+            SingleIntervalProjector::class,
+            '5 minutes'
+        );
+    }
+
     /** @test */
     public function it_raises_an_exception_when_a_multiple_periods_collection_is_filled()
     {
@@ -148,12 +168,6 @@ class ProjectionCollectionTest extends TestCase
 
         $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
     }
-//
-//    /** @test */
-//    public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
-//    {
-//        // @todo
-//    }
 //
 //    /** @test */
 //    public function it_guess_the_period_if_no_one_is_given_when_filled()
