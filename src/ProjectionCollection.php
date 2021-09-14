@@ -5,6 +5,7 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
 use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
 use Laravelcargo\LaravelCargo\Models\Projection;
@@ -13,8 +14,8 @@ class ProjectionCollection extends Collection
 {
     /**
      * Fills the collection with empty projection between the given dates.
-     * @throws MultipleProjectorsException
-     * @throws MultiplePeriodsException
+     *
+     * @throws MultipleProjectorsException|MultiplePeriodsException|EmptyProjectionCollectionException
      */
     public function fillBetween(
         Carbon $startDate,
@@ -47,7 +48,7 @@ class ProjectionCollection extends Collection
     /**
      * Resolves the projector name.
      *
-     * @throws MultipleProjectorsException
+     * @throws MultipleProjectorsException|EmptyProjectionCollectionException
      */
     private function resolveProjectorName(string | null $projectorName): string
     {
@@ -66,43 +67,6 @@ class ProjectionCollection extends Collection
         $this->assertUniquePeriod();
 
         return $period ?? $this->guessPeriod();
-    }
-
-    /**
-     * Get the projections dates.
-     */
-    private function getAllPeriods(Carbon $startDate, Carbon $endDate, string $period): \Illuminate\Support\Collection
-    {
-        $cursorDate = clone $startDate;
-        $allProjectionsDates = collect([$startDate]);
-        [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
-
-        while ($cursorDate->notEqualTo($endDate)):
-            $cursorDate->add($periodQuantity, $periodType);
-        $allProjectionsDates->push(clone $cursorDate);
-        endwhile;
-
-        return $allProjectionsDates;
-    }
-
-    /**
-     * Guess the projector name.
-     *
-     * @throws MultipleProjectorsException
-     */
-    private function guessProjectorName(): string
-    {
-        return $this->first()->projector_name;
-    }
-
-    /**
-     * Guess the period.
-     *
-     * @throws MultiplePeriodsException
-     */
-    private function guessPeriod(): string
-    {
-        return $this->first()->period;
     }
 
     /**
@@ -131,6 +95,45 @@ class ProjectionCollection extends Collection
         if ($periodNames->count() > 1) {
             throw new MultiplePeriodsException();
         }
+    }
+
+    /**
+     * Guess the projector name.
+     *
+     * @throws EmptyProjectionCollectionException
+     */
+    private function guessProjectorName(): string
+    {
+        if ($this->count() === 0) {
+            throw new EmptyProjectionCollectionException();
+        }
+
+        return $this->first()->projector_name;
+    }
+
+    /**
+     * Guess the period.
+     */
+    private function guessPeriod(): string
+    {
+        return $this->first()->period;
+    }
+
+    /**
+     * Get the projections dates.
+     */
+    private function getAllPeriods(Carbon $startDate, Carbon $endDate, string $period): \Illuminate\Support\Collection
+    {
+        $cursorDate = clone $startDate;
+        $allProjectionsDates = collect([$startDate]);
+        [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
+
+        while ($cursorDate->notEqualTo($endDate)):
+            $cursorDate->add($periodQuantity, $periodType);
+            $allProjectionsDates->push(clone $cursorDate);
+        endwhile;
+
+        return $allProjectionsDates;
     }
 
     /**

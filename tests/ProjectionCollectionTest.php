@@ -3,6 +3,7 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
+use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
@@ -114,11 +115,15 @@ class ProjectionCollectionTest extends TestCase
         );
     }
 
-//    /** @test */
-//    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_projector_name()
-//    {
-//        // @todo
-//    }
+    /** @test */
+    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_projector_name()
+    {
+        $this->expectException(EmptyProjectionCollectionException::class);
+
+        $emptyProjectionCollection = Projection::all();
+
+        $emptyProjectionCollection->fillBetween(now(), now()->addMinute());
+    }
 //
 //    /** @test */
 //    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_period()
