@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 
 class Projection extends Model
