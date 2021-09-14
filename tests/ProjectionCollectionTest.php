@@ -168,16 +168,30 @@ class ProjectionCollectionTest extends TestCase
         $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
     }
 
-//
-//    /** @test */
-//    public function it_guess_the_period_if_no_one_is_given_when_filled()
-//    {
-//        // @todo
-//    }
-//
-//    /** @test */
-//    public function it_guess_the_projector_name_if_no_one_is_given_when_filled()
-//    {
-//        // @todo
-//    }
+
+    /** @test */
+    public function it_guess_the_period_if_no_one_is_given_when_filled()
+    {
+        Log::factory()->create();
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $filledCollection = $collection->fillBetween(now(), now()->addMinutes(5));
+
+        $this->assertEquals($filledCollection->last()->period, '5 minutes');
+    }
+
+    /** @test */
+    public function it_guess_the_projector_name_if_no_one_is_given_when_filled()
+    {
+        Log::factory()->create();
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $filledCollection = $collection->fillBetween(now(), now()->addMinutes(5));
+
+        $this->assertEquals($filledCollection->last()->projector_name, SingleIntervalProjector::class);
+    }
 }
