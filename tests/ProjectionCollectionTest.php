@@ -3,9 +3,7 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
-use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
