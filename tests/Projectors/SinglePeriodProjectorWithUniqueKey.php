@@ -5,7 +5,7 @@ namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Projector;
 
-class SingleIntervalProjectorWithUniqueKey extends Projector
+class SinglePeriodProjectorWithUniqueKey extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.

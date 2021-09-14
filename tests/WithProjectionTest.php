@@ -8,10 +8,10 @@ use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
 use Laravelcargo\LaravelCargo\Tests\Models\Message;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalKeyedProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjectorWithUniqueKey;
+use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodKeyedProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
 class WithProjectionTest extends TestCase
 {
@@ -20,7 +20,7 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
 
         $this->assertDatabaseCount('cargo_projections', 8);
     }
@@ -99,14 +99,14 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type()
     {
         $log = $this->createModelWithProjectors(Log::class, [
-            SingleIntervalProjector::class,
-            MultipleIntervalsProjector::class,
+            SinglePeriodProjector::class,
+            MultiplePeriodsProjector::class,
         ]);
-        $projections = $log->projections(MultipleIntervalsProjector::class)->get();
+        $projections = $log->projections(MultiplePeriodsProjector::class)->get();
 
         $this->assertCount(8, $projections);
         $projections->each(function (Projection $projection) {
-            $this->assertEquals(MultipleIntervalsProjector::class, $projection->projector_name);
+            $this->assertEquals(MultiplePeriodsProjector::class, $projection->projector_name);
         });
     }
 
@@ -114,11 +114,11 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type_and_period()
     {
         $log = $this->createModelWithProjectors(Log::class, [
-            SingleIntervalProjector::class,
-            MultipleIntervalsProjector::class,
+            SinglePeriodProjector::class,
+            MultiplePeriodsProjector::class,
         ]);
 
-        $projections = $log->projections(MultipleIntervalsProjector::class, '5 minutes')->get();
+        $projections = $log->projections(MultiplePeriodsProjector::class, '5 minutes')->get();
 
         $this->assertCount(1, $projections);
         $this->assertEquals('5 minutes', $projections->first()->period);
@@ -128,11 +128,11 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type_and_multiple_periods()
     {
         $log = $this->createModelWithProjectors(Log::class, [
-            SingleIntervalProjector::class,
-            MultipleIntervalsProjector::class,
+            SinglePeriodProjector::class,
+            MultiplePeriodsProjector::class,
         ]);
 
-        $projections = $log->projections(MultipleIntervalsProjector::class, ['5 minutes', '1 hour'])->get();
+        $projections = $log->projections(MultiplePeriodsProjector::class, ['5 minutes', '1 hour'])->get();
 
         $this->assertCount(2, $projections);
         $projections->each(function (Projection $projection) {
@@ -143,8 +143,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_single_projection_for_models_with_the_same_projection()
     {
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
-        $this->createModelWithProjectors(Message::class, [SingleIntervalProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class]);
+        $this->createModelWithProjectors(Message::class, [SinglePeriodProjector::class]);
 
         $this->assertEquals(1, Projection::count());
     }
@@ -152,13 +152,13 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_updates_a_projection_for_a_single_projectable_type_and_interval()
     {
-        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
-        $message = $this->createModelWithProjectors(Message::class, [MultipleIntervalsProjector::class]);
+        $log = $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class]);
+        $message = $this->createModelWithProjectors(Message::class, [MultiplePeriodsProjector::class]);
 
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class]);
 
-        $logProjection = $log->projections(SingleIntervalProjector::class, '5 minutes')->first();
-        $messageProjection = $message->projections(MultipleIntervalsProjector::class, '5 minutes')->first();
+        $logProjection = $log->projections(SinglePeriodProjector::class, '5 minutes')->first();
+        $messageProjection = $message->projections(MultiplePeriodsProjector::class, '5 minutes')->first();
 
         $this->assertEquals(2, $logProjection->content['number of logs']);
         $this->assertEquals(1, $messageProjection->content['number of logs']);
@@ -167,8 +167,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_projection_for_each_different_key()
     {
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
 
         $this->assertEquals(2, Projection::count());
     }
@@ -176,8 +176,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_single_projection_for_a_similar_key()
     {
-        $this->createModelWithProjectors(Log::class, [SingleIntervalKeyedProjector::class]);
-        $this->createModelWithProjectors(Log::class, [SingleIntervalKeyedProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodKeyedProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodKeyedProjector::class]);
 
         $this->assertEquals(1, Projection::count());
     }

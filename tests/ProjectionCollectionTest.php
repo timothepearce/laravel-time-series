@@ -3,15 +3,15 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\MissingParametersOnEmptyProjectionCollectionException;
+use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
 use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
 use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
 
 class ProjectionCollectionTest extends TestCase
 {
@@ -31,12 +31,12 @@ class ProjectionCollectionTest extends TestCase
         $endDate = now();
         Log::factory()->create();
 
-        $unfilledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
               ->period('5 minutes')
               ->between($startDate, $endDate)->get();
         $this->assertCount(1, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
               ->period('5 minutes')
               ->fillBetween($startDate, $endDate);
         $this->assertCount(2, $filledProjections);
@@ -51,12 +51,12 @@ class ProjectionCollectionTest extends TestCase
         $endDate = Carbon::now()->addMinutes(5);
         Log::factory()->create();
 
-        $unfilledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->between($startDate, $endDate)->get();
         $this->assertCount(1, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->fillBetween($startDate, $endDate);
         $this->assertCount(2, $filledProjections);
@@ -73,12 +73,12 @@ class ProjectionCollectionTest extends TestCase
         $this->travel(10)->minutes();
         Log::factory()->create();
 
-        $unfilledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->between($startDate, $endDate)->get();
         $this->assertCount(2, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->fillBetween($startDate, $endDate);
         $this->assertCount(3, $filledProjections);
@@ -90,12 +90,12 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function missing_periods_are_filled_with_default_content()
     {
-        $filledProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->fillBetween(now(), Carbon::now()->addMinutes(10));
 
         $filledProjections->each(function (Projection $filledProjection) {
-            $this->assertEquals($filledProjection->content, SingleIntervalProjector::defaultContent());
+            $this->assertEquals($filledProjection->content, SinglePeriodProjector::defaultContent());
         });
     }
 
@@ -104,7 +104,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultipleProjectorsException::class);
 
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class, MultipleIntervalsProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class, MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
@@ -112,7 +112,7 @@ class ProjectionCollectionTest extends TestCase
         $collection->fillBetween(
             now(),
             now()->addMinute(),
-            SingleIntervalProjector::class,
+            SinglePeriodProjector::class,
             '5 minutes'
         );
     }
@@ -122,7 +122,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultiplePeriodsException::class);
 
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
@@ -130,7 +130,7 @@ class ProjectionCollectionTest extends TestCase
         $collection->fillBetween(
             now(),
             now()->addMinute(),
-            MultipleIntervalsProjector::class,
+            MultiplePeriodsProjector::class,
             '5 minutes'
         );
     }
@@ -138,7 +138,7 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function it_raises_an_exception_if_the_collection_is_empty_while_parameters_must_be_guessed()
     {
-        $this->expectException(MissingParametersOnEmptyProjectionCollectionException::class);
+        $this->expectException(EmptyProjectionCollectionException::class);
 
         /** @var ProjectionCollection $emptyProjectionCollection */
         $emptyProjectionCollection = Projection::all();
@@ -154,7 +154,7 @@ class ProjectionCollectionTest extends TestCase
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
 
-        $collection->fillBetween(now(), now(), SingleIntervalProjector::class, '5 minutes');
+        $collection->fillBetween(now(), now(), SinglePeriodProjector::class, '5 minutes');
     }
 
     /** @test */
@@ -165,9 +165,8 @@ class ProjectionCollectionTest extends TestCase
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
 
-        $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
+        $collection->fillBetween(now(), now()->subMinute(), SinglePeriodProjector::class, '5 minutes');
     }
-
 
     /** @test */
     public function it_guess_the_period_if_no_one_is_given_when_filled()
@@ -192,6 +191,6 @@ class ProjectionCollectionTest extends TestCase
 
         $filledCollection = $collection->fillBetween(now(), now()->addMinutes(5));
 
-        $this->assertEquals($filledCollection->last()->projector_name, SingleIntervalProjector::class);
+        $this->assertEquals($filledCollection->last()->projector_name, SinglePeriodProjector::class);
     }
 }

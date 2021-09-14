@@ -5,7 +5,7 @@ namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Projector;
 
-class SingleIntervalKeyedProjector extends Projector
+class SinglePeriodProjector extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
@@ -20,14 +20,6 @@ class SingleIntervalKeyedProjector extends Projector
         return [
             'number of logs' => 0,
         ];
-    }
-
-    /**
-     * The key used to query the projection.
-     */
-    public function key(Model $model): string
-    {
-        return '1';
     }
 
     /**

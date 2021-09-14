@@ -8,9 +8,9 @@ use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultipleIntervalsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjectorWithUniqueKey;
+use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
 class ProjectionTest extends TestCase
 {
@@ -45,10 +45,10 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_projector_name()
     {
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjector::class]);
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class]);
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
 
-        $numberOfProjections = Projection::fromProjector(SingleIntervalProjector::class)->count();
+        $numberOfProjections = Projection::fromProjector(SinglePeriodProjector::class)->count();
 
         $this->assertEquals(1, $numberOfProjections);
     }
@@ -56,10 +56,10 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_a_single_period()
     {
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 1
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 1
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 1
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 1
         $this->travel(6)->minutes();
-        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]); // 2
+        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 2
 
         $numberOfProjections = Projection::period('5 minutes')->count();
 
@@ -79,7 +79,7 @@ class ProjectionTest extends TestCase
     {
         $this->expectException(MissingProjectionPeriodException::class);
 
-        Projection::fromProjector(SingleIntervalProjector::class)->between(now()->subMinute(), now());
+        Projection::fromProjector(SinglePeriodProjector::class)->between(now()->subMinute(), now());
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
-        $betweenProjections = Projection::fromProjector(SingleIntervalProjector::class)
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(6), // date will be rounded to the floor to 5 minutes
@@ -108,8 +108,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projection_from_a_single_key()
     {
-        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
-        $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key($log->id)->count();
 
@@ -119,8 +119,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_multiples_keys()
     {
-        $log = $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
-        $anotherLog = $this->createModelWithProjectors(Log::class, [SingleIntervalProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $anotherLog = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key([$log->id, $anotherLog->id])->count();
 

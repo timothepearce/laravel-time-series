@@ -4,7 +4,7 @@ namespace Laravelcargo\LaravelCargo\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SingleIntervalProjector;
+use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
 use Laravelcargo\LaravelCargo\WithProjections;
 
 class Log extends Model
@@ -15,7 +15,7 @@ class Log extends Model
     /**
      * The lists of the projectors.
      */
-    protected array $projectors = [SingleIntervalProjector::class];
+    protected array $projectors = [SinglePeriodProjector::class];
 
 //    /**
 //     * API wip.

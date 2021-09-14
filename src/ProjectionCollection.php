@@ -5,7 +5,7 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\MissingParametersOnEmptyProjectionCollectionException;
+use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
 use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
 use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
@@ -16,7 +16,7 @@ class ProjectionCollection extends Collection
     /**
      * Fills the collection with empty projection between the given dates.
      *
-     * @throws MultipleProjectorsException|MultiplePeriodsException|MissingParametersOnEmptyProjectionCollectionException|OverlappingFillBetweenDatesException
+     * @throws MultipleProjectorsException|MultiplePeriodsException|EmptyProjectionCollectionException|OverlappingFillBetweenDatesException
      */
     public function fillBetween(
         Carbon $startDate,
@@ -45,12 +45,12 @@ class ProjectionCollection extends Collection
     /**
      * Validates and resolve the guess parameters.
      *
-     * @throws MissingParametersOnEmptyProjectionCollectionException|MultipleProjectorsException|MultiplePeriodsException
+     * @throws EmptyProjectionCollectionException|MultipleProjectorsException|MultiplePeriodsException
      */
     private function resolveGuessParameters(string | null $projectorName, string | null $period): array
     {
         if ($this->count() === 0 && $this->shouldGuessParameters($projectorName, $period)) {
-            throw new MissingParametersOnEmptyProjectionCollectionException();
+            throw new EmptyProjectionCollectionException();
         }
 
         return [$this->resolveProjectorName($projectorName), $this->resolvePeriod($period)];
@@ -86,7 +86,7 @@ class ProjectionCollection extends Collection
     /**
      * Resolves the projector name.
      *
-     * @throws MultipleProjectorsException|MissingParametersOnEmptyProjectionCollectionException
+     * @throws MultipleProjectorsException|EmptyProjectionCollectionException
      */
     private function resolveProjectorName(string | null $projectorName): string
     {
@@ -138,7 +138,7 @@ class ProjectionCollection extends Collection
     /**
      * Guess the projector name.
      *
-     * @throws MissingParametersOnEmptyProjectionCollectionException
+     * @throws EmptyProjectionCollectionException
      */
     private function guessProjectorName(): string
     {

@@ -5,21 +5,12 @@ namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Projector;
 
-class MultipleIntervalsProjector extends Projector
+class SinglePeriodKeyedProjector extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
      */
-    protected array $periods = [
-        '5 minutes',
-        '1 hour',
-        '6 hours',
-        '1 day',
-        '1 week',
-        '1 month',
-        '3 months',
-        '1 year',
-    ];
+    protected array $periods = ['5 minutes'];
 
     /**
      * The default projection content.
@@ -32,7 +23,15 @@ class MultipleIntervalsProjector extends Projector
     }
 
     /**
-     * Compute the projection's content.
+     * The key used to query the projection.
+     */
+    public function key(Model $model): string
+    {
+        return '1';
+    }
+
+    /**
+     * Compute the projection.
      */
     public function handle(array $content, Model $model): array
     {
