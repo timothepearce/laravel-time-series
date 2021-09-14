@@ -36,13 +36,13 @@ trait WithProjections
      * Get all the projections of the model.
      */
     public function projections(
-        string | null $projectionName = null,
+        string | null $projectorName = null,
         string | array | null $periods = null,
     ): MorphToMany {
         $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
 
-        if (isset($projectionName)) {
-            $query->where('name', $projectionName);
+        if (isset($projectorName)) {
+            $query->where('projector_name', $projectorName);
         }
 
         if (isset($periods) && gettype($periods) === 'string') {

@@ -59,11 +59,11 @@ class Projection extends Model
     /**
      * Scope a query to filter by name.
      */
-    public function scopeName(Builder $query, string $name): Builder
+    public function scopeFromProjector(Builder $query, string $projectorName): Builder
     {
-        $this->queryName = $name;
+        $this->queryName = $projectorName;
 
-        return $query->where('name', $name);
+        return $query->where('projector_name', $projectorName);
     }
 
     /**

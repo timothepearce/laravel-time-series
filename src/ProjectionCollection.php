@@ -51,19 +51,16 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * @param string $projectionName
-     * @param string $period
-     * @param string $startDate
-     * @return mixed
+     * Makes an empty projection from the given projector name.
      */
-    private function makeEmptyProjection(string $projectionName, string $period, string $startDate)
+    private function makeEmptyProjection(string $projectorName, string $period, string $startDate): Projection
     {
         return Projection::make([
-            'name' => $projectionName,
+            'projector_name' => $projectorName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
-            'content' => $projectionName::defaultContent(),
+            'content' => $projectorName::defaultContent(),
         ]);
     }
 }
