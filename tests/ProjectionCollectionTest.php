@@ -57,6 +57,7 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
     }
+
 //
 //    /** @test */
 //    public function it_makes_the_missing_between_period_when_filled()
