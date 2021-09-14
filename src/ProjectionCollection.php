@@ -24,7 +24,7 @@ class ProjectionCollection extends Collection
         string | null $projectorName = null,
         string | null $period = null,
     ) {
-        [$projectorName, $period] =  $this->resolveGuessParameters($projectorName, $period);
+        [$projectorName, $period] = $this->resolveGuessParameters($projectorName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
@@ -163,7 +163,7 @@ class ProjectionCollection extends Collection
 
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
-            $allProjectionsDates->push(clone $cursorDate);
+        $allProjectionsDates->push(clone $cursorDate);
         endwhile;
 
         return $allProjectionsDates;

@@ -148,6 +148,7 @@ class ProjectionCollectionTest extends TestCase
 
         $collection->fillBetween(now(), now()->subMinute(), SingleIntervalProjector::class, '5 minutes');
     }
+
 //
 //    /** @test */
 //    public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
