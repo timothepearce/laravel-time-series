@@ -3,15 +3,12 @@
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
 class MultipleIntervalsProjector extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
-     *
-     * @var string[]
      */
     protected array $periods = [
         '5 minutes',
@@ -27,7 +24,7 @@ class MultipleIntervalsProjector extends Projector
     /**
      * The default projection content.
      */
-    public function defaultContent(): array
+    public static function defaultContent(): array
     {
         return [
             'number of logs' => 0,

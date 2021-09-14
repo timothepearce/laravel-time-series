@@ -5,15 +5,32 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Laravelcargo\LaravelCargo\Contracts\ProjectorContract;
 use Laravelcargo\LaravelCargo\Models\Projection;
 
-abstract class Projector
+abstract class Projector implements ProjectorContract
 {
+    /**
+     * The model projected.
+     */
     protected Model $model;
+
+    /**
+     * Lists the time intervals used to compute the projections.
+     */
+    protected array $periods;
 
     public function __construct(Model $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * The key used to query the projection.
+     */
+    public function key(Model $model): bool | int | string
+    {
+        return false;
     }
 
     /**
@@ -80,14 +97,6 @@ abstract class Projector
      */
     private function hasKey(): bool
     {
-        return method_exists($this, 'key');
-    }
-
-    /**
-     * Set the periods.
-     */
-    public function setPeriods(array $newPeriods): void
-    {
-        $this->periods = $newPeriods;
+        return $this->key($this->model) !== false;
     }
 }

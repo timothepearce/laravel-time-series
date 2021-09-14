@@ -9,8 +9,6 @@ class SingleIntervalProjector extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
-     *
-     * @var string[]
      */
     protected array $periods = ['5 minutes'];
 

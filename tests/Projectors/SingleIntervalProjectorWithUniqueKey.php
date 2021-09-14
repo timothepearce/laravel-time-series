@@ -9,15 +9,13 @@ class SingleIntervalProjectorWithUniqueKey extends Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
-     *
-     * @var string[]
      */
     protected array $periods = ['5 minutes'];
 
     /**
      * The default projection content.
      */
-    public function defaultContent(): array
+    public static function defaultContent(): array
     {
         return [
             'number of logs' => 0,

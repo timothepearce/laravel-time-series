@@ -81,7 +81,7 @@ class ProjectorClass extends Projector
     /**
      * The default projection content.
      */
-    public function defaultContent(): array
+    public static function defaultContent(): array
     {
         return [];
     }
@@ -125,7 +125,7 @@ class ProjectorClass extends Projector
     /**
      * The default projection content.
      */
-    public function defaultContent(): array
+    public static function defaultContent(): array
     {
         return [];
     }
