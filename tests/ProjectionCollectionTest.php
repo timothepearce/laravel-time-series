@@ -99,7 +99,6 @@ class ProjectionCollectionTest extends TestCase
         });
     }
 
-
     /** @test */
     public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
     {
