@@ -98,22 +98,34 @@ class ProjectionCollectionTest extends TestCase
         });
     }
 
+    /** @test */
+    public function it_raises_an_exception_when_a_multiple_periods_collection_is_filled()
+    {
+        $this->expectException(MultiplePeriodsException::class);
+
+        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $collection->fillBetween(
+            now(),
+            now()->addMinute(),
+            MultipleIntervalsProjector::class,
+            '5 minutes'
+        );
+    }
+
 //    /** @test */
-//    public function it_raises_an_exception_when_a_multiple_periods_collection_is_filled()
+//    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_projector_name()
 //    {
-//        $this->expectException(MultiplePeriodsException::class);
+//        // @todo
+//    }
 //
-//        $this->createModelWithProjectors(Log::class, [MultipleIntervalsProjector::class]);
-//
-//        /** @var ProjectionCollection $collection */
-//        $collection = Projection::all();
-//
-//        $collection->fillBetween(
-//            now(),
-//            now()->addMinute(),
-//            MultipleIntervalsProjector::class,
-//            '5 minutes'
-//        );
+//    /** @test */
+//    public function it_raises_an_exception_if_the_collection_is_empty_while_guessing_the_period()
+//    {
+//        // @todo
 //    }
 //
 //    /** @test */
