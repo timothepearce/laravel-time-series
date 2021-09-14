@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
-use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsProjectionCollectionException;
 use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 
