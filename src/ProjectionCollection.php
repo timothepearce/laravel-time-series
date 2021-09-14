@@ -22,12 +22,8 @@ class ProjectionCollection extends Collection
         string | null $projectorName = null,
         string | null $period = null,
     ) {
+        $projectorName = $this->resolveProjectorName($projectorName);
         // @todo refactor this block
-        if (is_null($projectorName)) {
-            $projectorName = $this->guessProjectorName();
-        } else {
-            $this->assertUniqueProjectorName();
-        }
 
         if (is_null($period)) {
             $period = $this->guessPeriod();
@@ -54,6 +50,13 @@ class ProjectionCollection extends Collection
         return $allProjections;
     }
 
+    private function resolveProjectorName(string | null $projectorName)
+    {
+        $this->assertUniqueProjectorName();
+
+        return $projectorName ?? $this->guessProjectorName();
+    }
+
     /**
      * Get the projections dates.
      */
@@ -78,8 +81,6 @@ class ProjectionCollection extends Collection
      */
     private function guessProjectorName(): string
     {
-        $this->assertUniqueProjectorName();
-
         return $this->first()->projector_name;
     }
 
