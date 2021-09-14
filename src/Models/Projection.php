@@ -125,10 +125,10 @@ class Projection extends Model
         $projections = $query->between($startDate, $endDate)->get();
 
         return $projections->fillBetween(
-            $this->projectorName,
-            $this->queryPeriod,
             $startDate,
             $endDate,
+            $this->projectorName,
+            $this->queryPeriod,
         );
     }
 }
