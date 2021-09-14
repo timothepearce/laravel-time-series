@@ -23,13 +23,7 @@ class ProjectionCollection extends Collection
         string | null $period = null,
     ) {
         $projectorName = $this->resolveProjectorName($projectorName);
-        // @todo refactor this block
-
-        if (is_null($period)) {
-            $period = $this->guessPeriod();
-        } else {
-            $this->assertUniquePeriod();
-        }
+        $period = $this->resolvePeriod($period);
 
         [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
@@ -50,11 +44,28 @@ class ProjectionCollection extends Collection
         return $allProjections;
     }
 
-    private function resolveProjectorName(string | null $projectorName)
+    /**
+     * Resolves the projector name.
+     *
+     * @throws MultipleProjectorsException
+     */
+    private function resolveProjectorName(string | null $projectorName): string
     {
         $this->assertUniqueProjectorName();
 
         return $projectorName ?? $this->guessProjectorName();
+    }
+
+    /**
+     * Resolve the period.
+     *
+     * @throws MultiplePeriodsException
+     */
+    private function resolvePeriod(string | null $period): string
+    {
+        $this->assertUniquePeriod();
+
+        return $period ?? $this->guessPeriod();
     }
 
     /**
@@ -91,8 +102,6 @@ class ProjectionCollection extends Collection
      */
     private function guessPeriod(): string
     {
-        $this->assertUniquePeriod();
-
         return $this->first()->period;
     }
 
