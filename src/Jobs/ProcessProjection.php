@@ -17,18 +17,11 @@ class ProcessProjection implements ShouldQueue
     use SerializesModels;
 
     /**
-     * The model instance
-     */
-    protected Model $model;
-
-    /**
      * Create a new job instance.
      */
-    public function __construct(Model $model)
+    public function __construct(protected Model $model)
     {
         $this->onQueue(config('cargo.queue_name'));
-
-        $this->model = $model;
     }
 
     /**

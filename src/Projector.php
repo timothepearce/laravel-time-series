@@ -11,19 +11,11 @@ use Laravelcargo\LaravelCargo\Models\Projection;
 abstract class Projector implements ProjectorContract
 {
     /**
-     * The model projected.
-     */
-    protected Model $model;
-
-    /**
      * Lists the time intervals used to compute the projections.
      */
     protected array $periods;
 
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(protected Model $model) {}
 
     /**
      * The key used to query the projection.
