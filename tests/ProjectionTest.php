@@ -3,7 +3,7 @@
 namespace Laravelcargo\LaravelCargo\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
@@ -69,7 +69,7 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_raises_an_exception_when_using_the_between_scope_without_a_period()
     {
-        $this->expectException(MissingProjectionNameException::class);
+        $this->expectException(MissingProjectorNameException::class);
 
         Projection::between(now()->subMinute(), now());
     }

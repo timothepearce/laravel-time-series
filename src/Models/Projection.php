@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionNameException;
+use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
 use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
 use Laravelcargo\LaravelCargo\ProjectionCollection;
 
@@ -31,9 +31,9 @@ class Projection extends Model
     ];
 
     /**
-     * The projection's name used in query.
+     * The projector's name used in query.
      */
-    protected string | null $queryName = null;
+    protected string | null $projectorName = null;
 
     /**
      * The projection's period used in query.
@@ -61,7 +61,7 @@ class Projection extends Model
      */
     public function scopeFromProjector(Builder $query, string $projectorName): Builder
     {
-        $this->queryName = $projectorName;
+        $this->projectorName = $projectorName;
 
         return $query->where('projector_name', $projectorName);
     }
@@ -96,13 +96,13 @@ class Projection extends Model
 
     /**
      * Scope a query to filter by the given dates
+     * @throws MissingProjectorNameException
      * @throws MissingProjectionPeriodException
-     * @throws MissingProjectionNameException
      */
     public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
     {
-        if (is_null($this->queryName)) {
-            throw new MissingProjectionNameException();
+        if (is_null($this->projectorName)) {
+            throw new MissingProjectorNameException();
         }
 
         if (is_null($this->queryPeriod)) {
@@ -125,7 +125,7 @@ class Projection extends Model
         $projections = $query->between($startDate, $endDate)->get();
 
         return $projections->fillBetween(
-            $this->queryName,
+            $this->projectorName,
             $this->queryPeriod,
             $startDate,
             $endDate,
