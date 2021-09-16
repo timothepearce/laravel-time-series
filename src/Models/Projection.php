@@ -28,6 +28,7 @@ class Projection extends Model
      */
     protected $casts = [
         'content' => 'json',
+        'start_date' => 'datetime',
     ];
 
     /**
