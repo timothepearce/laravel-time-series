@@ -164,9 +164,9 @@ class ProjectionCollection extends Collection
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
 
-            if ($cursorDate->notEqualTo($endDate)) {
-                $allProjectionsDates->push(clone $cursorDate);
-            }
+        if ($cursorDate->notEqualTo($endDate)) {
+            $allProjectionsDates->push(clone $cursorDate);
+        }
         endwhile;
 
         return $allProjectionsDates;
