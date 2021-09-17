@@ -104,6 +104,24 @@ class ProjectionTest extends TestCase
     }
 
     /** @test */
+    public function it_rounds_to_the_floor_by_period_the_between_dates()
+    {
+        $log = Log::factory()->create(); // should be included
+        $this->travel(5)->minutes();
+        Log::factory()->create(); // should be excluded
+
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
+            ->period('5 minutes')
+            ->between(
+                Carbon::today()->addMinutes(4), // should be rounded to 0 minutes
+                Carbon::today()->addMinutes(9) // should be rounded to 5 minutes
+            )->get();
+
+        $this->assertCount(1, $betweenProjections);
+        $this->assertEquals($log->firstProjection()->id, $betweenProjections->first()->id);
+    }
+
+    /** @test */
     public function it_does_not_include_a_projection_with_a_start_date_equals_to_the_between_end_date()
     {
         $firstProjection = Log::factory()->create()->firstProjection();
