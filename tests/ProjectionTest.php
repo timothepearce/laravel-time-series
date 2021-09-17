@@ -85,24 +85,44 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_between_the_given_dates()
     {
-        Log::factory()->create();  // Should be excluded
+        Log::factory()->create(); // Should be excluded
         $this->travel(5)->minutes();
-        Log::factory()->create();
-        $this->travel(5)->minutes();
-        Log::factory()->create();
+        $log = Log::factory()->create(); // Should be included
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
         $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
             ->period('5 minutes')
             ->between(
-                Carbon::today()->addMinutes(6), // date will be rounded to the floor to 5 minutes
-                Carbon::today()->addMinutes(14) // date will be rounded to the floor to 10 minutes
+                Carbon::today()->addMinutes(5),
+                Carbon::today()->addMinutes(10)
             )->get();
 
-        $this->assertEquals(2, $betweenProjections->count());
+        $this->assertCount(1, $betweenProjections);
+        $this->assertEquals($betweenProjections->first()->id, $log->firstProjection()->id);
         $this->assertEquals($betweenProjections->first()->start_date, Carbon::today()->addMinutes(5));
-        $this->assertEquals($betweenProjections->last()->start_date, Carbon::today()->addMinutes(10));
+    }
+
+    /** @test */
+    public function it_does_not_include_a_projection_with_a_start_date_equals_to_the_between_end_date()
+    {
+        $firstProjection = Log::factory()->create()->firstProjection();
+        $this->travel(5)->minutes();
+        $secondProjection = Log::factory()->create()->firstProjection();
+        $betweenEndDate = Carbon::today()->addMinutes(5);
+
+        $this->assertTrue(Carbon::today()->equalTo($firstProjection->start_date));
+        $this->assertTrue($betweenEndDate->equalTo($secondProjection->start_date));
+
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
+            ->period('5 minutes')
+            ->between(
+                Carbon::today(),
+                $betweenEndDate
+            )->get();
+
+        $this->assertCount(1, $betweenProjections);
+        $this->assertEquals($betweenProjections->first()->id, $firstProjection->id);
     }
 
     /** @test */

@@ -29,26 +29,27 @@ class ProjectionCollectionTest extends TestCase
     {
         $startDate = Carbon::now()->subMinutes(5);
         $endDate = now();
-        Log::factory()->create();
+        Log::factory()->create(); // excluded
 
+        $this->assertEquals(1, Projection::count());
         $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
               ->period('5 minutes')
               ->between($startDate, $endDate)->get();
-        $this->assertCount(1, $unfilledProjections);
+        $this->assertCount(0, $unfilledProjections);
 
         $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
               ->period('5 minutes')
               ->fillBetween($startDate, $endDate);
-        $this->assertCount(2, $filledProjections);
+        $this->assertCount(1, $filledProjections);
 
-        $this->assertEquals($unfilledProjections->first()->id, $filledProjections->last()->id);
+        $this->assertFalse($filledProjections->first()->exists);
     }
 
     /** @test */
     public function it_makes_the_missing_subsequent_period_when_filled()
     {
         $startDate = now();
-        $endDate = Carbon::now()->addMinutes(5);
+        $endDate = Carbon::now()->addMinutes(10);
         Log::factory()->create();
 
         $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
@@ -62,13 +63,14 @@ class ProjectionCollectionTest extends TestCase
         $this->assertCount(2, $filledProjections);
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
+        $this->assertFalse($filledProjections->last()->exists);
     }
 
     /** @test */
     public function it_makes_the_missing_between_period_when_filled()
     {
         $startDate = now();
-        $endDate = Carbon::now()->addMinutes(10);
+        $endDate = Carbon::now()->addMinutes(15);
         Log::factory()->create();
         $this->travel(10)->minutes();
         Log::factory()->create();
@@ -85,6 +87,7 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals($unfilledProjections->first()->id, $filledProjections->first()->id);
         $this->assertEquals($unfilledProjections->last()->id, $filledProjections->last()->id);
+        $this->assertFalse($filledProjections->get(1)->exists);
     }
 
     /** @test */

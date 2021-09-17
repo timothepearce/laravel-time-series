@@ -111,19 +111,24 @@ class Projection extends Model
         }
 
         [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
+        $betweenStartDate = $startDate->copy()->floorUnit($periodType, $quantity);
+        $betweenEndDate = $endDate->copy()->floorUnit($periodType, $quantity);
 
         return $query->whereBetween('start_date', [
-            $startDate->floorUnit($periodType, $quantity),
-            $endDate->floorUnit($periodType, $quantity),
-        ]);
+            $betweenStartDate,
+            $betweenEndDate,
+        ])->where('start_date', '!=', $betweenEndDate);
     }
 
     /**
      * Scope a query to filter by the given dates and fill with empty period if necessary.
+     * @throws MissingProjectorNameException
+     * @throws MissingProjectionPeriodException
      */
     public function scopeFillBetween(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection
     {
         $projections = $query->between($startDate, $endDate)->get();
+        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
 
         return $projections->fillBetween(
             $startDate,

@@ -181,4 +181,14 @@ class WithProjectionTest extends TestCase
 
         $this->assertEquals(1, Projection::count());
     }
+
+    /** @test */
+    public function it_get_the_first_projections()
+    {
+        $log = Log::factory()->create();
+
+        $firstProjection = $log->firstProjection();
+
+        $this->assertEquals($firstProjection->id, Projection::first()->id);
+    }
 }

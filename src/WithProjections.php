@@ -61,6 +61,17 @@ trait WithProjections
     }
 
     /**
+     * Get the first projection
+     */
+    public function firstProjection(
+        string | null $projectorName = null,
+        string | array | null $periods = null,
+    ): null|Projection
+    {
+        return $this->projections($projectorName, $periods)->first();
+    }
+
+    /**
      * Set the projectors.
      */
     public function setProjectors(array $projectors)
