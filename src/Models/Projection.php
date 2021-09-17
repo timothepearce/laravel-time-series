@@ -128,7 +128,6 @@ class Projection extends Model
     public function scopeFillBetween(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection
     {
         $projections = $query->between($startDate, $endDate)->get();
-        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
 
         return $projections->fillBetween(
             $startDate,
