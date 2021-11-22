@@ -15,5 +15,5 @@ class Message extends Model
     /**
      * The lists of the projectors.
      */
-    protected array $projectors = [SinglePeriodProjector::class];
+    protected array $projections = [SinglePeriodProjector::class];
 }

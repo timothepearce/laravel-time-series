@@ -3,14 +3,15 @@
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Projector;
+use Laravelcargo\LaravelCargo\Models\Projection;
+use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
 
-class MultiplePeriodsProjector extends Projector
+class MultiplePeriodsProjector extends Projection implements ProjectionContract
 {
     /**
      * Lists the time intervals used to compute the projections.
      */
-    protected array $periods = [
+    public static array $periods = [
         '5 minutes',
         '1 hour',
         '6 hours',
@@ -34,7 +35,7 @@ class MultiplePeriodsProjector extends Projector
     /**
      * Compute the projection's content.
      */
-    public function handle(array $content, Model $model): array
+    public static function handle(array $content, Model $model): array
     {
         return [
             'number of logs' => $content['number of logs'] + 1,

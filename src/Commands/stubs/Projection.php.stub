@@ -4,9 +4,9 @@ namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Projector;
+use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
 
-class {{ class }} extends Projector
+class {{ class }} extends Projection implements ProjectionContract
 {
     /**
      * Lists the available periods.

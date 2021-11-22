@@ -5,17 +5,18 @@ namespace Laravelcargo\LaravelCargo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Contracts\ProjectorContract;
 use Laravelcargo\LaravelCargo\Models\Projection;
+use ReflectionException;
+use ReflectionProperty;
 
-abstract class Projector implements ProjectorContract
+class Projector
 {
     /**
      * Lists the time intervals used to compute the projections.
      */
     protected array $periods;
 
-    public function __construct(protected Model $model)
+    public function __construct(protected Model $projectedModel, protected string $projectionName)
     {
     }
 
@@ -29,10 +30,13 @@ abstract class Projector implements ProjectorContract
 
     /**
      * Parses the periods defined as class attribute.
+     * @throws ReflectionException
      */
     public function parsePeriods(): void
     {
-        collect($this->periods)->each(fn (string $period) => $this->parsePeriod($period));
+        $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
+
+        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -56,7 +60,7 @@ abstract class Projector implements ProjectorContract
     {
         return Projection::firstWhere([
             ['projector_name', $this::class],
-            ['key', $this->hasKey() ? $this->key($this->model) : null],
+            ['key', $this->hasKey() ? $this->key($this->projectedModel) : null],
             ['period', $period],
             ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
         ]);
@@ -67,12 +71,12 @@ abstract class Projector implements ProjectorContract
      */
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
-        $this->model->projections()->create([
+        $this->projectedModel->projections()->create([
             'projector_name' => $this::class,
-            'key' => $this->hasKey() ? $this->key($this->model) : null,
+            'key' => $this->hasKey() ? $this->key($this->projectedModel) : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->handle($this::defaultContent(), $this->model),
+            'content' => $this->getProjectedContent(),
         ]);
     }
 
@@ -81,7 +85,7 @@ abstract class Projector implements ProjectorContract
      */
     private function updateProjection(Projection $projection): void
     {
-        $projection->content = $this->handle($projection->content, $this->model);
+        $projection->content = $this->getProjectedContent();
 
         $projection->save();
     }
@@ -91,6 +95,14 @@ abstract class Projector implements ProjectorContract
      */
     private function hasKey(): bool
     {
-        return $this->key($this->model) !== false;
+        return $this->key($this->projectedModel) !== false;
+    }
+
+    /**
+     * Get the projected content.
+     */
+    private function getProjectedContent(): array
+    {
+        return $this->projectionName::handle($this->projectionName::defaultContent(), $this->projectedModel);
     }
 }

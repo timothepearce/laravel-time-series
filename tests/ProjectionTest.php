@@ -45,8 +45,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_projector_name()
     {
-        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class]);
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class]);
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
 
         $numberOfProjections = Projection::fromProjector(SinglePeriodProjector::class)->count();
 
@@ -56,10 +56,10 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_a_single_period()
     {
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 1
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 1
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 1
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 1
         $this->travel(6)->minutes();
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]); // 2
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 2
 
         $numberOfProjections = Projection::period('5 minutes')->count();
 
@@ -146,8 +146,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projection_from_a_single_key()
     {
-        $log = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
-        $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key($log->id)->count();
 
@@ -157,8 +157,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_multiples_keys()
     {
-        $log = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
-        $anotherLog = $this->createModelWithProjectors(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $anotherLog = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key([$log->id, $anotherLog->id])->count();
 

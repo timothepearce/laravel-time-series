@@ -4,7 +4,7 @@ namespace Laravelcargo\LaravelCargo\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface ProjectorContract
+interface ProjectionContract
 {
     /**
      * The default projection content.
@@ -14,5 +14,5 @@ interface ProjectorContract
     /**
      * Compute the projection.
      */
-    public function handle(array $content, Model $model): array;
+    public static function handle(array $content, Model $model): array;
 }

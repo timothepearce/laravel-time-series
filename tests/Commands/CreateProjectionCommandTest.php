@@ -66,10 +66,10 @@ class CreateProjectionCommandTest extends TestCase
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
 use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Projector;
 
-class ProjectionClass extends Projector
+class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
      * Lists the available periods.
@@ -110,10 +110,10 @@ CLASS;
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
 use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Projector;
 
-class ProjectionClass extends Projector
+class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
      * Lists the available periods.

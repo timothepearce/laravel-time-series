@@ -107,7 +107,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultipleProjectorsException::class);
 
-        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class, MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class, MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
@@ -125,7 +125,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultiplePeriodsException::class);
 
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();

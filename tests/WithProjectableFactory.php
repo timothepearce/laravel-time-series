@@ -9,11 +9,11 @@ trait WithProjectableFactory
     /**
      * Create the model with the given projectors.
      */
-    public function createModelWithProjectors(string $modelName, array $projectors): Model
+    public function createModelWithProjections(string $modelName, array $projections): Model
     {
         $model = $modelName::factory()->make();
 
-        $model->setProjectors($projectors);
+        $model->setProjections($projections);
         $model->save();
 
         return $model;

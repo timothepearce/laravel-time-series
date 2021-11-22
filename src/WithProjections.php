@@ -26,9 +26,9 @@ trait WithProjections
      */
     public function bootProjectors(): void
     {
-        collect($this->projectors)->each(
-            fn (string $projector) =>
-            (new $projector($this))->parsePeriods()
+        collect($this->projections)->each(
+            fn (string $projection) =>
+            (new Projector($this, $projection))->parsePeriods()
         );
     }
 
@@ -61,7 +61,7 @@ trait WithProjections
     }
 
     /**
-     * Get the first projection
+     * Get the first projection.
      */
     public function firstProjection(
         string | null $projectorName = null,
@@ -73,8 +73,8 @@ trait WithProjections
     /**
      * Set the projectors.
      */
-    public function setProjectors(array $projectors)
+    public function setProjections(array $projections)
     {
-        $this->projectors = $projectors;
+        $this->projections = $projections;
     }
 }
