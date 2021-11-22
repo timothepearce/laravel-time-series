@@ -9,7 +9,7 @@ use Laravelcargo\LaravelCargo\Projector;
 class {{ class }} extends Projector
 {
     /**
-     * Lists the time intervals used to compute the projections.
+     * Lists the available periods.
      *
      * @var string[]
      */

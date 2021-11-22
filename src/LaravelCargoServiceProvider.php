@@ -3,7 +3,7 @@
 namespace Laravelcargo\LaravelCargo;
 
 use Illuminate\Support\ServiceProvider;
-use Laravelcargo\LaravelCargo\Commands\CreateProjectorCommand;
+use Laravelcargo\LaravelCargo\Commands\CreateProjectionCommand;
 
 class LaravelCargoServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class LaravelCargoServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateProjectorCommand::class,
+                CreateProjectionCommand::class,
             ]);
         }
     }

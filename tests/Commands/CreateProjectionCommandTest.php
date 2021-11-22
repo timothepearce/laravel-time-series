@@ -5,53 +5,53 @@ namespace Laravelcargo\LaravelCargo\Tests;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-class CreateProjectorCommandTest extends TestCase
+class CreateProjectionCommandTest extends TestCase
 {
-    protected string $projectorClassName;
+    protected string $projectionClassName;
 
     /** @test */
-    public function it_creates_a_new_projector_file()
+    public function it_creates_a_new_projection_file()
     {
-        $projectorClass = app_path('Projectors/ProjectorClass.php');
+        $projectionClass = app_path('Models/Projections/ProjectionClass.php');
 
-        $this->assertMissingFile($projectorClass);
+        $this->assertMissingFile($projectionClass);
 
-        $this->createProjectorFile($projectorClass);
+        $this->createProjectionFile($projectionClass);
 
-        $this->assertProjectorFileContent($projectorClass);
+        $this->assertProjectorFileContent($projectionClass);
     }
 
     /** @test */
     public function it_creates_a_new_projector_with_key_file()
     {
-        $projectorClass = app_path('Projectors/ProjectorClass.php');
+        $projectionClass = app_path('Models/Projections/ProjectionClass.php');
 
-        $this->assertMissingFile($projectorClass);
+        $this->assertMissingFile($projectionClass);
 
-        $this->createKeyedProjectorFile($projectorClass);
+        $this->createKeyedProjectionFile($projectionClass);
 
-        $this->assertKeyedProjectorFileContent($projectorClass);
+        $this->assertKeyedProjectionFileContent($projectionClass);
     }
 
-    private function assertMissingFile(string $projectorClass)
+    private function assertMissingFile(string $projectionClass)
     {
-        if (File::exists($projectorClass)) {
-            unlink($projectorClass);
+        if (File::exists($projectionClass)) {
+            unlink($projectionClass);
         }
 
-        $this->assertFalse(File::exists($projectorClass));
+        $this->assertFalse(File::exists($projectionClass));
     }
 
-    private function createProjectorFile(string $projectorClass)
+    private function createProjectionFile(string $projectionClass)
     {
-        Artisan::call('make:projector ProjectorClass');
+        Artisan::call('make:projection ProjectionClass');
 
-        $this->assertTrue(File::exists($projectorClass));
+        $this->assertTrue(File::exists($projectionClass));
     }
 
-    private function createKeyedProjectorFile(string $projectorClass)
+    private function createKeyedProjectionFile(string $projectorClass)
     {
-        Artisan::call('make:projector ProjectorClass --key');
+        Artisan::call('make:projection ProjectionClass --key');
 
         $this->assertTrue(File::exists($projectorClass));
     }
@@ -63,16 +63,16 @@ class CreateProjectorCommandTest extends TestCase
         $expectedContents = <<<CLASS
 <?php
 
-namespace App\Projectors;
+namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
-class ProjectorClass extends Projector
+class ProjectionClass extends Projector
 {
     /**
-     * Lists the time intervals used to compute the projections.
+     * Lists the available periods.
      *
      * @var string[]
      */
@@ -100,23 +100,23 @@ CLASS;
         $this->assertEquals($expectedContents, file_get_contents($projectorClass));
     }
 
-    private function assertKeyedProjectorFileContent(string $projectorClass)
+    private function assertKeyedProjectionFileContent(string $projectorClass)
     {
 
         // Assert the file contains the right contents
         $expectedContents = <<<CLASS
 <?php
 
-namespace App\Projectors;
+namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Projector;
 
-class ProjectorClass extends Projector
+class ProjectionClass extends Projector
 {
     /**
-     * Lists the time intervals used to compute the projections.
+     * Lists the available periods.
      *
      * @var string[]
      */

@@ -5,21 +5,21 @@ namespace Laravelcargo\LaravelCargo\Commands;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class CreateProjectorCommand extends GeneratorCommand
+class CreateProjectionCommand extends GeneratorCommand
 {
     /**
      * The name of the console command.
      *
      * @var string
      */
-    public $name = 'make:projector';
+    public $name = 'make:projection';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    public $description = 'Create a new projector class';
+    public $description = 'Create a new projection model';
 
     /**
      * Get the stub used for the file generation.
@@ -27,8 +27,8 @@ class CreateProjectorCommand extends GeneratorCommand
     protected function getStub()
     {
         return $this->option('key') ?
-            __DIR__ . '/stubs/KeyedProjector.php.stub' :
-            __DIR__ . '/stubs/Projector.php.stub';
+            __DIR__ . '/stubs/KeyedProjection.php.stub' :
+            __DIR__ . '/stubs/Projection.php.stub';
     }
 
     /**
@@ -36,7 +36,7 @@ class CreateProjectorCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Projectors';
+        return $rootNamespace . '\Models\Projections';
     }
 
     /**
