@@ -21,14 +21,6 @@ class Projector
     }
 
     /**
-     * The key used to query the projection.
-     */
-    public function key(Model $model): bool | int | string
-    {
-        return false;
-    }
-
-    /**
      * Parses the periods defined as class attribute.
      * @throws ReflectionException
      */
@@ -58,12 +50,14 @@ class Projector
      */
     private function findProjection(string $period, int $quantity, string $periodType): Projection | null
     {
-        return Projection::firstWhere([
-            ['projector_name', $this::class],
-            ['key', $this->hasKey() ? $this->key($this->projectedModel) : null],
+        $query = Projection::where([
+            ['projector_name', $this->projectionName],
+            ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
             ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
         ]);
+
+        return $query->first();
     }
 
     /**
@@ -72,11 +66,11 @@ class Projector
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
         $this->projectedModel->projections()->create([
-            'projector_name' => $this::class,
+            'projector_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key($this->projectedModel) : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
-            'content' => $this->getProjectedContent(),
+            'content' => $this->getProjectedContent($this->projectionName::defaultContent()),
         ]);
     }
 
@@ -85,7 +79,7 @@ class Projector
      */
     private function updateProjection(Projection $projection): void
     {
-        $projection->content = $this->getProjectedContent();
+        $projection->content = $this->getProjectedContent($projection->content);
 
         $projection->save();
     }
@@ -95,14 +89,22 @@ class Projector
      */
     private function hasKey(): bool
     {
-        return $this->key($this->projectedModel) !== false;
+        return method_exists($this->projectionName, 'key');
+    }
+
+    /**
+     * The key used to query the projection.
+     */
+    public function key(): bool | int | string
+    {
+        return $this->projectionName::key($this->projectedModel);
     }
 
     /**
      * Get the projected content.
      */
-    private function getProjectedContent(): array
+    private function getProjectedContent(array $baseContent): array
     {
-        return $this->projectionName::handle($this->projectionName::defaultContent(), $this->projectedModel);
+        return $this->projectionName::handle($baseContent, $this->projectedModel);
     }
 }

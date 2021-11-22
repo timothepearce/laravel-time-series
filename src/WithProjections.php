@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
 use Laravelcargo\LaravelCargo\Models\Projection;
+use ReflectionException;
 
 trait WithProjections
 {
@@ -23,6 +24,7 @@ trait WithProjections
 
     /**
      * Boot the projectors.
+     * @throws ReflectionException
      */
     public function bootProjectors(): void
     {

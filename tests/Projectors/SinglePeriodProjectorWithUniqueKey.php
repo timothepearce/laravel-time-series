@@ -26,7 +26,7 @@ class SinglePeriodProjectorWithUniqueKey extends Projection implements Projectio
     /**
      * The key used to query the projection.
      */
-    public function key(Model $model): string
+    public static function key(Model $model): string
     {
         return (string) $model->id;
     }
