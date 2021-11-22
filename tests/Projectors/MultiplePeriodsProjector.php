@@ -3,8 +3,8 @@
 namespace Laravelcargo\LaravelCargo\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Models\Projection;
 use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
+use Laravelcargo\LaravelCargo\Models\Projection;
 
 class MultiplePeriodsProjector extends Projection implements ProjectionContract
 {
