@@ -28,7 +28,9 @@ class ProjectModelsCommandTest extends TestCase
 
     private function mockGuessProjectableModel(array $model)
     {
-        $this->partialMock(Quasar::class, fn(MockInterface $mock) => $mock
+        $this->partialMock(
+            Quasar::class,
+            fn (MockInterface $mock) => $mock
             ->shouldReceive('guessProjectableModel')
             ->andReturns(collect($model))
         );

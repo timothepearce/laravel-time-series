@@ -41,7 +41,7 @@ class ProjectModelsCommand extends Command
     public function handle(): void
     {
         $this->getProjectableModelNames()
-            ->map(fn(string $modelName) => $modelName::all())
+            ->map(fn (string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each
@@ -65,7 +65,7 @@ class ProjectModelsCommand extends Command
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->arguments()['model'])->map(
-            fn(string $modelName) => config('quasar.projections_path') . $modelName
+            fn (string $modelName) => config('quasar.projections_path') . $modelName
         );
     }
 }
