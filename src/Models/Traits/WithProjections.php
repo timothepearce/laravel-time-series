@@ -17,7 +17,7 @@ trait WithProjections
     public static function bootWithProjections(): void
     {
         static::created(function (Model $model) {
-            config('cargo.queue') ?
+            config('quasar.queue') ?
                 ProcessProjection::dispatch($model) :
                 $model->bootProjectors();
         });
@@ -42,7 +42,7 @@ trait WithProjections
         string | null $projectorName = null,
         string | array | null $periods = null,
     ): MorphToMany {
-        $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
+        $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectorName)) {
             $query->where('projector_name', $projectorName);

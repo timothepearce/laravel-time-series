@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar;
 
 use Illuminate\Support\ServiceProvider;
 use TimothePearce\Quasar\Commands\CreateProjectionCommand;
+use TimothePearce\Quasar\Commands\ProjectModelsCommand;
 
 class QuasarServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,7 @@ class QuasarServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/cargo.php' => config_path('cargo.php'),
+            __DIR__.'/../config/quasar.php' => config_path('quasar.php'),
         ]);
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
@@ -23,6 +24,7 @@ class QuasarServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CreateProjectionCommand::class,
+                ProjectModelsCommand::class,
             ]);
         }
     }
@@ -35,7 +37,7 @@ class QuasarServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/cargo.php',
+            __DIR__.'/../config/quasar.php',
             'cargo'
         );
     }

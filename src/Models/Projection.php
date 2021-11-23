@@ -17,7 +17,7 @@ class Projection extends Model
 {
     use HasFactory;
 
-    protected $table = 'cargo_projections';
+    protected $table = 'quasar_projections';
 
     protected $guarded = [];
 
@@ -54,7 +54,7 @@ class Projection extends Model
      */
     public function from(string $modelName): MorphToMany
     {
-        return $this->morphedByMany($modelName, 'projectable', 'cargo_projectables');
+        return $this->morphedByMany($modelName, 'projectable', 'quasar_projectables');
     }
 
     /**

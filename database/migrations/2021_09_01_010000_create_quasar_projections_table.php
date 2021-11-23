@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('cargo_projections', function (Blueprint $table) {
+        Schema::create('quasar_projections', function (Blueprint $table) {
             $table->id();
 
             $table->string('projector_name');
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('cargo_projections');
+        Schema::dropIfExists('quasar_projections');
     }
 };

@@ -8,8 +8,8 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('cargo_projectables', function (Blueprint $table) {
-            $table->foreignId('projection_id')->constrained('cargo_projections');
+        Schema::create('quasar_projectables', function (Blueprint $table) {
+            $table->foreignId('projection_id')->constrained('quasar_projections');
 
             $table->unsignedBigInteger('projectable_id');
             $table->string('projectable_type');
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('cargo_projectables');
+        Schema::dropIfExists('quasar_projectables');
     }
 };

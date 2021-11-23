@@ -33,7 +33,7 @@ class TestCase extends Orchestra
      */
     protected function defineEnvironment($app)
     {
-        $app['config']->set('cargo.queue', false);
+        $app['config']->set('quasar.queue', false);
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',

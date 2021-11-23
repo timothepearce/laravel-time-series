@@ -22,7 +22,7 @@ class WithProjectionTest extends TestCase
     {
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
 
-        $this->assertDatabaseCount('cargo_projections', 8);
+        $this->assertDatabaseCount('quasar_projections', 8);
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class WithProjectionTest extends TestCase
         $this->travel(3)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('cargo_projections', 1);
+        $this->assertDatabaseCount('quasar_projections', 1);
     }
 
     /** @test */
@@ -46,7 +46,7 @@ class WithProjectionTest extends TestCase
         $this->travel(6)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('cargo_projections', 2);
+        $this->assertDatabaseCount('quasar_projections', 2);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class WithProjectionTest extends TestCase
     public function it_dispatch_a_job_when_the_queue_config_is_enabled()
     {
         Queue::fake();
-        config(['cargo.queue' => true]);
+        config(['quasar.queue' => true]);
 
         Log::factory()->create();
 
@@ -80,7 +80,7 @@ class WithProjectionTest extends TestCase
     public function it_dispatch_a_job_to_the_named_queue()
     {
         Queue::fake();
-        config(['cargo.queue' => true, 'cargo.queue_name' => 'named']);
+        config(['quasar.queue' => true, 'quasar.queue_name' => 'named']);
 
         Log::factory()->create();
 
