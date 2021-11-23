@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests;
+namespace TimothePearce\Quasar\Tests\Collections;
 
 use Illuminate\Support\Carbon;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
@@ -12,6 +12,8 @@ use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
 use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
 use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\Tests\TestCase;
+use TimothePearce\Quasar\Tests\WithProjectableFactory;
 
 class ProjectionCollectionTest extends TestCase
 {

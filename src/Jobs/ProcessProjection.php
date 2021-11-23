@@ -21,7 +21,7 @@ class ProcessProjection implements ShouldQueue
      */
     public function __construct(protected Model $model)
     {
-        $this->onQueue(config('cargo.queue_name'));
+        $this->onQueue(config('quasar.queue_name'));
     }
 
     /**
