@@ -1,10 +1,10 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests\Projectors;
+namespace TimothePearce\Quasar\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
-use Laravelcargo\LaravelCargo\Models\Projection;
+use TimothePearce\Quasar\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
 
 class MultiplePeriodsProjector extends Projection implements ProjectionContract
 {

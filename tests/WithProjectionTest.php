@@ -1,17 +1,17 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests;
+namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
-use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
-use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Models\Message;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodKeyedProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
+use TimothePearce\Quasar\Jobs\ProcessProjection;
+use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\Quasar\Tests\Models\Log;
+use TimothePearce\Quasar\Tests\Models\Message;
+use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodKeyedProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
 class WithProjectionTest extends TestCase
 {

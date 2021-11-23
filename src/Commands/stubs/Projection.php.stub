@@ -3,8 +3,8 @@
 namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\Quasar\Contracts\ProjectionContract;
 
 class {{ class }} extends Projection implements ProjectionContract
 {

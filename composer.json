@@ -1,12 +1,16 @@
 {
-    "name": "timothepearce/laravel-cargo",
+    "name": "timothepearce/laravel-quasar",
     "description": "This is my package LaravelCargo",
     "keywords": [
-        "LaravelCargo",
+        "LaravelQuasar",
+        "laravel-quasar",
         "laravel",
-        "laravel-cargo"
+        "quasar",
+        "statistics",
+        "projections",
+        "projectors"
     ],
-    "homepage": "https://github.com/timothepearce/laravel-cargo",
+    "homepage": "https://github.com/timothepearce/laravel-quasar",
     "license": "MIT",
     "authors": [
         {
@@ -29,13 +33,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Laravelcargo\\LaravelCargo\\": "src"
+            "TimothePearce\\Quasar\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Laravelcargo\\LaravelCargo\\Tests\\": "tests",
-            "Laravelcargo\\LaravelCargo\\Tests\\Database\\Factories\\": "tests/database/factories"
+            "TimothePearce\\Quasar\\Tests\\": "tests",
+            "TimothePearce\\Quasar\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "scripts": {
@@ -49,7 +53,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laravelcargo\\LaravelCargo\\LaravelCargoServiceProvider"
+                "TimothePearce\\Quasar\\QuasarServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Models;
+namespace TimothePearce\Quasar\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
-use Laravelcargo\LaravelCargo\ProjectionCollection;
+use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
+use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
+use TimothePearce\Quasar\ProjectionCollection;
 
 class Projection extends Model
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo;
+namespace TimothePearce\Quasar;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Laravelcargo\LaravelCargo\Jobs\ProcessProjection;
-use Laravelcargo\LaravelCargo\Models\Projection;
+use TimothePearce\Quasar\Jobs\ProcessProjection;
+use TimothePearce\Quasar\Models\Projection;
 use ReflectionException;
 
 trait WithProjections

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests\Models;
+namespace TimothePearce\Quasar\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
-use Laravelcargo\LaravelCargo\WithProjections;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\WithProjections;
 
 class Message extends Model
 {

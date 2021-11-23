@@ -1,16 +1,16 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests;
+namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectionPeriodException;
-use Laravelcargo\LaravelCargo\Exceptions\MissingProjectorNameException;
-use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\ProjectionCollection;
-use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
+use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
+use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
+use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\Quasar\ProjectionCollection;
+use TimothePearce\Quasar\Tests\Models\Log;
+use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
 class ProjectionTest extends TestCase
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests;
+namespace TimothePearce\Quasar\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use TimothePearce\Quasar\Tests\TestCase;
 
 class CreateProjectionCommandTest extends TestCase
 {
@@ -66,8 +67,8 @@ class CreateProjectionCommandTest extends TestCase
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
-use Laravelcargo\LaravelCargo\Models\Projection;
+use TimothePearce\Quasar\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
 
 class ProjectionClass extends Projection implements ProjectionContract
 {
@@ -110,8 +111,8 @@ CLASS;
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Contracts\ProjectionContract;
-use Laravelcargo\LaravelCargo\Models\Projection;
+use TimothePearce\Quasar\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
 
 class ProjectionClass extends Projection implements ProjectionContract
 {

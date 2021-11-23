@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests;
+namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 

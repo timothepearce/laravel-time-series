@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Contracts;
+namespace TimothePearce\Quasar\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 

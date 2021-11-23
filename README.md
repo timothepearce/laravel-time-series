@@ -18,13 +18,13 @@ composer require laravelcargo/laravel-cargo
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Laravelcargo\LaravelCargo\LaravelCargoServiceProvider" --tag="laravel-cargo-migrations"
+php artisan vendor:publish --provider="Laravelcargo\LaravelCargo\QuasarServiceProvider" --tag="laravel-cargo-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Laravelcargo\LaravelCargo\LaravelCargoServiceProvider" --tag="laravel-cargo-config"
+php artisan vendor:publish --provider="Laravelcargo\LaravelCargo\QuasarServiceProvider" --tag="laravel-cargo-config"
 ```
 
 This is the contents of the published config file:
