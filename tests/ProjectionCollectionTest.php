@@ -8,7 +8,7 @@ use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
 use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
 use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
 use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\ProjectionCollection;
+use TimothePearce\Quasar\Collections\ProjectionCollection;
 use TimothePearce\Quasar\Tests\Models\Log;
 use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
 use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;

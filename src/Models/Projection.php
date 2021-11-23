@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
 use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
-use TimothePearce\Quasar\ProjectionCollection;
+use TimothePearce\Quasar\Collections\ProjectionCollection;
 
 class Projection extends Model
 {
