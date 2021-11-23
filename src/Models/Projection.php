@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use TimothePearce\Quasar\Collections\ProjectionCollection;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
 use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
-use TimothePearce\Quasar\Collections\ProjectionCollection;
 
 class Projection extends Model
 {

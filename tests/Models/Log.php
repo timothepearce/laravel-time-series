@@ -4,8 +4,8 @@ namespace TimothePearce\Quasar\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 use TimothePearce\Quasar\Models\Traits\WithProjections;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 
 class Log extends Model
 {
