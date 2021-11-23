@@ -5,9 +5,9 @@ namespace TimothePearce\Quasar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use TimothePearce\Quasar\Models\Projection;
 use ReflectionException;
 use ReflectionProperty;
+use TimothePearce\Quasar\Models\Projection;
 
 class Projector
 {

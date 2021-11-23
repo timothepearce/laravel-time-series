@@ -4,8 +4,8 @@ namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Application;
-use TimothePearce\Quasar\QuasarServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use TimothePearce\Quasar\QuasarServiceProvider;
 
 class TestCase extends Orchestra
 {
