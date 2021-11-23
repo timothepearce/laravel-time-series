@@ -12,7 +12,7 @@ class ProjectModelsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'quasar:project';
+    protected $signature = 'quasar:project {model?*}';
 
     /**
      * The console command description.
@@ -23,6 +23,7 @@ class ProjectModelsCommand extends Command
 
     /**
      * Create a new command instance.
+     * @todo mock the guessProjectableModelNames in tests.
      * @todo add warning if projection already exists.
      * @todo add flag to project only one model.
      * @todo implements queue.
@@ -37,21 +38,32 @@ class ProjectModelsCommand extends Command
     /**
      * Executes the command operations.
      */
-    public function handle()
+    public function handle(): void
     {
-        $this->guessProjectableModelNames()->map(fn (string $modelName) => $modelName::all())
+        $this->getProjectableModelNames()->map(fn (string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each->bootProjectors();
     }
 
     /**
+     * Get the provided projectable model name or guess them.
+     */
+    private function getProjectableModelNames(): Collection
+    {
+        return is_null($this->argument()['model']) ?
+            $this->guessProjectableModelNames() :
+            collect($this->arguments()['model']);
+    }
+
+    /**
      * @todo Implement the method.
      */
-    public function guessProjectableModelNames(): Collection
+    private function guessProjectableModelNames(): Collection
     {
         return collect([
             "TimothePearce\\Quasar\\Tests\\Models\\Log",
+            "TimothePearce\\Quasar\\Tests\\Models\\Message",
         ]);
     }
 }
