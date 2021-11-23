@@ -1,17 +1,17 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests;
+namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
-use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
-use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
-use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
-use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
-use Laravelcargo\LaravelCargo\Models\Projection;
-use Laravelcargo\LaravelCargo\ProjectionCollection;
-use Laravelcargo\LaravelCargo\Tests\Models\Log;
-use Laravelcargo\LaravelCargo\Tests\Projectors\MultiplePeriodsProjector;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
+use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
+use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
+use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
+use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\Quasar\ProjectionCollection;
+use TimothePearce\Quasar\Tests\Models\Log;
+use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 
 class ProjectionCollectionTest extends TestCase
 {
@@ -107,7 +107,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultipleProjectorsException::class);
 
-        $this->createModelWithProjectors(Log::class, [SinglePeriodProjector::class, MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class, MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
@@ -125,7 +125,7 @@ class ProjectionCollectionTest extends TestCase
     {
         $this->expectException(MultiplePeriodsException::class);
 
-        $this->createModelWithProjectors(Log::class, [MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();

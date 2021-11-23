@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Exceptions;
+namespace TimothePearce\Quasar\Exceptions;
 
 use Exception;
 

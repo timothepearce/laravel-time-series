@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests\Models;
+namespace TimothePearce\Quasar\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Tests\Projectors\SinglePeriodProjector;
-use Laravelcargo\LaravelCargo\WithProjections;
+use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\WithProjections;
 
 class Log extends Model
 {
@@ -15,7 +15,7 @@ class Log extends Model
     /**
      * The lists of the projectors.
      */
-    protected array $projectors = [SinglePeriodProjector::class];
+    protected array $projections = [SinglePeriodProjector::class];
 
 //    /**
 //     * API wip.

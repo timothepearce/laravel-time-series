@@ -1,11 +1,11 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo;
+namespace TimothePearce\Quasar;
 
 use Illuminate\Support\ServiceProvider;
-use Laravelcargo\LaravelCargo\Commands\CreateProjectorCommand;
+use TimothePearce\Quasar\Commands\CreateProjectionCommand;
 
-class LaravelCargoServiceProvider extends ServiceProvider
+class QuasarServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the package services.
@@ -22,7 +22,7 @@ class LaravelCargoServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateProjectorCommand::class,
+                CreateProjectionCommand::class,
             ]);
         }
     }

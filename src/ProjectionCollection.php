@@ -1,15 +1,15 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo;
+namespace TimothePearce\Quasar;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Laravelcargo\LaravelCargo\Exceptions\EmptyProjectionCollectionException;
-use Laravelcargo\LaravelCargo\Exceptions\MultiplePeriodsException;
-use Laravelcargo\LaravelCargo\Exceptions\MultipleProjectorsException;
-use Laravelcargo\LaravelCargo\Exceptions\OverlappingFillBetweenDatesException;
-use Laravelcargo\LaravelCargo\Models\Projection;
+use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
+use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
+use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
+use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
+use TimothePearce\Quasar\Models\Projection;
 
 class ProjectionCollection extends Collection
 {

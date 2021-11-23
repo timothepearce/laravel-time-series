@@ -1,2 +1,2 @@
 providers:
-  - Laravelcargo\LaravelCargo\LaravelCargoServiceProvider
+  - Laravelcargo\LaravelCargo\QuasarServiceProvider

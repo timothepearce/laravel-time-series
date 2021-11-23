@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Jobs;
+namespace TimothePearce\Quasar\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

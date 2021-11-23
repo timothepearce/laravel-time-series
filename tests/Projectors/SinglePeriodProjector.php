@@ -1,16 +1,17 @@
 <?php
 
-namespace Laravelcargo\LaravelCargo\Tests\Projectors;
+namespace TimothePearce\Quasar\Tests\Projectors;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravelcargo\LaravelCargo\Projector;
+use TimothePearce\Quasar\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
 
-class SinglePeriodProjector extends Projector
+class SinglePeriodProjector extends Projection implements ProjectionContract
 {
     /**
      * Lists the time intervals used to compute the projections.
      */
-    protected array $periods = ['5 minutes'];
+    public static array $periods = ['5 minutes'];
 
     /**
      * The default projection content.
@@ -25,7 +26,7 @@ class SinglePeriodProjector extends Projector
     /**
      * Compute the projection.
      */
-    public function handle(array $content, Model $model): array
+    public static function handle(array $content, Model $model): array
     {
         return [
             'number of logs' => $content['number of logs'] + 1,
