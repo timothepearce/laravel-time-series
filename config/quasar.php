@@ -2,6 +2,11 @@
 
 return [
 
+    /**
+     * Your projections model path.
+     */
+    'projections_path' => 'App\\Models\\Projections\\',
+
     /*
      * When enabled, Cargo will process the projections on a queue.
      */

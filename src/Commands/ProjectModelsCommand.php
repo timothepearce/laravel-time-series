@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use TimothePearce\Quasar\Quasar;
 
 class ProjectModelsCommand extends Command
 {
@@ -23,12 +24,11 @@ class ProjectModelsCommand extends Command
 
     /**
      * Create a new command instance.
-     * @todo mock the guessProjectableModelNames in tests.
+     * @return void
      * @todo add warning if projection already exists.
-     * @todo add flag to project only one model.
      * @todo implements queue.
      *
-     * @return void
+     * @todo mock the guessProjectableModelNames in tests.
      */
     public function __construct()
     {
@@ -40,10 +40,12 @@ class ProjectModelsCommand extends Command
      */
     public function handle(): void
     {
-        $this->getProjectableModelNames()->map(fn (string $modelName) => $modelName::all())
+        $this->getProjectableModelNames()
+            ->map(fn(string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
-            ->each->bootProjectors();
+            ->each
+            ->bootProjectors();
     }
 
     /**
@@ -52,18 +54,18 @@ class ProjectModelsCommand extends Command
     private function getProjectableModelNames(): Collection
     {
         return is_null($this->argument()['model']) ?
-            $this->guessProjectableModelNames() :
-            collect($this->arguments()['model']);
+            app(Quasar::class)->guessProjectableModel() :
+            $this->resolveModelFromArgument();
     }
 
     /**
-     * @todo Implement the method.
+     * Resolve the model
+     * @return Collection
      */
-    private function guessProjectableModelNames(): Collection
+    private function resolveModelFromArgument(): Collection
     {
-        return collect([
-            "TimothePearce\\Quasar\\Tests\\Models\\Log",
-            "TimothePearce\\Quasar\\Tests\\Models\\Message",
-        ]);
+        return collect($this->arguments()['model'])->map(
+            fn(string $modelName) => config('quasar.projections_path') . $modelName
+        );
     }
 }
