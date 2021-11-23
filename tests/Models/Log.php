@@ -9,7 +9,8 @@ use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 
 class Log extends Model
 {
-    use HasFactory, Projectable;
+    use HasFactory;
+    use Projectable;
 
     /**
      * The projections list.
