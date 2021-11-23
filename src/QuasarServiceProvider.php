@@ -43,7 +43,7 @@ class QuasarServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(Quasar::class, function () {
-            return new Quasar;
+            return new Quasar();
         });
     }
 
