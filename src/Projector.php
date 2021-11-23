@@ -67,7 +67,7 @@ class Projector
     {
         $this->projectedModel->projections()->create([
             'projector_name' => $this->projectionName,
-            'key' => $this->hasKey() ? $this->key($this->projectedModel) : null,
+            'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
             'content' => $this->getProjectedContent($this->projectionName::defaultContent()),
