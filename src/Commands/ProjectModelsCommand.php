@@ -51,7 +51,7 @@ class ProjectModelsCommand extends Command
     public function guessProjectableModelNames(): Collection
     {
         return collect([
-            "TimothePearce\\Quasar\\Tests\\Models\\Log"
+            "TimothePearce\\Quasar\\Tests\\Models\\Log",
         ]);
     }
 }
