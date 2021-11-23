@@ -9,12 +9,12 @@ use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Projector;
 
-trait WithProjections
+trait Projectable
 {
     /**
      * Boot the trait.
      */
-    public static function bootWithProjections(): void
+    public static function bootProjectable(): void
     {
         static::created(function (Model $model) {
             config('quasar.queue') ?
@@ -30,8 +30,7 @@ trait WithProjections
     public function bootProjectors(): void
     {
         collect($this->projections)->each(
-            fn (string $projection) =>
-            (new Projector($this, $projection))->parsePeriods()
+            fn(string $projection) => (new Projector($this, $projection))->parsePeriods()
         );
     }
 
@@ -39,9 +38,10 @@ trait WithProjections
      * Get all the projections of the model.
      */
     public function projections(
-        string | null $projectorName = null,
-        string | array | null $periods = null,
-    ): MorphToMany {
+        string|null       $projectorName = null,
+        string|array|null $periods = null,
+    ): MorphToMany
+    {
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectorName)) {
@@ -67,9 +67,10 @@ trait WithProjections
      * Get the first projection.
      */
     public function firstProjection(
-        string | null $projectorName = null,
-        string | array | null $periods = null,
-    ): null|Projection {
+        string|null       $projectorName = null,
+        string|array|null $periods = null,
+    ): null|Projection
+    {
         return $this->projections($projectorName, $periods)->first();
     }
 

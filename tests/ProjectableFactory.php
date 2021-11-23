@@ -4,7 +4,7 @@ namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait WithProjectableFactory
+trait ProjectableFactory
 {
     /**
      * Create the model with the given projectors.

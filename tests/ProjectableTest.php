@@ -13,9 +13,9 @@ use TimothePearce\Quasar\Tests\Projectors\SinglePeriodKeyedProjector;
 use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
-class WithProjectionTest extends TestCase
+class ProjectableTest extends TestCase
 {
-    use WithProjectableFactory;
+    use ProjectableFactory;
 
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()

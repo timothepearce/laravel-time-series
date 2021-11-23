@@ -10,14 +10,14 @@ use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
 use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
+use TimothePearce\Quasar\Tests\ProjectableFactory;
 use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
 use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
 use TimothePearce\Quasar\Tests\TestCase;
-use TimothePearce\Quasar\Tests\WithProjectableFactory;
 
 class ProjectionCollectionTest extends TestCase
 {
-    use WithProjectableFactory;
+    use ProjectableFactory;
 
     public function setUp(): void
     {
@@ -35,13 +35,13 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals(1, Projection::count());
         $unfilledProjections = Projection::fromProjector(SinglePeriodProjector::class)
-              ->period('5 minutes')
-              ->between($startDate, $endDate)->get();
+            ->period('5 minutes')
+            ->between($startDate, $endDate)->get();
         $this->assertCount(0, $unfilledProjections);
 
         $filledProjections = Projection::fromProjector(SinglePeriodProjector::class)
-              ->period('5 minutes')
-              ->fillBetween($startDate, $endDate);
+            ->period('5 minutes')
+            ->fillBetween($startDate, $endDate);
         $this->assertCount(1, $filledProjections);
 
         $this->assertFalse($filledProjections->first()->exists);

@@ -14,7 +14,7 @@ use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
 
 class ProjectionTest extends TestCase
 {
-    use WithProjectableFactory;
+    use ProjectableFactory;
 
     public function setUp(): void
     {

@@ -11,6 +11,8 @@ class Quasar
      */
     public function guessProjectableModel(): Collection
     {
+        // Get all the model
+        // Filter the one with the "Projectable" trait
         return collect([]);
     }
 }
