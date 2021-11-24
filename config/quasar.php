@@ -3,9 +3,9 @@
 return [
 
     /*
-     * Your projections model path.
+     * Your models namespace.
      */
-    'projection_namespace' => 'App\\Models\\Projections\\',
+    'models_namespace' => 'App\\Models\\',
 
     /*
      * When enabled, Cargo will process the projections on a queue.

@@ -3,7 +3,6 @@
 namespace TimothePearce\Quasar;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionProperty;
@@ -28,7 +27,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -54,7 +53,7 @@ class Projector
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
+            ['start_date', $this->projectedModel->created_at->floorUnit($periodType, $quantity)],
         ]);
 
         return $query->first();
@@ -69,7 +68,7 @@ class Projector
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
+            'start_date' => $this->projectedModel->created_at->floorUnit($periodType, $quantity),
             'content' => $this->getProjectedContent($this->projectionName::defaultContent()),
         ]);
     }

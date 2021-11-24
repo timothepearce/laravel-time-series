@@ -62,7 +62,7 @@ class ProjectModelsCommand extends Command
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->arguments()['model'])->map(
-            fn(string $modelName) => config('quasar.projection_namespace') . $modelName
+            fn(string $modelName) => config('quasar.models_namespace') . $modelName
         );
     }
 }
