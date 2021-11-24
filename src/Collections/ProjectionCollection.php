@@ -23,8 +23,7 @@ class ProjectionCollection extends Collection
         Carbon      $endDate,
         string|null $projectorName = null,
         string|null $period = null,
-    ): ProjectionCollection
-    {
+    ): ProjectionCollection {
         [$projectorName, $period] = $this->resolveGuessParameters($projectorName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
@@ -165,9 +164,9 @@ class ProjectionCollection extends Collection
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
 
-            if ($cursorDate->notEqualTo($endDate)) {
-                $allProjectionsDates->push(clone $cursorDate);
-            }
+        if ($cursorDate->notEqualTo($endDate)) {
+            $allProjectionsDates->push(clone $cursorDate);
+        }
         endwhile;
 
         return $allProjectionsDates;
