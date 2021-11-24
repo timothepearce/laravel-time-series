@@ -27,7 +27,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
     }
 
     /**
