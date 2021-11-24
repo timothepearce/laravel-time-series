@@ -106,7 +106,7 @@ class ProjectableTest extends TestCase
 
         $this->assertCount(8, $projections);
         $projections->each(function (Projection $projection) {
-            $this->assertEquals(MultiplePeriodsProjection::class, $projection->projector_name);
+            $this->assertEquals(MultiplePeriodsProjection::class, $projection->projection_name);
         });
     }
 

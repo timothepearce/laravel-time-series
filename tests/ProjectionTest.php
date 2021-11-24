@@ -43,7 +43,7 @@ class ProjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_projections_from_projector_name()
+    public function it_get_the_projections_from_projection_name()
     {
         $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
@@ -75,7 +75,7 @@ class ProjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_raises_an_exception_when_using_the_between_scope_without_the_projector_name()
+    public function it_raises_an_exception_when_using_the_between_scope_without_the_projection_name()
     {
         $this->expectException(MissingProjectionPeriodException::class);
 

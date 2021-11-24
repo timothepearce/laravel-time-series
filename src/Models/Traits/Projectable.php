@@ -45,7 +45,7 @@ trait Projectable
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectorName)) {
-            $query->where('projector_name', $projectorName);
+            $query->where('projection_name', $projectorName);
         }
 
         if (isset($periods) && gettype($periods) === 'string') {

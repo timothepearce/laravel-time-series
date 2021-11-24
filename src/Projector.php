@@ -28,7 +28,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -38,20 +38,20 @@ class Projector
     {
         [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
-        $projection = $this->findProjection($period, (int) $quantity, $periodType);
+        $projection = $this->findProjection($period, (int)$quantity, $periodType);
 
         is_null($projection) ?
-            $this->createProjection($period, (int) $quantity, $periodType) :
+            $this->createProjection($period, (int)$quantity, $periodType) :
             $this->updateProjection($projection);
     }
 
     /**
      * Try to find the projection.
      */
-    private function findProjection(string $period, int $quantity, string $periodType): Projection | null
+    private function findProjection(string $period, int $quantity, string $periodType): Projection|null
     {
         $query = Projection::where([
-            ['projector_name', $this->projectionName],
+            ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
             ['start_date', Carbon::now()->floorUnit($periodType, $quantity)],
@@ -66,7 +66,7 @@ class Projector
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
         $this->projectedModel->projections()->create([
-            'projector_name' => $this->projectionName,
+            'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => Carbon::now()->floorUnit($periodType, $quantity),
@@ -95,7 +95,7 @@ class Projector
     /**
      * The key used to query the projection.
      */
-    public function key(): bool | int | string
+    public function key(): bool|int|string
     {
         return $this->projectionName::key($this->projectedModel);
     }

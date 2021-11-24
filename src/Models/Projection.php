@@ -34,12 +34,12 @@ class Projection extends Model
     /**
      * The projector's name used in query.
      */
-    protected string | null $projectorName = null;
+    protected string|null $projectorName = null;
 
     /**
      * The projection's period used in query.
      */
-    protected string | null $queryPeriod = null;
+    protected string|null $queryPeriod = null;
 
     /**
      * Create a new Eloquent Collection instance.
@@ -64,7 +64,7 @@ class Projection extends Model
     {
         $this->projectorName = $projectorName;
 
-        return $query->where('projector_name', $projectorName);
+        return $query->where('projection_name', $projectorName);
     }
 
     /**
@@ -80,19 +80,19 @@ class Projection extends Model
     /**
      * Scope a query to filter by key.
      */
-    public function scopeKey(Builder $query, array | string | int $keys): Builder
+    public function scopeKey(Builder $query, array|string|int $keys): Builder
     {
         if (gettype($keys) === 'array') {
             return $query->where(function ($query) use (&$keys) {
                 collect($keys)->each(function ($key, $index) use (&$query) {
                     return $index === 0 ?
-                        $query->where('key', (string) $key) :
-                        $query->orWhere('key', (string) $key);
+                        $query->where('key', (string)$key) :
+                        $query->orWhere('key', (string)$key);
                 });
             });
         }
 
-        return $query->where('key', (string) $keys);
+        return $query->where('key', (string)$keys);
     }
 
     /**

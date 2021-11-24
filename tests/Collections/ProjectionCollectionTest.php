@@ -187,7 +187,7 @@ class ProjectionCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_guess_the_projector_name_if_no_one_is_given_when_filled()
+    public function it_guess_the_projection_name_if_no_one_is_given_when_filled()
     {
         Log::factory()->create();
 
@@ -196,6 +196,6 @@ class ProjectionCollectionTest extends TestCase
 
         $filledCollection = $collection->fillBetween(now(), now()->addMinutes(5));
 
-        $this->assertEquals($filledCollection->last()->projector_name, SinglePeriodProjection::class);
+        $this->assertEquals($filledCollection->last()->projection_name, SinglePeriodProjection::class);
     }
 }

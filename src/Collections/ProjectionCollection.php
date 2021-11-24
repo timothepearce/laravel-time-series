@@ -113,7 +113,7 @@ class ProjectionCollection extends Collection
      */
     private function assertUniqueProjectorName()
     {
-        $projectorNames = $this->unique('projector_name');
+        $projectorNames = $this->unique('projection_name');
 
         if ($projectorNames->count() > 1) {
             throw new MultipleProjectorsException();
@@ -141,7 +141,7 @@ class ProjectionCollection extends Collection
      */
     private function guessProjectorName(): string
     {
-        return $this->first()->projector_name;
+        return $this->first()->projection_name;
     }
 
     /**
@@ -178,7 +178,7 @@ class ProjectionCollection extends Collection
     private function makeEmptyProjection(string $projectorName, string $period, string $startDate): Projection
     {
         return Projection::make([
-            'projector_name' => $projectorName,
+            'projection_name' => $projectorName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
