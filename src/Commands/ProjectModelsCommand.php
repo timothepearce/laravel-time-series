@@ -36,7 +36,7 @@ class ProjectModelsCommand extends Command
      */
     public function handle(): void
     {
-        $this->getProjectableModel()
+        $this->getProjectableModels()
             ->map(fn(string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
@@ -45,9 +45,9 @@ class ProjectModelsCommand extends Command
     }
 
     /**
-     * Get the provided projectable model or guess them.
+     * Get the provided projectable models or guess them.
      */
-    private function getProjectableModel(): Collection
+    private function getProjectableModels(): Collection
     {
         return empty($this->argument()['model']) ?
             app(Quasar::class)->resolveProjectableModels() :
