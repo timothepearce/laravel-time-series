@@ -8,9 +8,9 @@ use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
 use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
+use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
 class ProjectionTest extends TestCase
 {
@@ -45,10 +45,10 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_projector_name()
     {
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class]);
-        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
 
-        $numberOfProjections = Projection::fromProjector(SinglePeriodProjector::class)->count();
+        $numberOfProjections = Projection::fromProjector(SinglePeriodProjection::class)->count();
 
         $this->assertEquals(1, $numberOfProjections);
     }
@@ -56,10 +56,10 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_a_single_period()
     {
-        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 1
-        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 1
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]); // 1
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]); // 1
         $this->travel(6)->minutes();
-        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]); // 2
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]); // 2
 
         $numberOfProjections = Projection::period('5 minutes')->count();
 
@@ -79,7 +79,7 @@ class ProjectionTest extends TestCase
     {
         $this->expectException(MissingProjectionPeriodException::class);
 
-        Projection::fromProjector(SinglePeriodProjector::class)->between(now()->subMinute(), now());
+        Projection::fromProjector(SinglePeriodProjection::class)->between(now()->subMinute(), now());
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(5),
@@ -110,7 +110,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // should be excluded
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(4), // should be rounded to 0 minutes
@@ -132,7 +132,7 @@ class ProjectionTest extends TestCase
         $this->assertTrue(Carbon::today()->equalTo($firstProjection->start_date));
         $this->assertTrue($betweenEndDate->equalTo($secondProjection->start_date));
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjector::class)
+        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today(),
@@ -146,8 +146,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projection_from_a_single_key()
     {
-        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key($log->id)->count();
 
@@ -157,8 +157,8 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_get_the_projections_from_multiples_keys()
     {
-        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
-        $anotherLog = $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
+        $anotherLog = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
 
         $numberOfProjections = Projection::key([$log->id, $anotherLog->id])->count();
 

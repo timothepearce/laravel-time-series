@@ -5,7 +5,7 @@ namespace TimothePearce\Quasar\Tests\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use TimothePearce\Quasar\Models\Traits\Projectable;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
 
 class Log extends Model
 {
@@ -15,7 +15,7 @@ class Log extends Model
     /**
      * The projections list.
      */
-    protected array $projections = [SinglePeriodProjector::class];
+    protected array $projections = [SinglePeriodProjection::class];
 
 //    /**
 //     * API wip.

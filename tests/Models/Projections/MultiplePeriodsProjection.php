@@ -1,17 +1,26 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Projectors;
+namespace TimothePearce\Quasar\Tests\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
 use TimothePearce\Quasar\Contracts\ProjectionContract;
 use TimothePearce\Quasar\Models\Projection;
 
-class SinglePeriodKeyedProjector extends Projection implements ProjectionContract
+class MultiplePeriodsProjection extends Projection implements ProjectionContract
 {
     /**
      * Lists the time intervals used to compute the projections.
      */
-    public static array $periods = ['5 minutes'];
+    public static array $periods = [
+        '5 minutes',
+        '1 hour',
+        '6 hours',
+        '1 day',
+        '1 week',
+        '1 month',
+        '3 months',
+        '1 year',
+    ];
 
     /**
      * The default projection content.
@@ -24,15 +33,7 @@ class SinglePeriodKeyedProjector extends Projection implements ProjectionContrac
     }
 
     /**
-     * The key used to query the projection.
-     */
-    public static function key(Model $model): string
-    {
-        return '1';
-    }
-
-    /**
-     * Compute the projection.
+     * Compute the projection's content.
      */
     public static function handle(array $content, Model $model): array
     {

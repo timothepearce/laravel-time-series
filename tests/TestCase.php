@@ -14,7 +14,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'TimothePearce\\Quasar\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn(string $modelName) => 'TimothePearce\\Quasar\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
@@ -34,7 +34,7 @@ class TestCase extends Orchestra
     protected function defineEnvironment($app)
     {
         $app['config']->set('quasar.queue', false);
-        $app['config']->set('quasar.projections_path', 'TimothePearce\\Quasar\\Tests\\Models\\');
+        $app['config']->set('quasar.projection_namespace', 'TimothePearce\\Quasar\\Tests\\Models\\');
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
