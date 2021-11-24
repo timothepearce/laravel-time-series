@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
+use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
-use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
 
 class Projection extends Model
 {
@@ -97,13 +97,13 @@ class Projection extends Model
 
     /**
      * Scope a query to filter by the given dates
-     * @throws MissingProjectorNameException
+     * @throws MissingProjectionNameException
      * @throws MissingProjectionPeriodException
      */
     public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
     {
         if (is_null($this->projectorName)) {
-            throw new MissingProjectorNameException();
+            throw new MissingProjectionNameException();
         }
 
         if (is_null($this->queryPeriod)) {
@@ -122,7 +122,7 @@ class Projection extends Model
 
     /**
      * Scope a query to filter by the given dates and fill with empty period if necessary.
-     * @throws MissingProjectorNameException
+     * @throws MissingProjectionNameException
      * @throws MissingProjectionPeriodException
      */
     public function scopeFillBetween(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection

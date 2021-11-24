@@ -4,8 +4,8 @@ namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
+use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
-use TimothePearce\Quasar\Exceptions\MissingProjectorNameException;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
 use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
@@ -69,7 +69,7 @@ class ProjectionTest extends TestCase
     /** @test */
     public function it_raises_an_exception_when_using_the_between_scope_without_a_period()
     {
-        $this->expectException(MissingProjectorNameException::class);
+        $this->expectException(MissingProjectionNameException::class);
 
         Projection::between(now()->subMinute(), now());
     }

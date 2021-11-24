@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
 use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
 use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
-use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
+use TimothePearce\Quasar\Exceptions\MultipleProjectionsException;
 use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
@@ -107,7 +107,7 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function it_raises_an_exception_when_a_multiple_projection_name_collection_is_filled()
     {
-        $this->expectException(MultipleProjectorsException::class);
+        $this->expectException(MultipleProjectionsException::class);
 
         $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class, MultiplePeriodsProjection::class]);
 
