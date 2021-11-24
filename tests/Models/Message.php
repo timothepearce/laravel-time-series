@@ -9,8 +9,7 @@ use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
 
 class Message extends Model
 {
-    use HasFactory;
-    use Projectable;
+    use HasFactory, Projectable;
 
     /**
      * The projections list.

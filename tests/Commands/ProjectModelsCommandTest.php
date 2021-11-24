@@ -18,21 +18,19 @@ class ProjectModelsCommandTest extends TestCase
         Projection::query()->delete();
         $this->assertDatabaseCount('quasar_projections', 0);
 
-        // @todo resolve namespace by getting the TimothePearce\\Quasar\\Tests\\Models\\ prefix
-        // @todo -> Add the projections namespace to the config file.
-        $this->mockGuessProjectableModel(["Log"]);
+        $this->mockResolveProjectableModels();
         Artisan::call("quasar:project Log");
 
         $this->assertDatabaseCount('quasar_projections', 1);
     }
 
-    private function mockGuessProjectableModel(array $model)
+    private function mockResolveProjectableModels()
     {
         $this->partialMock(
             Quasar::class,
-            fn (MockInterface $mock) => $mock
-            ->shouldReceive('guessProjectableModel')
-            ->andReturns(collect($model))
+            fn(MockInterface $mock) => $mock
+                ->shouldReceive('resolveProjectableModels')
+                ->andReturns(["Log"])
         );
     }
 }

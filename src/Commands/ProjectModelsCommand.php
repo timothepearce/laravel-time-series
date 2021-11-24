@@ -27,8 +27,6 @@ class ProjectModelsCommand extends Command
      * @return void
      * @todo add warning if projection already exists.
      * @todo implements queue.
-     *
-     * @todo mock the guessProjectableModelNames in tests.
      */
     public function __construct()
     {
@@ -41,7 +39,7 @@ class ProjectModelsCommand extends Command
     public function handle(): void
     {
         $this->getProjectableModelNames()
-            ->map(fn (string $modelName) => $modelName::all())
+            ->map(fn(string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each
@@ -53,19 +51,18 @@ class ProjectModelsCommand extends Command
      */
     private function getProjectableModelNames(): Collection
     {
-        return is_null($this->argument()['model']) ?
-            app(Quasar::class)->guessProjectableModel() :
+        return empty($this->argument()['model']) ?
+            app(Quasar::class)->resolveProjectableModels() :
             $this->resolveModelFromArgument();
     }
 
     /**
      * Resolve the model
-     * @return Collection
      */
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->arguments()['model'])->map(
-            fn (string $modelName) => config('quasar.projection_namespace') . $modelName
+            fn(string $modelName) => config('quasar.projection_namespace') . $modelName
         );
     }
 }
