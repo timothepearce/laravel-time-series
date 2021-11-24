@@ -16,11 +16,18 @@ trait Projectable
      */
     public static function bootProjectable(): void
     {
-        static::created(function (Model $model) {
-            config('quasar.queue') ?
-                ProcessProjection::dispatch($model) :
-                $model->bootProjectors();
-        });
+        static::created(fn(Model $model) => $model->projectModel());
+    }
+
+    /**
+     * Projects the model.
+     * @throws ReflectionException
+     */
+    public function projectModel(): void
+    {
+        config('quasar.queue') ?
+            ProcessProjection::dispatch($this) :
+            $this->bootProjectors();
     }
 
     /**
@@ -30,7 +37,7 @@ trait Projectable
     public function bootProjectors(): void
     {
         collect($this->projections)->each(
-            fn (string $projection) => (new Projector($this, $projection))->parsePeriods()
+            fn(string $projection) => (new Projector($this, $projection))->parsePeriods()
         );
     }
 
@@ -40,7 +47,8 @@ trait Projectable
     public function projections(
         string|null       $projectorName = null,
         string|array|null $periods = null,
-    ): MorphToMany {
+    ): MorphToMany
+    {
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectorName)) {
@@ -68,7 +76,8 @@ trait Projectable
     public function firstProjection(
         string|null       $projectorName = null,
         string|array|null $periods = null,
-    ): null|Projection {
+    ): null|Projection
+    {
         return $this->projections($projectorName, $periods)->first();
     }
 

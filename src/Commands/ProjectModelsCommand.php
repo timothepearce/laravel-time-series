@@ -25,8 +25,6 @@ class ProjectModelsCommand extends Command
     /**
      * Create a new command instance.
      * @return void
-     * @todo add warning if projection already exists.
-     * @todo implements queue.
      */
     public function __construct()
     {
@@ -38,18 +36,18 @@ class ProjectModelsCommand extends Command
      */
     public function handle(): void
     {
-        $this->getProjectableModelNames()
+        $this->getProjectableModel()
             ->map(fn(string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each
-            ->bootProjectors();
+            ->projectModel();
     }
 
     /**
-     * Get the provided projectable model name or guess them.
+     * Get the provided projectable model or guess them.
      */
-    private function getProjectableModelNames(): Collection
+    private function getProjectableModel(): Collection
     {
         return empty($this->argument()['model']) ?
             app(Quasar::class)->resolveProjectableModels() :
@@ -57,7 +55,7 @@ class ProjectModelsCommand extends Command
     }
 
     /**
-     * Resolve the model
+     * Resolve the model.
      */
     private function resolveModelFromArgument(): Collection
     {
