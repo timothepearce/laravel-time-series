@@ -9,7 +9,7 @@ use TimothePearce\Quasar\Quasar;
 
 class ProjectModelsCommand extends Command
 {
-    const CONFIRMATION_MESSAGE = "Existing projections will be deleted. Do you wish to continue?";
+    public const CONFIRMATION_MESSAGE = "Existing projections will be deleted. Do you wish to continue?";
 
     /**
      * The name and signature of the console command.
@@ -40,14 +40,14 @@ class ProjectModelsCommand extends Command
      */
     public function handle(): void
     {
-        if (!$this->askConfirmation()) {
+        if (! $this->askConfirmation()) {
             return;
         }
 
         Projection::query()->delete();
 
         $this->getProjectableModels()
-            ->map(fn(string $modelName) => $modelName::all())
+            ->map(fn (string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each
@@ -58,7 +58,7 @@ class ProjectModelsCommand extends Command
 
     private function askConfirmation(): bool
     {
-        if (!Projection::exists() || $this->option('force')) {
+        if (! Projection::exists() || $this->option('force')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class ProjectModelsCommand extends Command
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->argument('model'))->map(
-            fn(string $modelName) => config('quasar.models_namespace') . $modelName
+            fn (string $modelName) => config('quasar.models_namespace') . $modelName
         );
     }
 }
