@@ -29,7 +29,9 @@ class Quasar
         $models = [];
 
         foreach ($results as $result) {
-            if ($result === '.' or $result === '..') continue;
+            if ($result === '.' or $result === '..') {
+                continue;
+            }
 
             $filename = $path . '/' . $result;
 
@@ -51,7 +53,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }
