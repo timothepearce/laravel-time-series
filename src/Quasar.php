@@ -16,4 +16,3 @@ class Quasar
         return collect([]);
     }
 }
-
