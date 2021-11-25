@@ -1,6 +1,6 @@
 {
     "name": "timothepearce/laravel-quasar",
-    "description": "This is my package LaravelCargo",
+    "description": "Laravel Quasar allows you to easily build, maintain and recover data projections.",
     "keywords": [
         "LaravelQuasar",
         "laravel-quasar",
