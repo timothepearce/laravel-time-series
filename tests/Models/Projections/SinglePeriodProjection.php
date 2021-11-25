@@ -1,12 +1,12 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Projectors;
+namespace TimothePearce\Quasar\Tests\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
 use TimothePearce\Quasar\Contracts\ProjectionContract;
 use TimothePearce\Quasar\Models\Projection;
 
-class SinglePeriodProjectorWithUniqueKey extends Projection implements ProjectionContract
+class SinglePeriodProjection extends Projection implements ProjectionContract
 {
     /**
      * Lists the time intervals used to compute the projections.
@@ -21,14 +21,6 @@ class SinglePeriodProjectorWithUniqueKey extends Projection implements Projectio
         return [
             'number of logs' => 0,
         ];
-    }
-
-    /**
-     * The key used to query the projection.
-     */
-    public static function key(Model $model): string
-    {
-        return (string) $model->id;
     }
 
     /**

@@ -4,7 +4,7 @@ namespace TimothePearce\Quasar\Exceptions;
 
 use Exception;
 
-class MissingProjectorNameException extends Exception
+class MissingProjectionNameException extends Exception
 {
     protected $message = "The projection's name is missing from you query.";
 }

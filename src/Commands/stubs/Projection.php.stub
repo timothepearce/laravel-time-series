@@ -13,7 +13,7 @@ class {{ class }} extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    protected array $periods = [];
+    public static array $periods = [];
 
     /**
      * The default projection content.
@@ -26,7 +26,7 @@ class {{ class }} extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public function handle(Projection $projection, Model $model): array
+    public static function handle(array $content, Model $model): array
     {
         return [];
     }

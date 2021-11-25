@@ -2,8 +2,10 @@
 
 namespace TimothePearce\Quasar;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use TimothePearce\Quasar\Commands\CreateProjectionCommand;
+use TimothePearce\Quasar\Commands\ProjectModelsCommand;
 
 class QuasarServiceProvider extends ServiceProvider
 {
@@ -15,14 +17,15 @@ class QuasarServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/cargo.php' => config_path('cargo.php'),
+            __DIR__ . '/../config/quasar.php' => config_path('quasar.php'),
         ]);
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CreateProjectionCommand::class,
+                ProjectModelsCommand::class,
             ]);
         }
     }
@@ -35,8 +38,20 @@ class QuasarServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/cargo.php',
-            'cargo'
+            __DIR__ . '/../config/quasar.php',
+            'quasar'
         );
+
+        $this->app->singleton(Quasar::class, function () {
+            return new Quasar();
+        });
+    }
+
+    /**
+     * @todo Implement the method.
+     */
+    public function guessProjectableModelNames(): Collection
+    {
+        return collect([]);
     }
 }

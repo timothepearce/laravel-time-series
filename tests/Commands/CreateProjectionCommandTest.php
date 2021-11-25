@@ -77,7 +77,7 @@ class ProjectionClass extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    protected array \$periods = [];
+    public static array \$periods = [];
 
     /**
      * The default projection content.
@@ -90,7 +90,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public function handle(Projection \$projection, Model \$model): array
+    public static function handle(array \$content, Model \$model): array
     {
         return [];
     }
@@ -121,7 +121,7 @@ class ProjectionClass extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    protected array \$periods = [];
+    public static array \$periods = [];
 
     /**
      * The default projection content.
@@ -134,7 +134,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * The key used to query the projection.
      */
-    public function key(Model \$model): string
+    public static function key(Model \$model): string
     {
         return \$model->id;
     }
@@ -142,7 +142,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public function handle(Projection \$projection, Model \$model): array
+    public static function handle(array \$content, Model \$model): array
     {
         return [];
     }

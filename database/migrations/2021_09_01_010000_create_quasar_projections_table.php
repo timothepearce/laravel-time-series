@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
-        Schema::create('cargo_projections', function (Blueprint $table) {
+        Schema::create('quasar_projections', function (Blueprint $table) {
             $table->id();
 
-            $table->string('projector_name');
+            $table->string('projection_name');
             $table->string('key')->nullable();
             $table->string('period');
             $table->timestamp('start_date');
@@ -25,6 +24,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('cargo_projections');
+        Schema::dropIfExists('quasar_projections');
     }
 };

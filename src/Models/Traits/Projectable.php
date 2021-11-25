@@ -9,18 +9,25 @@ use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Projector;
 
-trait WithProjections
+trait Projectable
 {
     /**
      * Boot the trait.
      */
-    public static function bootWithProjections(): void
+    public static function bootProjectable(): void
     {
-        static::created(function (Model $model) {
-            config('cargo.queue') ?
-                ProcessProjection::dispatch($model) :
-                $model->bootProjectors();
-        });
+        static::created(fn (Model $model) => $model->projectModel());
+    }
+
+    /**
+     * Projects the model.
+     * @throws ReflectionException
+     */
+    public function projectModel(): void
+    {
+        config('quasar.queue') ?
+            ProcessProjection::dispatch($this) :
+            $this->bootProjectors();
     }
 
     /**
@@ -30,8 +37,7 @@ trait WithProjections
     public function bootProjectors(): void
     {
         collect($this->projections)->each(
-            fn (string $projection) =>
-            (new Projector($this, $projection))->parsePeriods()
+            fn (string $projection) => (new Projector($this, $projection))->parsePeriods()
         );
     }
 
@@ -39,13 +45,13 @@ trait WithProjections
      * Get all the projections of the model.
      */
     public function projections(
-        string | null $projectorName = null,
-        string | array | null $periods = null,
+        string|null       $projectorName = null,
+        string|array|null $periods = null,
     ): MorphToMany {
-        $query = $this->morphToMany(Projection::class, 'projectable', 'cargo_projectables');
+        $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectorName)) {
-            $query->where('projector_name', $projectorName);
+            $query->where('projection_name', $projectorName);
         }
 
         if (isset($periods) && gettype($periods) === 'string') {
@@ -67,8 +73,8 @@ trait WithProjections
      * Get the first projection.
      */
     public function firstProjection(
-        string | null $projectorName = null,
-        string | array | null $periods = null,
+        string|null       $projectorName = null,
+        string|array|null $periods = null,
     ): null|Projection {
         return $this->projections($projectorName, $periods)->first();
     }

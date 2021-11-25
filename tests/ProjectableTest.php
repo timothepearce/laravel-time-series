@@ -8,21 +8,21 @@ use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
 use TimothePearce\Quasar\Tests\Models\Message;
-use TimothePearce\Quasar\Tests\Projectors\MultiplePeriodsProjector;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodKeyedProjector;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjector;
-use TimothePearce\Quasar\Tests\Projectors\SinglePeriodProjectorWithUniqueKey;
+use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
-class WithProjectionTest extends TestCase
+class ProjectableTest extends TestCase
 {
-    use WithProjectableFactory;
+    use ProjectableFactory;
 
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
-        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjector::class]);
+        $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
 
-        $this->assertDatabaseCount('cargo_projections', 8);
+        $this->assertDatabaseCount('quasar_projections', 8);
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class WithProjectionTest extends TestCase
         $this->travel(3)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('cargo_projections', 1);
+        $this->assertDatabaseCount('quasar_projections', 1);
     }
 
     /** @test */
@@ -46,7 +46,7 @@ class WithProjectionTest extends TestCase
         $this->travel(6)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('cargo_projections', 2);
+        $this->assertDatabaseCount('quasar_projections', 2);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class WithProjectionTest extends TestCase
     public function it_dispatch_a_job_when_the_queue_config_is_enabled()
     {
         Queue::fake();
-        config(['cargo.queue' => true]);
+        config(['quasar.queue' => true]);
 
         Log::factory()->create();
 
@@ -80,7 +80,7 @@ class WithProjectionTest extends TestCase
     public function it_dispatch_a_job_to_the_named_queue()
     {
         Queue::fake();
-        config(['cargo.queue' => true, 'cargo.queue_name' => 'named']);
+        config(['quasar.queue' => true, 'quasar.queue_name' => 'named']);
 
         Log::factory()->create();
 
@@ -99,14 +99,14 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type()
     {
         $log = $this->createModelWithProjections(Log::class, [
-            SinglePeriodProjector::class,
-            MultiplePeriodsProjector::class,
+            SinglePeriodProjection::class,
+            MultiplePeriodsProjection::class,
         ]);
-        $projections = $log->projections(MultiplePeriodsProjector::class)->get();
+        $projections = $log->projections(MultiplePeriodsProjection::class)->get();
 
         $this->assertCount(8, $projections);
         $projections->each(function (Projection $projection) {
-            $this->assertEquals(MultiplePeriodsProjector::class, $projection->projector_name);
+            $this->assertEquals(MultiplePeriodsProjection::class, $projection->projection_name);
         });
     }
 
@@ -114,11 +114,11 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type_and_period()
     {
         $log = $this->createModelWithProjections(Log::class, [
-            SinglePeriodProjector::class,
-            MultiplePeriodsProjector::class,
+            SinglePeriodProjection::class,
+            MultiplePeriodsProjection::class,
         ]);
 
-        $projections = $log->projections(MultiplePeriodsProjector::class, '5 minutes')->get();
+        $projections = $log->projections(MultiplePeriodsProjection::class, '5 minutes')->get();
 
         $this->assertCount(1, $projections);
         $this->assertEquals('5 minutes', $projections->first()->period);
@@ -128,11 +128,11 @@ class WithProjectionTest extends TestCase
     public function it_get_the_projections_from_a_single_type_and_multiple_periods()
     {
         $log = $this->createModelWithProjections(Log::class, [
-            SinglePeriodProjector::class,
-            MultiplePeriodsProjector::class,
+            SinglePeriodProjection::class,
+            MultiplePeriodsProjection::class,
         ]);
 
-        $projections = $log->projections(MultiplePeriodsProjector::class, ['5 minutes', '1 hour'])->get();
+        $projections = $log->projections(MultiplePeriodsProjection::class, ['5 minutes', '1 hour'])->get();
 
         $this->assertCount(2, $projections);
         $projections->each(function (Projection $projection) {
@@ -143,8 +143,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_single_projection_for_models_with_the_same_projection()
     {
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class]);
-        $this->createModelWithProjections(Message::class, [SinglePeriodProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
+        $this->createModelWithProjections(Message::class, [SinglePeriodProjection::class]);
 
         $this->assertEquals(1, Projection::count());
     }
@@ -152,13 +152,13 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_updates_a_projection_for_a_single_projectable_type_and_interval()
     {
-        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class]);
-        $message = $this->createModelWithProjections(Message::class, [MultiplePeriodsProjector::class]);
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
+        $message = $this->createModelWithProjections(Message::class, [MultiplePeriodsProjection::class]);
 
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
 
-        $logProjection = $log->projections(SinglePeriodProjector::class, '5 minutes')->first();
-        $messageProjection = $message->projections(MultiplePeriodsProjector::class, '5 minutes')->first();
+        $logProjection = $log->projections(SinglePeriodProjection::class, '5 minutes')->first();
+        $messageProjection = $message->projections(MultiplePeriodsProjection::class, '5 minutes')->first();
 
         $this->assertEquals(2, $logProjection->content['number of logs']);
         $this->assertEquals(1, $messageProjection->content['number of logs']);
@@ -167,8 +167,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_projection_for_each_different_key()
     {
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjectorWithUniqueKey::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
 
         $this->assertEquals(2, Projection::count());
     }
@@ -176,8 +176,8 @@ class WithProjectionTest extends TestCase
     /** @test */
     public function it_creates_a_single_projection_for_a_similar_key()
     {
-        $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjector::class]);
-        $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjector::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjection::class]);
+        $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjection::class]);
 
         $this->assertEquals(1, Projection::count());
     }

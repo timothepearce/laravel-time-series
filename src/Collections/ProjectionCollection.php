@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
 use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
-use TimothePearce\Quasar\Exceptions\MultipleProjectorsException;
+use TimothePearce\Quasar\Exceptions\MultipleProjectionsException;
 use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
 use TimothePearce\Quasar\Models\Projection;
 
@@ -16,13 +16,13 @@ class ProjectionCollection extends Collection
     /**
      * Fills the collection with empty projection between the given dates.
      *
-     * @throws MultipleProjectorsException|MultiplePeriodsException|EmptyProjectionCollectionException|OverlappingFillBetweenDatesException
+     * @throws MultipleProjectionsException|MultiplePeriodsException|EmptyProjectionCollectionException|OverlappingFillBetweenDatesException
      */
     public function fillBetween(
-        Carbon $startDate,
-        Carbon $endDate,
-        string | null $projectorName = null,
-        string | null $period = null,
+        Carbon      $startDate,
+        Carbon      $endDate,
+        string|null $projectorName = null,
+        string|null $period = null,
     ): ProjectionCollection {
         [$projectorName, $period] = $this->resolveGuessParameters($projectorName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
@@ -44,9 +44,9 @@ class ProjectionCollection extends Collection
     /**
      * Validates and resolve the guess parameters.
      *
-     * @throws EmptyProjectionCollectionException|MultipleProjectorsException|MultiplePeriodsException
+     * @throws EmptyProjectionCollectionException|MultipleProjectionsException|MultiplePeriodsException
      */
-    private function resolveGuessParameters(string | null $projectorName, string | null $period): array
+    private function resolveGuessParameters(string|null $projectorName, string|null $period): array
     {
         if ($this->count() === 0 && $this->shouldGuessParameters($projectorName, $period)) {
             throw new EmptyProjectionCollectionException();
@@ -77,7 +77,7 @@ class ProjectionCollection extends Collection
     /**
      * Asserts the parameters should be guessed.
      */
-    private function shouldGuessParameters(string | null $projectorName, string | null $period): bool
+    private function shouldGuessParameters(string|null $projectorName, string|null $period): bool
     {
         return is_null($projectorName) || is_null($period);
     }
@@ -85,9 +85,9 @@ class ProjectionCollection extends Collection
     /**
      * Resolves the projector name.
      *
-     * @throws MultipleProjectorsException|EmptyProjectionCollectionException
+     * @throws MultipleProjectionsException|EmptyProjectionCollectionException
      */
-    private function resolveProjectorName(string | null $projectorName): string
+    private function resolveProjectorName(string|null $projectorName): string
     {
         $this->assertUniqueProjectorName();
 
@@ -99,7 +99,7 @@ class ProjectionCollection extends Collection
      *
      * @throws MultiplePeriodsException
      */
-    private function resolvePeriod(string | null $period): string
+    private function resolvePeriod(string|null $period): string
     {
         $this->assertUniquePeriod();
 
@@ -109,14 +109,14 @@ class ProjectionCollection extends Collection
     /**
      * Asserts the given projections came from a single type of projector.
      *
-     * @throws MultipleProjectorsException
+     * @throws MultipleProjectionsException
      */
     private function assertUniqueProjectorName()
     {
-        $projectorNames = $this->unique('projector_name');
+        $projectorNames = $this->unique('projection_name');
 
         if ($projectorNames->count() > 1) {
-            throw new MultipleProjectorsException();
+            throw new MultipleProjectionsException();
         }
     }
 
@@ -141,7 +141,7 @@ class ProjectionCollection extends Collection
      */
     private function guessProjectorName(): string
     {
-        return $this->first()->projector_name;
+        return $this->first()->projection_name;
     }
 
     /**
@@ -178,7 +178,7 @@ class ProjectionCollection extends Collection
     private function makeEmptyProjection(string $projectorName, string $period, string $startDate): Projection
     {
         return Projection::make([
-            'projector_name' => $projectorName,
+            'projection_name' => $projectorName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
