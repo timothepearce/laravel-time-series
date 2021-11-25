@@ -2,9 +2,9 @@ name: run-tests
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   test:
@@ -12,10 +12,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
-        php: [8.0]
-        laravel: [8.*]
-        stability: [prefer-stable]
+        os: [ ubuntu-latest ]
+        php: [ 8.0 ]
+        laravel: [ 8.* ]
+        stability: [ prefer-stable ]
         include:
           - laravel: 8.*
             testbench: ^6.6
@@ -37,6 +37,9 @@ jobs:
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Set Packagist authentication
+        run: composer config --global --auth http-basic.repo.packagist.com TimothePearce ${{ secrets.PRIVATE_PACKAGIST_TOKEN }}
 
       - name: Install dependencies
         run: |
