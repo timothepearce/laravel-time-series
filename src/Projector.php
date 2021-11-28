@@ -107,12 +107,9 @@ class Projector
      */
     private function getProjectedContent(array $baseContent): array
     {
-        switch ($this->eventName) {
-            case 'created':
-                return array_merge($baseContent, $this->projectionName::projectableCreated($baseContent, $this->projectedModel));
-
-            case 'updated':
-                return array_merge($baseContent, $this->projectionName::projectableUpdated($baseContent, $this->projectedModel));
-        }
+        return array_merge($baseContent, match ($this->eventName) {
+            'created' => $this->projectionName::projectableCreated($baseContent, $this->projectedModel),
+            'updated' => $this->projectionName::projectableUpdated($baseContent, $this->projectedModel),
+        });
     }
 }
