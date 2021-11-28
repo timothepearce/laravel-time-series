@@ -5,6 +5,7 @@ namespace TimothePearce\Quasar;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use TimothePearce\Quasar\Models\Traits\Projectable;
 
 class Quasar
 {
@@ -19,7 +20,7 @@ class Quasar
             $rc = new ReflectionClass($model);
             $classes = $rc->getTraits();
 
-            return isset($classes["TimothePearce\Quasar\Models\Traits\Projectable"]);
+            return isset($classes[Projectable::class]);
         });
     }
 
@@ -57,7 +58,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }
