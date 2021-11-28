@@ -38,11 +38,9 @@ class Quasar
 
             $filename = $path . '/' . $result;
 
-            if (is_dir($filename)) {
-                $models = $models->concat($this->getModels($filename));
-            } else {
+            is_dir($filename) ?
+                $models = $models->concat($this->getModels($filename)) :
                 $models->push($this->getModelNamespace($filename));
-            }
         }
 
         return collect($models);
