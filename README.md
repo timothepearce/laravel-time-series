@@ -1,8 +1,8 @@
 # Laravel Quasar
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-cargo/run-tests?label=tests)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-cargo/Check%20&%20fix%20styling?label=code%20style)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/run-tests?label=tests)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/Check%20&%20fix%20styling?label=code%20style)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
