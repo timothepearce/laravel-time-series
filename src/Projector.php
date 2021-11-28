@@ -15,7 +15,10 @@ class Projector
      */
     protected array $periods;
 
-    public function __construct(protected Model $projectedModel, protected string $projectionName)
+    public function __construct(
+        protected Model  $projectedModel,
+        protected string $projectionName,
+        protected string $eventName)
     {
     }
 
@@ -27,7 +30,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -100,10 +103,16 @@ class Projector
     }
 
     /**
-     * Get the projected content.
+     * Gets the projected content.
      */
     private function getProjectedContent(array $baseContent): array
     {
-        return $this->projectionName::handle($baseContent, $this->projectedModel);
+        switch ($this->eventName) {
+            case 'created':
+                return array_merge($baseContent, $this->projectionName::projectableCreated($baseContent, $this->projectedModel));
+
+            case 'updated':
+                return array_merge($baseContent, $this->projectionName::projectableUpdated($baseContent, $this->projectedModel));
+        }
     }
 }

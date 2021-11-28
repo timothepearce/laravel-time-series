@@ -19,7 +19,7 @@ class ProcessProjection implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(protected Model $model)
+    public function __construct(protected Model $model, protected string $eventName)
     {
         $this->onQueue(config('quasar.queue_name'));
     }
@@ -27,8 +27,8 @@ class ProcessProjection implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function created()
     {
-        $this->model->bootProjectors();
+        $this->model->bootProjectors($this->eventName);
     }
 }

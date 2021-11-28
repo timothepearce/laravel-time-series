@@ -9,8 +9,9 @@ use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
 
 class Log extends Model
 {
-    use HasFactory;
-    use Projectable;
+    use HasFactory, Projectable;
+
+    protected $guarded = [];
 
     /**
      * The projections list.

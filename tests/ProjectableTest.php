@@ -26,7 +26,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_projection_when_the_interval_is_in_completion()
+    public function it_gets_the_existing_projection_when_the_interval_is_in_completion()
     {
         $this->travelTo(Carbon::today());
         Log::factory()->create();
@@ -54,7 +54,7 @@ class ProjectableTest extends TestCase
     {
         Log::factory()->create();
 
-        $this->assertEquals(1, Projection::first()->content["number of logs"]);
+        $this->assertEquals(1, Projection::first()->content["created_count"]);
     }
 
     /** @test */
@@ -62,7 +62,7 @@ class ProjectableTest extends TestCase
     {
         Log::factory()->count(2)->create();
 
-        $this->assertEquals(2, Projection::first()->content["number of logs"]);
+        $this->assertEquals(2, Projection::first()->content["created_count"]);
     }
 
     /** @test */
@@ -160,8 +160,8 @@ class ProjectableTest extends TestCase
         $logProjection = $log->projections(SinglePeriodProjection::class, '5 minutes')->first();
         $messageProjection = $message->projections(MultiplePeriodsProjection::class, '5 minutes')->first();
 
-        $this->assertEquals(2, $logProjection->content['number of logs']);
-        $this->assertEquals(1, $messageProjection->content['number of logs']);
+        $this->assertEquals(2, $logProjection->content['created_count']);
+        $this->assertEquals(1, $messageProjection->content['created_count']);
     }
 
     /** @test */
@@ -190,5 +190,17 @@ class ProjectableTest extends TestCase
         $firstProjection = $log->firstProjection();
 
         $this->assertEquals($firstProjection->id, Projection::first()->id);
+    }
+
+    /** @test */
+    public function it_updates_the_projection_on_model_update()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['updated_count'], 0);
+
+        $log->update(['message' => 'message update']);
+
+        $this->assertEquals($projection->refresh()->content['updated_count'], 1);
     }
 }

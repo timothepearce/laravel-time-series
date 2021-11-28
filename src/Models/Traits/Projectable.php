@@ -16,28 +16,29 @@ trait Projectable
      */
     public static function bootProjectable(): void
     {
-        static::created(fn (Model $model) => $model->projectModel());
+        static::created(fn(Model $model) => $model->projectModel('created'));
+        static::updated(fn(Model $model) => $model->projectModel('updated'));
     }
 
     /**
      * Projects the model.
      * @throws ReflectionException
      */
-    public function projectModel(): void
+    public function projectModel(string $eventName): void
     {
         config('quasar.queue') ?
-            ProcessProjection::dispatch($this) :
-            $this->bootProjectors();
+            ProcessProjection::dispatch($this, $eventName) :
+            $this->bootProjectors($eventName);
     }
 
     /**
      * Boot the projectors.
      * @throws ReflectionException
      */
-    public function bootProjectors(): void
+    public function bootProjectors(string $eventName): void
     {
         collect($this->projections)->each(
-            fn (string $projection) => (new Projector($this, $projection))->parsePeriods()
+            fn(string $projection) => (new Projector($this, $projection, $eventName))->parsePeriods()
         );
     }
 
@@ -45,13 +46,14 @@ trait Projectable
      * Get all the projections of the model.
      */
     public function projections(
-        string|null       $projectorName = null,
+        string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): MorphToMany {
+    ): MorphToMany
+    {
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
-        if (isset($projectorName)) {
-            $query->where('projection_name', $projectorName);
+        if (isset($projectionName)) {
+            $query->where('projection_name', $projectionName);
         }
 
         if (isset($periods) && gettype($periods) === 'string') {
@@ -73,10 +75,11 @@ trait Projectable
      * Get the first projection.
      */
     public function firstProjection(
-        string|null       $projectorName = null,
+        string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): null|Projection {
-        return $this->projections($projectorName, $periods)->first();
+    ): null|Projection
+    {
+        return $this->projections($projectionName, $periods)->first();
     }
 
     /**
