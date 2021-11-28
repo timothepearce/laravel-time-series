@@ -58,7 +58,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }
