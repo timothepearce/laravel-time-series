@@ -19,7 +19,8 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
@@ -70,7 +71,7 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => $this->projectedModel->created_at->floorUnit($periodType, $quantity),
-            'content' => $this->getProjectedContent($this->projectionName::defaultContent()),
+            'content' => $this->mergeProjectedContent($this->projectionName::defaultContent()),
         ]);
     }
 
@@ -79,7 +80,7 @@ class Projector
      */
     private function updateProjection(Projection $projection): void
     {
-        $projection->content = $this->getProjectedContent($projection->content);
+        $projection->content = $this->mergeProjectedContent($projection->content);
 
         $projection->save();
     }
@@ -101,13 +102,14 @@ class Projector
     }
 
     /**
-     * Gets the projected content.
+     * Merges the projected content with the given one.
      */
-    private function getProjectedContent(array $baseContent): array
+    private function mergeProjectedContent(array $content): array
     {
-        return array_merge($baseContent, match ($this->eventName) {
-            'created' => $this->projectionName::projectableCreated($baseContent, $this->projectedModel),
-            'updated' => $this->projectionName::projectableUpdated($baseContent, $this->projectedModel),
+        return array_merge($content, match ($this->eventName) {
+            'created' => $this->projectionName::projectableCreated($content, $this->projectedModel),
+            'updated' => $this->projectionName::projectableUpdated($content, $this->projectedModel),
+            'deleted' => $this->projectionName::projectableDeleted($content, $this->projectedModel),
         });
     }
 }

@@ -18,6 +18,40 @@ class ProjectableTest extends TestCase
     use ProjectableFactory;
 
     /** @test */
+    public function it_creates_the_projection_on_model_created_event()
+    {
+        $this->assertDatabaseCount('quasar_projections', 0);
+        $log = Log::factory()->create();
+
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['created_count'], 1);
+    }
+
+    /** @test */
+    public function it_updates_the_projection_on_model_updated_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['updated_count'], 0);
+
+        $log->update(['message' => 'message update']);
+
+        $this->assertEquals($projection->refresh()->content['updated_count'], 1);
+    }
+
+    /** @test */
+    public function it_updates_the_projection_on_model_deleted_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['deleted_count'], 0);
+
+        $log->delete();
+
+        $this->assertEquals($projection->refresh()->content['deleted_count'], 1);
+    }
+
+    /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
     {
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
@@ -47,22 +81,6 @@ class ProjectableTest extends TestCase
         Log::factory()->create();
 
         $this->assertDatabaseCount('quasar_projections', 2);
-    }
-
-    /** @test */
-    public function it_computes_the_content_of_the_projection_from_the_default_one()
-    {
-        Log::factory()->create();
-
-        $this->assertEquals(1, Projection::first()->content["created_count"]);
-    }
-
-    /** @test */
-    public function it_computes_the_content_of_the_projection()
-    {
-        Log::factory()->count(2)->create();
-
-        $this->assertEquals(2, Projection::first()->content["created_count"]);
     }
 
     /** @test */
@@ -190,17 +208,5 @@ class ProjectableTest extends TestCase
         $firstProjection = $log->firstProjection();
 
         $this->assertEquals($firstProjection->id, Projection::first()->id);
-    }
-
-    /** @test */
-    public function it_updates_the_projection_on_model_update()
-    {
-        $log = Log::factory()->create();
-        $projection = $log->firstProjection();
-        $this->assertEquals($projection->content['updated_count'], 0);
-
-        $log->update(['message' => 'message update']);
-
-        $this->assertEquals($projection->refresh()->content['updated_count'], 1);
     }
 }
