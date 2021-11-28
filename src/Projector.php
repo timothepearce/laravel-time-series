@@ -18,7 +18,8 @@ class Projector
     public function __construct(
         protected Model  $projectedModel,
         protected string $projectionName,
-        protected string $eventName)
+        protected string $eventName
+    )
     {
     }
 
@@ -30,7 +31,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
     }
 
     /**

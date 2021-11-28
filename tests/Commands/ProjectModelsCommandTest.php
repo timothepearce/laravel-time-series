@@ -51,7 +51,7 @@ class ProjectModelsCommandTest extends TestCase
     {
         $this->partialMock(
             Quasar::class,
-            fn(MockInterface $mock) => $mock
+            fn (MockInterface $mock) => $mock
                 ->shouldReceive('resolveProjectableModels')
                 ->andReturns(["Log"])
         );
