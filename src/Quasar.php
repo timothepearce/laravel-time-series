@@ -9,13 +9,13 @@ use ReflectionClass;
 class Quasar
 {
     /**
-     * Guess
+     * Resolves the projectable models from the app.
      */
     public function resolveProjectableModels(): Collection
     {
         $models = $this->getModels(app_path('Models'));
 
-        return collect($models)->filter(function ($model) {
+        return $models->filter(function ($model) {
             $rc = new ReflectionClass($model);
             $classes = $rc->getTraits();
 
@@ -23,10 +23,13 @@ class Quasar
         });
     }
 
-    private function getModels(string $path): array
+    /**
+     * Gets the models from the given path.
+     */
+    private function getModels(string $path): Collection
     {
         $results = scandir($path);
-        $models = [];
+        $models = collect();
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
@@ -36,15 +39,18 @@ class Quasar
             $filename = $path . '/' . $result;
 
             if (is_dir($filename)) {
-                $models = array_merge($models, $this->getModels($filename));
+                $models = $models->concat($this->getModels($filename));
             } else {
-                $models[] = $this->getModelNamespace($filename);
+                $models->push($this->getModelNamespace($filename));
             }
         }
 
-        return $models;
+        return collect($models);
     }
 
+    /**
+     * Gets the model namespace from the given filename.
+     */
     private function getModelNamespace(string $filename): string
     {
         $relativePath = explode(
@@ -53,7 +59,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }
