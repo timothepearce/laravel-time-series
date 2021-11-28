@@ -31,7 +31,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -111,5 +111,14 @@ class Projector
             'updated' => $this->projectionName::projectableUpdated($content, $this->projectedModel),
             'deleted' => $this->projectionName::projectableDeleted($content, $this->projectedModel),
         });
+    }
+
+    /**
+     * Resolves the callable methods based on given event name.
+     * @todo Implement
+     * @todo Add named exception when it can't resolve the method name.
+     */
+    private function resolveCallableMethod(string $eventName)
+    {
     }
 }
