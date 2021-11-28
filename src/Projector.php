@@ -31,7 +31,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -49,18 +49,16 @@ class Projector
     }
 
     /**
-     * Try to find the projection.
+     * Finds the projection if it exists.
      */
     private function findProjection(string $period, int $quantity, string $periodType): Projection|null
     {
-        $query = Projection::where([
+        return Projection::firstWhere([
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
             ['start_date', $this->projectedModel->created_at->floorUnit($periodType, $quantity)],
         ]);
-
-        return $query->first();
     }
 
     /**
