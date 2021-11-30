@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
+use TimothePearce\Quasar\Exceptions\MissingCallableMethodException;
 use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
@@ -12,6 +13,7 @@ use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithoutCallable;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
 class ProjectableTest extends TestCase
@@ -231,6 +233,14 @@ class ProjectableTest extends TestCase
         $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
 
         $this->assertEquals(1, $logProjection->content['log_deleted_count']);
+    }
+
+    /** @test */
+    public function it_raises_an_exception_when_no_callable_is_defined()
+    {
+        $this->expectException(MissingCallableMethodException::class);
+
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithoutCallable::class]);
     }
 
     /** @test */
