@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar\Tests;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
+use TimothePearce\Quasar\Exceptions\MissingCallableMethodException;
 use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
@@ -11,11 +12,47 @@ use TimothePearce\Quasar\Tests\Models\Message;
 use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithoutCallable;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
 class ProjectableTest extends TestCase
 {
     use ProjectableFactory;
+
+    /** @test */
+    public function it_creates_the_projection_on_model_created_event()
+    {
+        $this->assertDatabaseCount('quasar_projections', 0);
+        $log = Log::factory()->create();
+
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['created_count'], 1);
+    }
+
+    /** @test */
+    public function it_updates_the_projection_on_model_updated_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['updated_count'], 0);
+
+        $log->update(['message' => 'message update']);
+
+        $this->assertEquals($projection->refresh()->content['updated_count'], 1);
+    }
+
+    /** @test */
+    public function it_updates_the_projection_on_model_deleted_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['deleted_count'], 0);
+
+        $log->delete();
+
+        $this->assertEquals($projection->refresh()->content['deleted_count'], 1);
+    }
 
     /** @test */
     public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
@@ -26,7 +63,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_projection_when_the_interval_is_in_completion()
+    public function it_gets_the_existing_projection_when_the_interval_is_in_completion()
     {
         $this->travelTo(Carbon::today());
         Log::factory()->create();
@@ -47,22 +84,6 @@ class ProjectableTest extends TestCase
         Log::factory()->create();
 
         $this->assertDatabaseCount('quasar_projections', 2);
-    }
-
-    /** @test */
-    public function it_computes_the_content_of_the_projection_from_the_default_one()
-    {
-        Log::factory()->create();
-
-        $this->assertEquals(1, Projection::first()->content["number of logs"]);
-    }
-
-    /** @test */
-    public function it_computes_the_content_of_the_projection()
-    {
-        Log::factory()->count(2)->create();
-
-        $this->assertEquals(2, Projection::first()->content["number of logs"]);
     }
 
     /** @test */
@@ -160,8 +181,8 @@ class ProjectableTest extends TestCase
         $logProjection = $log->projections(SinglePeriodProjection::class, '5 minutes')->first();
         $messageProjection = $message->projections(MultiplePeriodsProjection::class, '5 minutes')->first();
 
-        $this->assertEquals(2, $logProjection->content['number of logs']);
-        $this->assertEquals(1, $messageProjection->content['number of logs']);
+        $this->assertEquals(2, $logProjection->content['created_count']);
+        $this->assertEquals(1, $messageProjection->content['created_count']);
     }
 
     /** @test */
@@ -180,6 +201,46 @@ class ProjectableTest extends TestCase
         $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjection::class]);
 
         $this->assertEquals(1, Projection::count());
+    }
+
+    /** @test */
+    public function it_creates_a_projection_with_the_model_name_created_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_created_count']);
+    }
+
+    /** @test */
+    public function it_updates_a_projection_with_the_model_name_updated_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+        $log->update(['message' => 'updated message']);
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_updated_count']);
+    }
+
+    /** @test */
+    public function it_updates_a_projection_with_the_model_name_deleted_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+        $log->delete();
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_deleted_count']);
+    }
+
+    /** @test */
+    public function it_raises_an_exception_when_no_callable_is_defined()
+    {
+        $this->expectException(MissingCallableMethodException::class);
+
+        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithoutCallable::class]);
     }
 
     /** @test */

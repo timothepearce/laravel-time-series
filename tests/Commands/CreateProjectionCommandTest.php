@@ -90,7 +90,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public static function handle(array \$content, Model \$model): array
+    public static function projectableCreated(array \$content, Model \$model): array
     {
         return [];
     }
@@ -142,7 +142,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public static function handle(array \$content, Model \$model): array
+    public static function projectableCreated(array \$content, Model \$model): array
     {
         return [];
     }

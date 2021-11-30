@@ -12,6 +12,8 @@ class Log extends Model
     use HasFactory;
     use Projectable;
 
+    protected $guarded = [];
+
     /**
      * The projections list.
      */

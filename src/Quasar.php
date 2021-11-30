@@ -5,6 +5,7 @@ namespace TimothePearce\Quasar;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use TimothePearce\Quasar\Models\Traits\Projectable;
 
 class Quasar
 {
@@ -19,7 +20,7 @@ class Quasar
             $rc = new ReflectionClass($model);
             $classes = $rc->getTraits();
 
-            return isset($classes["TimothePearce\Quasar\Models\Traits\Projectable"]);
+            return isset($classes[Projectable::class]);
         });
     }
 
@@ -38,11 +39,9 @@ class Quasar
 
             $filename = $path . '/' . $result;
 
-            if (is_dir($filename)) {
-                $models = $models->concat($this->getModels($filename));
-            } else {
+            is_dir($filename) ?
+                $models = $models->concat($this->getModels($filename)) :
                 $models->push($this->getModelNamespace($filename));
-            }
         }
 
         return collect($models);

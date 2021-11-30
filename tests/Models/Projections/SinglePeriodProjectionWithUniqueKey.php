@@ -19,7 +19,7 @@ class SinglePeriodProjectionWithUniqueKey extends Projection implements Projecti
     public static function defaultContent(): array
     {
         return [
-            'number of logs' => 0,
+            'created_count' => 0,
         ];
     }
 
@@ -34,10 +34,10 @@ class SinglePeriodProjectionWithUniqueKey extends Projection implements Projecti
     /**
      * Compute the projection.
      */
-    public static function handle(array $content, Model $model): array
+    public static function projectableCreated(array $content, Model $model): array
     {
         return [
-            'number of logs' => $content['number of logs'] + 1,
+            'created_count' => $content['created_count'] + 1,
         ];
     }
 }

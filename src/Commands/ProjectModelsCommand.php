@@ -51,7 +51,7 @@ class ProjectModelsCommand extends Command
             ->flatten()
             ->sortBy('created_at')
             ->each
-            ->projectModel();
+            ->projectModel('created');
 
         $this->info('Projections have been refreshed!');
     }

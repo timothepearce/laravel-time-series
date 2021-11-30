@@ -44,6 +44,9 @@ class ProjectModelsCommandTest extends TestCase
         $this->assertDatabaseCount('quasar_projections', 1);
     }
 
+    /**
+     * Mocks the `resolveProjectableModels` methods from the Quasar class.
+     */
     private function mockResolveProjectableModels()
     {
         $this->partialMock(
