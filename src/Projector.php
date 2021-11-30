@@ -19,7 +19,8 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
@@ -105,19 +106,20 @@ class Projector
      */
     private function mergeProjectedContent(array $content): array
     {
-        return array_merge($content, match ($this->eventName) {
-            'created' => $this->projectionName::projectableCreated($content, $this->projectedModel),
-            'updated' => $this->projectionName::projectableUpdated($content, $this->projectedModel),
-            'deleted' => $this->projectionName::projectableDeleted($content, $this->projectedModel),
-        });
+        return array_merge($content, $this->resolveCallableMethod($content));
     }
 
     /**
-     * Resolves the callable methods based on given event name.
-     * @todo Implement
-     * @todo Add named exception when it can't resolve the method name.
+     * Resolves the callable method.
      */
-    private function resolveCallableMethod(string $eventName)
+    private function resolveCallableMethod(array $content): array
     {
+        $modelName = Str::of($this->projectedModel::class)->explode('\\')->last();
+        $callableMethod = lcfirst($modelName) . ucfirst($this->eventName);
+        $defaultCallable = 'projectable' . ucfirst($this->eventName);
+
+        return method_exists($this->projectionName, $callableMethod) ?
+            $this->projectionName::$callableMethod($content, $this->projectedModel) :
+            $this->projectionName::$defaultCallable($content, $this->projectedModel);
     }
 }

@@ -11,6 +11,7 @@ use TimothePearce\Quasar\Tests\Models\Message;
 use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
 class ProjectableTest extends TestCase
@@ -198,6 +199,38 @@ class ProjectableTest extends TestCase
         $this->createModelWithProjections(Log::class, [SinglePeriodKeyedProjection::class]);
 
         $this->assertEquals(1, Projection::count());
+    }
+
+    /** @test */
+    public function it_creates_a_projection_with_the_model_name_created_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_created_count']);
+    }
+
+    /** @test */
+    public function it_updates_a_projection_with_the_model_name_updated_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+        $log->update(['message' => 'updated message']);
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_updated_count']);
+    }
+
+    /** @test */
+    public function it_updates_a_projection_with_the_model_name_deleted_hook()
+    {
+        $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithCallable::class]);
+        $log->delete();
+
+        $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
+
+        $this->assertEquals(1, $logProjection->content['log_deleted_count']);
     }
 
     /** @test */
