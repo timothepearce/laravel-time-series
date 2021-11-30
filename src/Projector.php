@@ -20,8 +20,7 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    )
-    {
+    ) {
     }
 
     /**
@@ -33,7 +32,7 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn(string $period) => $this->parsePeriod($period));
+        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
     }
 
     /**
@@ -133,6 +132,6 @@ class Projector
             return $this->projectionName::$defaultCallable($content, $this->projectedModel);
         }
 
-        throw new MissingCallableMethodException;
+        throw new MissingCallableMethodException();
     }
 }
