@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
 use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
+use TimothePearce\Quasar\Models\Scopes\ProjectionScope;
 
 class Projection extends Model
 {
@@ -42,6 +43,14 @@ class Projection extends Model
     protected string|null $queryPeriod = null;
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ProjectionScope);
+    }
+
+    /**
      * Create a new Eloquent Collection instance.
      */
     public function newCollection(array $models = []): Collection
@@ -50,7 +59,7 @@ class Projection extends Model
     }
 
     /**
-     * Get all the models from the projection.
+     * Get the relationship with the projectable models.
      */
     public function from(string $modelName): MorphToMany
     {

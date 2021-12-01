@@ -18,7 +18,7 @@ return new class extends Migration {
 
             $table->timestamps();
 
-            // Add composite key?
+            // @todo Add composite key?
         });
     }
 
