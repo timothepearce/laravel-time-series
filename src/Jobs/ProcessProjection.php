@@ -27,7 +27,7 @@ class ProcessProjection implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function created()
+    public function handle()
     {
         $this->model->bootProjectors($this->eventName);
     }
