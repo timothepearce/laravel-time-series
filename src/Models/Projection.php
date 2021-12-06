@@ -47,7 +47,7 @@ class Projection extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new ProjectionScope);
+        static::addGlobalScope(new ProjectionScope());
     }
 
     /**

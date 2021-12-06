@@ -14,7 +14,7 @@ class ProjectionScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (!$this->isAbstractProjection($model)) {
+        if (! $this->isAbstractProjection($model)) {
             $builder->where('projection_name', $model::class);
         }
     }

@@ -170,7 +170,7 @@ class ProjectionTest extends TestCase
     {
         $this->createModelWithProjections(Log::class, [
             SinglePeriodProjection::class,
-            MultiplePeriodsProjection::class
+            MultiplePeriodsProjection::class,
         ]);
 
         $projection = SinglePeriodProjection::all();
