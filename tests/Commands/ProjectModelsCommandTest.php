@@ -7,6 +7,7 @@ use Mockery\MockInterface;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Quasar;
 use TimothePearce\Quasar\Tests\Models\Log;
+use TimothePearce\Quasar\Tests\Models\Message;
 use TimothePearce\Quasar\Tests\TestCase;
 
 class ProjectModelsCommandTest extends TestCase
@@ -44,6 +45,20 @@ class ProjectModelsCommandTest extends TestCase
         $this->assertDatabaseCount('quasar_projections', 1);
     }
 
+    /** @test */
+    public function it_projects_the_trashed_models_when_executed()
+    {
+        Message::factory()->create();
+        Projection::query()->delete();
+        Message::query()->delete();
+
+        $this->assertDatabaseCount('messages', 1);
+        $this->assertDatabaseCount('quasar_projections', 0);
+
+        Artisan::call("quasar:project Message --with-trashed");
+        $this->assertDatabaseCount('quasar_projections', 1);
+    }
+
     /**
      * Mocks the `resolveProjectableModels` methods from the Quasar class.
      */
@@ -51,7 +66,7 @@ class ProjectModelsCommandTest extends TestCase
     {
         $this->partialMock(
             Quasar::class,
-            fn (MockInterface $mock) => $mock
+            fn(MockInterface $mock) => $mock
                 ->shouldReceive('resolveProjectableModels')
                 ->andReturns(["Log"])
         );
