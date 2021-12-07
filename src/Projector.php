@@ -20,8 +20,7 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    )
-    {
+    ) {
     }
 
     /**
