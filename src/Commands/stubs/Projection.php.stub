@@ -13,7 +13,7 @@ class {{ class }} extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    public static array $periods = [];
+    public array $periods = [];
 
     /**
      * The default projection content.

@@ -5,7 +5,6 @@ namespace TimothePearce\Quasar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use ReflectionException;
-use ReflectionProperty;
 use TimothePearce\Quasar\Models\Projection;
 
 class Projector
@@ -42,7 +41,7 @@ class Projector
      */
     public function parsePeriods(): void
     {
-        $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
+        $periods = (new $this->projectionName)->periods;
 
         collect($periods)->each(function ($period) {
             $this->isGlobalPeriod($period) ?

@@ -77,7 +77,7 @@ class ProjectionClass extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    public static array \$periods = [];
+    public array \$periods = [];
 
     /**
      * The default projection content.
@@ -121,7 +121,7 @@ class ProjectionClass extends Projection implements ProjectionContract
      *
      * @var string[]
      */
-    public static array \$periods = [];
+    public array \$periods = [];
 
     /**
      * The default projection content.

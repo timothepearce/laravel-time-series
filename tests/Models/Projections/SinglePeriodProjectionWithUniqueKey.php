@@ -11,7 +11,7 @@ class SinglePeriodProjectionWithUniqueKey extends Projection implements Projecti
     /**
      * Lists the time intervals used to compute the projections.
      */
-    public static array $periods = ['5 minutes'];
+    public array $periods = ['5 minutes'];
 
     /**
      * The default projection content.

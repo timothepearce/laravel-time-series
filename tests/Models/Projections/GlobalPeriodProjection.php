@@ -11,7 +11,7 @@ class GlobalPeriodProjection extends Projection implements ProjectionContract
     /**
      * Lists the time intervals used to compute the projections.
      */
-    public static array $periods = ['*'];
+    public array $periods = ['*'];
 
     /**
      * The default projection content.

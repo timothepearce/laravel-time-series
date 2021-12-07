@@ -11,7 +11,7 @@ class SinglePeriodProjectionWithCallable extends Projection implements Projectio
     /**
      * Lists the time intervals used to compute the projections.
      */
-    public static array $periods = ['5 minutes'];
+    public array $periods = ['5 minutes'];
 
     /**
      * The default projection content.

@@ -11,7 +11,7 @@ class MultiplePeriodsProjection extends Projection implements ProjectionContract
     /**
      * Lists the time intervals used to compute the projections.
      */
-    public static array $periods = [
+    public array $periods = [
         '5 minutes',
         '1 hour',
         '6 hours',
