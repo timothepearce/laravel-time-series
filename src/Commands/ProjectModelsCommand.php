@@ -47,7 +47,7 @@ class ProjectModelsCommand extends Command
         Projection::query()->delete();
 
         $this->getProjectableModels()
-            ->map(fn (string $modelName) => $modelName::all())
+            ->map(fn (string $modelName) => $modelName::withTrashed()->get())
             ->flatten()
             ->sortBy('created_at')
             ->each

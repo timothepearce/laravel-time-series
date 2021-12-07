@@ -10,7 +10,7 @@ return [
     /*
      * When enabled, Cargo will process the projections on a queue.
      */
-    'queue' => true,
+    'queue' => false,
 
     /*
      * This queue will be used to generate derived and responsive images.
