@@ -90,7 +90,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public static function projectableCreated(array \$content, Model \$model): array
+    public function projectableCreated(array \$content, Model \$model): array
     {
         return [];
     }
@@ -134,7 +134,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * The key used to query the projection.
      */
-    public static function key(Model \$model): string
+    public function key(Model \$model): string
     {
         return \$model->id;
     }
@@ -142,7 +142,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * Compute the projection.
      */
-    public static function projectableCreated(array \$content, Model \$model): array
+    public function projectableCreated(array \$content, Model \$model): array
     {
         return [];
     }

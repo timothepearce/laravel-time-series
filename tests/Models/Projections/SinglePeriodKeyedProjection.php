@@ -26,7 +26,7 @@ class SinglePeriodKeyedProjection extends Projection implements ProjectionContra
     /**
      * The key used to query the projection.
      */
-    public static function key(Model $model): string
+    public function key(Model $model): string
     {
         return '1';
     }

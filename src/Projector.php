@@ -161,7 +161,7 @@ class Projector
      */
     public function key(): bool|int|string
     {
-        return $this->projectionName::key($this->projectedModel);
+        return (new $this->projectionName)->key($this->projectedModel);
     }
 
     /**
