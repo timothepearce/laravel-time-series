@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('projection_name');
             $table->string('key')->nullable();
             $table->string('period');
-            $table->timestamp('start_date');
+            $table->timestamp('start_date')->nullable();
             $table->json('content');
 
             $table->timestamps();

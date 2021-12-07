@@ -18,9 +18,9 @@ class SinglePeriodProjectionWithoutCallable extends Projection implements Projec
     public static function defaultContent(): array
     {
         return [
-            'log_created_count' => 0,
-            'log_updated_count' => 0,
-            'log_deleted_count' => 0,
+            'created_count' => 0,
+            'updated_count' => 0,
+            'deleted_count' => 0,
         ];
     }
 }

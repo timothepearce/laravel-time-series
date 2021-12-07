@@ -9,6 +9,7 @@ use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Tests\Models\Log;
 use TimothePearce\Quasar\Tests\Models\Message;
+use TimothePearce\Quasar\Tests\Models\Projections\GlobalPeriodProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
@@ -186,6 +187,15 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_a_global_projection()
+    {
+        $this->createModelWithProjections(Log::class, [GlobalPeriodProjection::class]);
+
+        $this->assertEquals(1, Projection::count());
+        $this->assertEquals(1, Projection::first()->content['created_count']);
+    }
+
+    /** @test */
     public function it_creates_a_projection_for_each_different_key()
     {
         $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
@@ -210,7 +220,18 @@ class ProjectableTest extends TestCase
 
         $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
 
-        $this->assertEquals(1, $logProjection->content['log_created_count']);
+        $this->assertEquals(1, $logProjection->content['created_count']);
+    }
+
+    /** @test */
+    public function it_updates_a_global_projection()
+    {
+        $log = $this->createModelWithProjections(Log::class, [GlobalPeriodProjection::class]);
+
+        $log->update(['message' => 'updated message']);
+
+        $this->assertEquals(1, Projection::count());
+        $this->assertEquals(1, Projection::first()->content['updated_count']);
     }
 
     /** @test */
@@ -221,7 +242,7 @@ class ProjectableTest extends TestCase
 
         $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
 
-        $this->assertEquals(1, $logProjection->content['log_updated_count']);
+        $this->assertEquals(1, $logProjection->content['updated_count']);
     }
 
     /** @test */
@@ -232,7 +253,7 @@ class ProjectableTest extends TestCase
 
         $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
 
-        $this->assertEquals(1, $logProjection->content['log_deleted_count']);
+        $this->assertEquals(1, $logProjection->content['deleted_count']);
     }
 
     /** @test */

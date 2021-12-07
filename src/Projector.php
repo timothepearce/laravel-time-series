@@ -20,7 +20,8 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
@@ -32,7 +33,33 @@ class Projector
     {
         $periods = (new ReflectionProperty($this->projectionName, 'periods'))->getValue();
 
-        collect($periods)->each(fn (string $period) => $this->parsePeriod($period));
+        collect($periods)->each(function ($period) {
+            $this->isGlobalPeriod($period) ?
+                $this->createOrUpdateGlobalPeriod() :
+                $this->parsePeriod($period);
+        });
+    }
+
+    /**
+     * Is the given period a global one or not.
+     */
+    private function isGlobalPeriod($period): bool
+    {
+        return $period === '*';
+    }
+
+    /**
+     * Handles the global period case.
+     * @throws MissingCallableMethodException
+     */
+    private function createOrUpdateGlobalPeriod(): void
+    {
+        ray(Projection::all());
+        $projection = $this->findGlobalProjection();
+
+        is_null($projection) ?
+            $this->createGlobalProjection() :
+            $this->updateProjection($projection);
     }
 
     /**
@@ -48,6 +75,19 @@ class Projector
         is_null($projection) ?
             $this->createProjection($period, (int)$quantity, $periodType) :
             $this->updateProjection($projection);
+    }
+
+    /**
+     * Finds the global projection if it exists.
+     */
+    private function findGlobalProjection(): Projection|null
+    {
+        return Projection::firstWhere([
+            ['projection_name', $this->projectionName],
+            ['key', $this->hasKey() ? $this->key() : null],
+            ['period', '*'],
+            ['start_date', null],
+        ]);
     }
 
     /**
@@ -74,6 +114,21 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => $this->projectedModel->created_at->floorUnit($periodType, $quantity),
+            'content' => $this->mergeProjectedContent($this->projectionName::defaultContent()),
+        ]);
+    }
+
+    /**
+     * Creates the global projection.
+     * @throws MissingCallableMethodException
+     */
+    private function createGlobalProjection()
+    {
+        $this->projectedModel->projections()->create([
+            'projection_name' => $this->projectionName,
+            'key' => $this->hasKey() ? $this->key() : null,
+            'period' => '*',
+            'start_date' => null,
             'content' => $this->mergeProjectedContent($this->projectionName::defaultContent()),
         ]);
     }

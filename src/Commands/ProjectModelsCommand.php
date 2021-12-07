@@ -40,14 +40,14 @@ class ProjectModelsCommand extends Command
      */
     public function handle(): void
     {
-        if (! $this->askConfirmation()) {
+        if (!$this->askConfirmation()) {
             return;
         }
 
         Projection::query()->delete();
 
         $this->getProjectableModels()
-            ->map(fn (string $modelName) => $modelName::withTrashed()->get())
+            ->map(fn(string $modelName) => $modelName::all())
             ->flatten()
             ->sortBy('created_at')
             ->each
@@ -58,7 +58,7 @@ class ProjectModelsCommand extends Command
 
     private function askConfirmation(): bool
     {
-        if (! Projection::exists() || $this->option('force')) {
+        if (!Projection::exists() || $this->option('force')) {
             return true;
         }
 
@@ -81,7 +81,7 @@ class ProjectModelsCommand extends Command
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->argument('model'))->map(
-            fn (string $modelName) => config('quasar.models_namespace') . $modelName
+            fn(string $modelName) => config('quasar.models_namespace') . $modelName
         );
     }
 }
