@@ -19,15 +19,17 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
      * Handles the projection.
+     * @throws ReflectionException
      */
     public function handle(): void
     {
-        if (! $this->hasCallableMethod()) {
+        if (!$this->hasCallableMethod()) {
             return;
         }
 
@@ -62,7 +64,6 @@ class Projector
      */
     private function createOrUpdateGlobalPeriod(): void
     {
-        ray(Projection::all());
         $projection = $this->findGlobalProjection();
 
         is_null($projection) ?
