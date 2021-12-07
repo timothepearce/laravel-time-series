@@ -4,7 +4,6 @@ namespace TimothePearce\Quasar\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use ReflectionException;
 use TimothePearce\Quasar\Jobs\ProcessProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Projector;
@@ -12,20 +11,19 @@ use TimothePearce\Quasar\Projector;
 trait Projectable
 {
     /**
-     * Boot the trait.
+     * Boots the trait.
      */
     public static function bootProjectable(): void
     {
-        static::created(fn (Model $model) => $model->projectModel('created'));
-        static::updating(fn (Model $model) => $model->projectModel('updating'));
-        static::updated(fn (Model $model) => $model->projectModel('updated'));
-        static::deleting(fn (Model $model) => $model->projectModel('deleting'));
-        static::deleted(fn (Model $model) => $model->projectModel('deleted'));
+        static::created(fn(Model $model) => $model->projectModel('created'));
+        static::updating(fn(Model $model) => $model->projectModel('updating'));
+        static::updated(fn(Model $model) => $model->projectModel('updated'));
+        static::deleting(fn(Model $model) => $model->projectModel('deleting'));
+        static::deleted(fn(Model $model) => $model->projectModel('deleted'));
     }
 
     /**
      * Projects the model.
-     * @throws ReflectionException
      */
     public function projectModel(string $eventName): void
     {
@@ -35,23 +33,23 @@ trait Projectable
     }
 
     /**
-     * Boot the projectors.
-     * @throws ReflectionException
+     * Boots the projectors.
      */
     public function bootProjectors(string $eventName): void
     {
         collect($this->projections)->each(
-            fn (string $projection) => (new Projector($this, $projection, $eventName))->handle()
+            fn(string $projection) => (new Projector($this, $projection, $eventName))->handle()
         );
     }
 
     /**
-     * Get all the projections of the model.
+     * Gets all the projections of the model.
      */
     public function projections(
         string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): MorphToMany {
+    ): MorphToMany
+    {
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectionName)) {
@@ -74,17 +72,18 @@ trait Projectable
     }
 
     /**
-     * Get the first projection.
+     * Gets the first projection.
      */
     public function firstProjection(
         string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): null|Projection {
+    ): null|Projection
+    {
         return $this->projections($projectionName, $periods)->first();
     }
 
     /**
-     * Set the projectors.
+     * Sets the projectors.
      */
     public function setProjections(array $projections)
     {

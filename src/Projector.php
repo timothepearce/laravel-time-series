@@ -4,30 +4,24 @@ namespace TimothePearce\Quasar;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use ReflectionException;
 use TimothePearce\Quasar\Models\Projection;
 
 class Projector
 {
-    /**
-     * Lists the time intervals used to compute the projections.
-     */
-    protected array $periods;
-
     public function __construct(
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
      * Handles the projection.
-     * @throws ReflectionException
      */
     public function handle(): void
     {
-        if (! $this->hasCallableMethod()) {
+        if (!$this->hasCallableMethod()) {
             return;
         }
 
@@ -36,7 +30,6 @@ class Projector
 
     /**
      * Parses the periods defined as class attribute.
-     * @throws ReflectionException
      */
     public function parsePeriods(): void
     {
