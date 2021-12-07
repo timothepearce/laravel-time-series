@@ -22,6 +22,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
             'created_count' => 0,
             'updating_count' => 0,
             'updated_count' => 0,
+            'deleting_count' => 0,
             'deleted_count' => 0,
         ];
     }
@@ -53,6 +54,16 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     {
         return [
             'updated_count' => $content['updated_count'] + 1,
+        ];
+    }
+
+    /**
+     * Computes the content when a projectable model is deleting.
+     */
+    public static function projectableDeleting(array $content, Model $model): array
+    {
+        return [
+            'deleting_count' => $content['deleting_count'] + 1,
         ];
     }
 

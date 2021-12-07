@@ -54,6 +54,18 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_projection_on_model_deleting_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['deleting_count'], 0);
+
+        $log->delete();
+
+        $this->assertEquals($projection->refresh()->content['deleting_count'], 1);
+    }
+
+    /** @test */
     public function it_updates_the_projection_on_model_deleted_event()
     {
         $log = Log::factory()->create();
