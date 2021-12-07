@@ -194,7 +194,7 @@ class Projector
         $defaultCallable = 'projectable' . ucfirst($this->eventName);
 
         return method_exists($this->projectionName, $callableMethod) ?
-            $this->projectionName::$callableMethod($content, $this->projectedModel) :
-            $this->projectionName::$defaultCallable($content, $this->projectedModel);
+            (new $this->projectionName)->$callableMethod($content, $this->projectedModel) :
+            (new $this->projectionName)->$defaultCallable($content, $this->projectedModel);
     }
 }

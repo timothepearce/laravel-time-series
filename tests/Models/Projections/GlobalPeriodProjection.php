@@ -27,7 +27,7 @@ class GlobalPeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is created.
      */
-    public static function projectableCreated(array $content, Model $model): array
+    public function projectableCreated(array $content, Model $model): array
     {
         return [
             'created_count' => $content['created_count'] + 1,
@@ -37,7 +37,7 @@ class GlobalPeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is updated.
      */
-    public static function projectableUpdated(array $content, Model $model): array
+    public function projectableUpdated(array $content, Model $model): array
     {
         return [
             'updated_count' => $content['updated_count'] + 1,

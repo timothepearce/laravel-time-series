@@ -28,7 +28,7 @@ class SinglePeriodProjectionWithCallable extends Projection implements Projectio
     /**
      * Computes the content when a Log is created.
      */
-    public static function logCreated(array $content, Model $model): array
+    public function logCreated(array $content, Model $model): array
     {
         return [
             'created_count' => $content['created_count'] + 1,
@@ -38,7 +38,7 @@ class SinglePeriodProjectionWithCallable extends Projection implements Projectio
     /**
      * Computes the content when a Log is updated.
      */
-    public static function logUpdated(array $content, Model $model): array
+    public function logUpdated(array $content, Model $model): array
     {
         return [
             'updated_count' => $content['updated_count'] + 1,
@@ -48,7 +48,7 @@ class SinglePeriodProjectionWithCallable extends Projection implements Projectio
     /**
      * Computes the content when a Log is deleted.
      */
-    public static function logDeleted(array $content, Model $model): array
+    public function logDeleted(array $content, Model $model): array
     {
         return [
             'deleted_count' => $content['deleted_count'] + 1,

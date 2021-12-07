@@ -30,7 +30,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is created.
      */
-    public static function projectableCreated(array $content, Model $model): array
+    public function projectableCreated(array $content, Model $model): array
     {
         return [
             'created_count' => $content['created_count'] + 1,
@@ -40,7 +40,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is updating.
      */
-    public static function projectableUpdating(array $content, Model $model): array
+    public function projectableUpdating(array $content, Model $model): array
     {
         return [
             'updating_count' => $content['updating_count'] + 1,
@@ -50,7 +50,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is updated.
      */
-    public static function projectableUpdated(array $content, Model $model): array
+    public function projectableUpdated(array $content, Model $model): array
     {
         return [
             'updated_count' => $content['updated_count'] + 1,
@@ -60,7 +60,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is deleting.
      */
-    public static function projectableDeleting(array $content, Model $model): array
+    public function projectableDeleting(array $content, Model $model): array
     {
         return [
             'deleting_count' => $content['deleting_count'] + 1,
@@ -70,7 +70,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     /**
      * Computes the content when a projectable model is deleted.
      */
-    public static function projectableDeleted(array $content, Model $model): array
+    public function projectableDeleted(array $content, Model $model): array
     {
         return [
             'deleted_count' => $content['deleted_count'] + 1,

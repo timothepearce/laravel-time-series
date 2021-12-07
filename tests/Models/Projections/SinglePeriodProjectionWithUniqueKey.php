@@ -34,7 +34,7 @@ class SinglePeriodProjectionWithUniqueKey extends Projection implements Projecti
     /**
      * Compute the projection.
      */
-    public static function projectableCreated(array $content, Model $model): array
+    public function projectableCreated(array $content, Model $model): array
     {
         return [
             'created_count' => $content['created_count'] + 1,

@@ -35,7 +35,7 @@ class MultiplePeriodsProjection extends Projection implements ProjectionContract
     /**
      * Compute the projection's content.
      */
-    public static function projectableCreated(array $content, Model $model): array
+    public function projectableCreated(array $content, Model $model): array
     {
         return [
             'created_count' => $content['created_count'] + 1,
