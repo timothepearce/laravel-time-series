@@ -25,7 +25,7 @@ class MultiplePeriodsProjection extends Projection implements ProjectionContract
     /**
      * The default projection content.
      */
-    public static function defaultContent(): array
+    public function defaultContent(): array
     {
         return [
             'created_count' => 0,

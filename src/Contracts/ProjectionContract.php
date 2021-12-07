@@ -7,5 +7,5 @@ interface ProjectionContract
     /**
      * The default projection content.
      */
-    public static function defaultContent(): array;
+    public function defaultContent(): array;
 }

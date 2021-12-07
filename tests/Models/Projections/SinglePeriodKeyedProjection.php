@@ -16,7 +16,7 @@ class SinglePeriodKeyedProjection extends Projection implements ProjectionContra
     /**
      * The default projection content.
      */
-    public static function defaultContent(): array
+    public function defaultContent(): array
     {
         return [
             'created_count' => 0,

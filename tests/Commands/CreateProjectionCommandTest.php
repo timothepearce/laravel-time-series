@@ -82,7 +82,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * The default projection content.
      */
-    public static function defaultContent(): array
+    public function defaultContent(): array
     {
         return [];
     }
@@ -126,7 +126,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     /**
      * The default projection content.
      */
-    public static function defaultContent(): array
+    public function defaultContent(): array
     {
         return [];
     }

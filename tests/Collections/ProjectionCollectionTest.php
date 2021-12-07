@@ -100,7 +100,7 @@ class ProjectionCollectionTest extends TestCase
             ->fillBetween(now(), Carbon::now()->addMinutes(10));
 
         $filledProjections->each(function (Projection $filledProjection) {
-            $this->assertEquals($filledProjection->content, SinglePeriodProjection::defaultContent());
+            $this->assertEquals($filledProjection->content, (new SinglePeriodProjection)->defaultContent());
         });
     }
 

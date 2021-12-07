@@ -19,7 +19,8 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    ) {
+    )
+    {
     }
 
     /**
@@ -28,7 +29,7 @@ class Projector
      */
     public function handle(): void
     {
-        if (! $this->hasCallableMethod()) {
+        if (!$this->hasCallableMethod()) {
             return;
         }
 
@@ -120,7 +121,7 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => $this->projectedModel->created_at->floorUnit($periodType, $quantity),
-            'content' => $this->mergeProjectedContent($this->projectionName::defaultContent()),
+            'content' => $this->mergeProjectedContent((new $this->projectionName)->defaultContent()),
         ]);
     }
 
@@ -134,7 +135,7 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => '*',
             'start_date' => null,
-            'content' => $this->mergeProjectedContent($this->projectionName::defaultContent()),
+            'content' => $this->mergeProjectedContent((new $this->projectionName)->defaultContent()),
         ]);
     }
 
