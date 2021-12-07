@@ -27,7 +27,7 @@ class Projector
      */
     public function handle(): void
     {
-        if (!$this->hasCallableMethod()) {
+        if (! $this->hasCallableMethod()) {
             return;
         }
 
