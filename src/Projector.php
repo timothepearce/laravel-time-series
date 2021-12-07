@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use ReflectionException;
 use ReflectionProperty;
-use TimothePearce\Quasar\Exceptions\MissingCallableMethodException;
 use TimothePearce\Quasar\Models\Projection;
 
 class Projector
@@ -25,9 +24,20 @@ class Projector
     }
 
     /**
+     * Handles the projection.
+     */
+    public function handle(): void
+    {
+        if (!$this->hasCallableMethod()) {
+            return;
+        }
+
+        $this->parsePeriods();
+    }
+
+    /**
      * Parses the periods defined as class attribute.
      * @throws ReflectionException
-     * @throws MissingCallableMethodException
      */
     public function parsePeriods(): void
     {
@@ -50,7 +60,6 @@ class Projector
 
     /**
      * Handles the global period case.
-     * @throws MissingCallableMethodException
      */
     private function createOrUpdateGlobalPeriod(): void
     {
@@ -64,7 +73,6 @@ class Projector
 
     /**
      * Parses the given period.
-     * @throws MissingCallableMethodException
      */
     private function parsePeriod(string $period): void
     {
@@ -105,7 +113,6 @@ class Projector
 
     /**
      * Creates the projection.
-     * @throws MissingCallableMethodException
      */
     private function createProjection(string $period, int $quantity, string $periodType): void
     {
@@ -120,7 +127,6 @@ class Projector
 
     /**
      * Creates the global projection.
-     * @throws MissingCallableMethodException
      */
     private function createGlobalProjection()
     {
@@ -135,7 +141,6 @@ class Projector
 
     /**
      * Updates the projection.
-     * @throws MissingCallableMethodException
      */
     private function updateProjection(Projection $projection): void
     {
@@ -162,7 +167,6 @@ class Projector
 
     /**
      * Merges the projected content with the given one.
-     * @throws MissingCallableMethodException
      */
     private function mergeProjectedContent(array $content): array
     {
@@ -170,8 +174,19 @@ class Projector
     }
 
     /**
+     * Asserts the projection has a callable method for the event name.
+     */
+    private function hasCallableMethod(): bool
+    {
+        $modelName = Str::of($this->projectedModel::class)->explode('\\')->last();
+        $callableMethod = lcfirst($modelName) . ucfirst($this->eventName);
+        $defaultCallable = 'projectable' . ucfirst($this->eventName);
+
+        return method_exists($this->projectionName, $callableMethod) || method_exists($this->projectionName, $defaultCallable);
+    }
+
+    /**
      * Resolves the callable method.
-     * @throws MissingCallableMethodException
      */
     private function resolveCallableMethod(array $content): array
     {
@@ -183,10 +198,6 @@ class Projector
             return $this->projectionName::$callableMethod($content, $this->projectedModel);
         }
 
-        if (method_exists($this->projectionName, $defaultCallable)) {
-            return $this->projectionName::$defaultCallable($content, $this->projectedModel);
-        }
-
-        throw new MissingCallableMethodException();
+        return $this->projectionName::$defaultCallable($content, $this->projectedModel);
     }
 }

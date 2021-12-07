@@ -20,6 +20,7 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     {
         return [
             'created_count' => 0,
+            'updating_count' => 0,
             'updated_count' => 0,
             'deleted_count' => 0,
         ];
@@ -32,6 +33,16 @@ class SinglePeriodProjection extends Projection implements ProjectionContract
     {
         return [
             'created_count' => $content['created_count'] + 1,
+        ];
+    }
+
+    /**
+     * Computes the content when a projectable model is updating.
+     */
+    public static function projectableUpdating(array $content, Model $model): array
+    {
+        return [
+            'updating_count' => $content['updating_count'] + 1,
         ];
     }
 

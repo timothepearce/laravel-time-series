@@ -32,13 +32,25 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
+    public function it_updates_the_projection_on_model_updating_event()
+    {
+        $log = Log::factory()->create();
+        $projection = $log->firstProjection();
+        $this->assertEquals($projection->content['updating_count'], 0);
+
+        $log->update(['message' => 'message updating']);
+
+        $this->assertEquals($projection->refresh()->content['updating_count'], 1);
+    }
+
+    /** @test */
     public function it_updates_the_projection_on_model_updated_event()
     {
         $log = Log::factory()->create();
         $projection = $log->firstProjection();
         $this->assertEquals($projection->content['updated_count'], 0);
 
-        $log->update(['message' => 'message update']);
+        $log->update(['message' => 'message updated']);
 
         $this->assertEquals($projection->refresh()->content['updated_count'], 1);
     }
@@ -254,14 +266,6 @@ class ProjectableTest extends TestCase
         $logProjection = $log->projections(SinglePeriodProjectionWithCallable::class, '5 minutes')->first();
 
         $this->assertEquals(1, $logProjection->content['deleted_count']);
-    }
-
-    /** @test */
-    public function it_raises_an_exception_when_no_callable_is_defined()
-    {
-        $this->expectException(MissingCallableMethodException::class);
-
-        $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithoutCallable::class]);
     }
 
     /** @test */
