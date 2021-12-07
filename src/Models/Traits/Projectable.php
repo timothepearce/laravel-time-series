@@ -16,11 +16,11 @@ trait Projectable
      */
     public static function bootProjectable(): void
     {
-        static::created(fn(Model $model) => $model->projectModel('created'));
-        static::updating(fn(Model $model) => $model->projectModel('updating'));
-        static::updated(fn(Model $model) => $model->projectModel('updated'));
-        static::deleting(fn(Model $model) => $model->projectModel('deleting'));
-        static::deleted(fn(Model $model) => $model->projectModel('deleted'));
+        static::created(fn (Model $model) => $model->projectModel('created'));
+        static::updating(fn (Model $model) => $model->projectModel('updating'));
+        static::updated(fn (Model $model) => $model->projectModel('updated'));
+        static::deleting(fn (Model $model) => $model->projectModel('deleting'));
+        static::deleted(fn (Model $model) => $model->projectModel('deleted'));
     }
 
     /**
@@ -41,7 +41,7 @@ trait Projectable
     public function bootProjectors(string $eventName): void
     {
         collect($this->projections)->each(
-            fn(string $projection) => (new Projector($this, $projection, $eventName))->handle()
+            fn (string $projection) => (new Projector($this, $projection, $eventName))->handle()
         );
     }
 
@@ -51,8 +51,7 @@ trait Projectable
     public function projections(
         string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): MorphToMany
-    {
+    ): MorphToMany {
         $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
 
         if (isset($projectionName)) {
@@ -80,8 +79,7 @@ trait Projectable
     public function firstProjection(
         string|null       $projectionName = null,
         string|array|null $periods = null,
-    ): null|Projection
-    {
+    ): null|Projection {
         return $this->projections($projectionName, $periods)->first();
     }
 

@@ -19,8 +19,7 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName
-    )
-    {
+    ) {
     }
 
     /**
@@ -29,7 +28,7 @@ class Projector
      */
     public function handle(): void
     {
-        if (!$this->hasCallableMethod()) {
+        if (! $this->hasCallableMethod()) {
             return;
         }
 
