@@ -33,9 +33,9 @@ class Projection extends Model
     ];
 
     /**
-     * The projector's name used in query.
+     * The projection name used in query.
      */
-    protected string|null $projectorName = null;
+    protected string|null $projectionName = null;
 
     /**
      * The projection's period used in query.
@@ -51,7 +51,7 @@ class Projection extends Model
     }
 
     /**
-     * Create a new Eloquent Collection instance.
+     * Creates a new Eloquent Collection instance.
      */
     public function newCollection(array $models = []): Collection
     {
@@ -59,7 +59,7 @@ class Projection extends Model
     }
 
     /**
-     * Get the relationship with the projectable models.
+     * Gets the relationship with the projectable models.
      */
     public function from(string $modelName): MorphToMany
     {
@@ -67,17 +67,17 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter by name.
+     * Scopes a query to filter by name.
      */
     public function scopeFromProjector(Builder $query, string $projectorName): Builder
     {
-        $this->projectorName = $projectorName;
+        $this->projectionName = $projectorName;
 
         return $query->where('projection_name', $projectorName);
     }
 
     /**
-     * Scope a query to filter by period.
+     * Scopes a query to filter by period.
      */
     public function scopePeriod(Builder $query, string $period): Builder
     {
@@ -87,7 +87,7 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter by key.
+     * Scopes a query to filter by key.
      */
     public function scopeKey(Builder $query, array|string|int $keys): Builder
     {
@@ -105,15 +105,13 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter by the given dates
+     * Scopes a query to filter by the given dates
      * @throws MissingProjectionNameException
      * @throws MissingProjectionPeriodException
      */
     public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
     {
-        if (is_null($this->projectorName)) {
-            throw new MissingProjectionNameException();
-        }
+        $this->guessProjectionName();
 
         if (is_null($this->queryPeriod)) {
             throw new MissingProjectionPeriodException();
@@ -130,7 +128,7 @@ class Projection extends Model
     }
 
     /**
-     * Scope a query to filter by the given dates and fill with empty period if necessary.
+     * Scopes a query to filter by the given dates and fill with empty period if necessary.
      * @throws MissingProjectionNameException
      * @throws MissingProjectionPeriodException
      */
@@ -141,8 +139,33 @@ class Projection extends Model
         return $projections->fillBetween(
             $startDate,
             $endDate,
-            $this->projectorName,
+            $this->guessProjectionName(),
             $this->queryPeriod,
         );
+    }
+
+    /**
+     * Guesses the projection name.
+     * @throws MissingProjectionNameException
+     */
+    private function guessProjectionName(): string
+    {
+        if (!is_null($this->projectionName)) {
+            return $this->projectionName;
+        }
+
+        if ($this->callFromChild()) {
+            return get_called_class();
+        }
+
+        throw new MissingProjectionNameException();
+    }
+
+    /**
+     * Asserts the call is made from the child class.
+     */
+    private function callFromChild(): bool
+    {
+        return get_class() !== get_called_class();
     }
 }
