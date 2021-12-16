@@ -184,6 +184,21 @@ class ProjectionTest extends TestCase
     {
         $firstProjection = Log::factory()->create(['created_at' => today()])->firstProjection();
 
-        $this->assertEquals($firstProjection->end_date, today()->addMinutes(5)->subSecond());
+        $this->assertEquals(
+            $firstProjection->end_date,
+            today()->addMinutes(5)->subSecond()
+        );
+    }
+
+    /** @test */
+    public function it_is_segmented()
+    {
+        $firstProjection = Log::factory()->create(['created_at' => today()])->firstProjection();
+
+        $this->assertEquals([
+            'start_date' => today()->toDateTimeString(),
+            'end_date' => today()->addMinutes(5)->subSecond()->toDateTimeString(),
+            'content' => $firstProjection->content,
+        ], $firstProjection->segment());
     }
 }

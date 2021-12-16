@@ -67,6 +67,18 @@ class Projection extends Model
     }
 
     /**
+     * Converts the projection to a time-series segment.
+     */
+    public function segment(): array
+    {
+        return [
+            'start_date' => $this->start_date->toDateTimeString(),
+            'end_date' => $this->end_date->toDateTimeString(),
+            'content' => $this->content,
+        ];
+    }
+
+    /**
      * Scopes a query to filter by name.
      */
     public function scopeFromProjector(Builder $query, string $projectorName): Builder
