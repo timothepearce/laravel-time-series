@@ -21,20 +21,21 @@ class ProjectionCollection extends Collection
     public function fillBetween(
         Carbon      $startDate,
         Carbon      $endDate,
-        string|null $projectorName = null,
+        string|null $projectionName = null,
         string|null $period = null,
-    ): ProjectionCollection {
-        [$projectorName, $period] = $this->resolveGuessParameters($projectorName, $period);
+    ): ProjectionCollection
+    {
+        [$projectionName, $period] = $this->resolveGuessParameters($projectionName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
 
-        $allPeriods->each(function (string $projectionPeriod) use (&$projectorName, &$period, &$allProjections) {
+        $allPeriods->each(function (string $projectionPeriod) use (&$projectionName, &$period, &$allProjections) {
             $projection = $this->firstWhere('start_date', $projectionPeriod);
 
             is_null($projection) ?
-                $allProjections->push($this->makeEmptyProjection($projectorName, $period, $projectionPeriod)) :
+                $allProjections->push($this->makeEmptyProjection($projectionName, $period, $projectionPeriod)) :
                 $allProjections->push($projection);
         });
 
@@ -46,13 +47,13 @@ class ProjectionCollection extends Collection
      *
      * @throws EmptyProjectionCollectionException|MultipleProjectionsException|MultiplePeriodsException
      */
-    private function resolveGuessParameters(string|null $projectorName, string|null $period): array
+    private function resolveGuessParameters(string|null $projectionName, string|null $period): array
     {
-        if ($this->count() === 0 && $this->shouldGuessParameters($projectorName, $period)) {
+        if ($this->count() === 0 && $this->shouldGuessParameters($projectionName, $period)) {
             throw new EmptyProjectionCollectionException();
         }
 
-        return [$this->resolveProjectorName($projectorName), $this->resolvePeriod($period)];
+        return [$this->resolveProjectorName($projectionName), $this->resolvePeriod($period)];
     }
 
     /**
@@ -77,9 +78,9 @@ class ProjectionCollection extends Collection
     /**
      * Asserts the parameters should be guessed.
      */
-    private function shouldGuessParameters(string|null $projectorName, string|null $period): bool
+    private function shouldGuessParameters(string|null $projectionName, string|null $period): bool
     {
-        return is_null($projectorName) || is_null($period);
+        return is_null($projectionName) || is_null($period);
     }
 
     /**
@@ -87,11 +88,11 @@ class ProjectionCollection extends Collection
      *
      * @throws MultipleProjectionsException|EmptyProjectionCollectionException
      */
-    private function resolveProjectorName(string|null $projectorName): string
+    private function resolveProjectorName(string|null $projectionName): string
     {
         $this->assertUniqueProjectorName();
 
-        return $projectorName ?? $this->guessProjectorName();
+        return $projectionName ?? $this->guessProjectorName();
     }
 
     /**
@@ -113,9 +114,9 @@ class ProjectionCollection extends Collection
      */
     private function assertUniqueProjectorName()
     {
-        $projectorNames = $this->unique('projection_name');
+        $projectionNames = $this->unique('projection_name');
 
-        if ($projectorNames->count() > 1) {
+        if ($projectionNames->count() > 1) {
             throw new MultipleProjectionsException();
         }
     }
@@ -164,9 +165,9 @@ class ProjectionCollection extends Collection
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
 
-        if ($cursorDate->notEqualTo($endDate)) {
-            $allProjectionsDates->push(clone $cursorDate);
-        }
+            if ($cursorDate->notEqualTo($endDate)) {
+                $allProjectionsDates->push(clone $cursorDate);
+            }
         endwhile;
 
         return $allProjectionsDates;
@@ -175,14 +176,14 @@ class ProjectionCollection extends Collection
     /**
      * Makes an empty projection from the given projector name.
      */
-    private function makeEmptyProjection(string $projectorName, string $period, string $startDate): Projection
+    private function makeEmptyProjection(string $projectionName, string $period, string $startDate): Projection
     {
         return Projection::make([
-            'projection_name' => $projectorName,
+            'projection_name' => $projectionName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
-            'content' => (new $projectorName())->defaultContent(),
+            'content' => (new $projectionName())->defaultContent(),
         ]);
     }
 }
