@@ -145,12 +145,20 @@ class Projection extends Model
     }
 
     /**
+     * Gets the end_date attribute.
+     */
+    public function getEndDateAttribute(): Carbon
+    {
+        return $this->start_date->add($this->period)->subSecond();
+    }
+
+    /**
      * Guesses the projection name.
      * @throws MissingProjectionNameException
      */
     private function guessProjectionName(): string
     {
-        if (! is_null($this->projectionName)) {
+        if (!is_null($this->projectionName)) {
             return $this->projectionName;
         }
 

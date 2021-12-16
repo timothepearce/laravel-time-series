@@ -178,4 +178,12 @@ class ProjectionTest extends TestCase
         $this->assertCount(1, $projection);
         $this->assertEquals(SinglePeriodProjection::class, $projection->first()->projection_name);
     }
+
+    /** @test */
+    public function it_gets_the_end_date()
+    {
+        $firstProjection = Log::factory()->create(['created_at' => today()])->firstProjection();
+
+        $this->assertEquals($firstProjection->end_date, today()->addMinutes(5)->subSecond());
+    }
 }
