@@ -48,7 +48,7 @@ class ProjectionTest extends TestCase
         $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
 
-        $numberOfProjections = Projection::fromProjector(SinglePeriodProjection::class)->count();
+        $numberOfProjections = Projection::fromProjection(SinglePeriodProjection::class)->count();
 
         $this->assertEquals(1, $numberOfProjections);
     }
@@ -79,7 +79,7 @@ class ProjectionTest extends TestCase
     {
         $this->expectException(MissingProjectionPeriodException::class);
 
-        Projection::fromProjector(SinglePeriodProjection::class)->between(now()->subMinute(), now());
+        Projection::fromProjection(SinglePeriodProjection::class)->between(now()->subMinute(), now());
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // Should be excluded
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $betweenProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(5),
@@ -110,7 +110,7 @@ class ProjectionTest extends TestCase
         $this->travel(5)->minutes();
         Log::factory()->create(); // should be excluded
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $betweenProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today()->addMinutes(4), // should be rounded to 0 minutes
@@ -132,7 +132,7 @@ class ProjectionTest extends TestCase
         $this->assertTrue(Carbon::today()->equalTo($firstProjection->start_date));
         $this->assertTrue($betweenEndDate->equalTo($secondProjection->start_date));
 
-        $betweenProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $betweenProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between(
                 Carbon::today(),

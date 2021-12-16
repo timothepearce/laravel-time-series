@@ -14,6 +14,22 @@ use TimothePearce\Quasar\Models\Projection;
 class ProjectionCollection extends Collection
 {
     /**
+     *
+     * @throws EmptyProjectionCollectionException|MultiplePeriodsException|MultipleProjectionsException|OverlappingFillBetweenDatesException
+     */
+    public function toTimeSeries(
+        Carbon      $startDate,
+        Carbon      $endDate,
+        string|null $projectionName = null,
+        string|null $period = null,
+    ): self
+    {
+        $projections = $this->fillBetween($startDate, $endDate, $projectionName, $period);
+
+        return new self($projections->map->segment());
+    }
+
+    /**
      * Fills the collection with empty projection between the given dates.
      *
      * @throws MultipleProjectionsException|MultiplePeriodsException|EmptyProjectionCollectionException|OverlappingFillBetweenDatesException
@@ -23,9 +39,9 @@ class ProjectionCollection extends Collection
         Carbon      $endDate,
         string|null $projectionName = null,
         string|null $period = null,
-    ): ProjectionCollection
+    ): self
     {
-        [$projectionName, $period] = $this->resolveGuessParameters($projectionName, $period);
+        [$projectionName, $period] = $this->resolveTypeParameters($projectionName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
@@ -43,17 +59,17 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Validates and resolve the guess parameters.
+     * Validates and resolve the type parameters.
      *
      * @throws EmptyProjectionCollectionException|MultipleProjectionsException|MultiplePeriodsException
      */
-    private function resolveGuessParameters(string|null $projectionName, string|null $period): array
+    private function resolveTypeParameters(string|null $projectionName, string|null $period): array
     {
-        if ($this->count() === 0 && $this->shouldGuessParameters($projectionName, $period)) {
+        if ($this->count() === 0 && $this->shouldGuessTypeParameters($projectionName, $period)) {
             throw new EmptyProjectionCollectionException();
         }
 
-        return [$this->resolveProjectorName($projectionName), $this->resolvePeriod($period)];
+        return [$this->resolveProjectionName($projectionName), $this->resolvePeriod($period)];
     }
 
     /**
@@ -78,7 +94,7 @@ class ProjectionCollection extends Collection
     /**
      * Asserts the parameters should be guessed.
      */
-    private function shouldGuessParameters(string|null $projectionName, string|null $period): bool
+    private function shouldGuessTypeParameters(string|null $projectionName, string|null $period): bool
     {
         return is_null($projectionName) || is_null($period);
     }
@@ -88,9 +104,9 @@ class ProjectionCollection extends Collection
      *
      * @throws MultipleProjectionsException|EmptyProjectionCollectionException
      */
-    private function resolveProjectorName(string|null $projectionName): string
+    private function resolveProjectionName(string|null $projectionName): string
     {
-        $this->assertUniqueProjectorName();
+        $this->assertUniqueProjectionName();
 
         return $projectionName ?? $this->guessProjectorName();
     }
@@ -108,11 +124,11 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Asserts the given projections came from a single type of projector.
+     * Asserts it is composed of a single type of projection.
      *
      * @throws MultipleProjectionsException
      */
-    private function assertUniqueProjectorName()
+    private function assertUniqueProjectionName()
     {
         $projectionNames = $this->unique('projection_name');
 

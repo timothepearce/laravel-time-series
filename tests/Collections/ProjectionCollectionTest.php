@@ -34,12 +34,12 @@ class ProjectionCollectionTest extends TestCase
         Log::factory()->create(); // excluded
 
         $this->assertEquals(1, Projection::count());
-        $unfilledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $unfilledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between($startDate, $endDate)->get();
         $this->assertCount(0, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $filledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->fillBetween($startDate, $endDate);
         $this->assertCount(1, $filledProjections);
@@ -54,12 +54,12 @@ class ProjectionCollectionTest extends TestCase
         $endDate = Carbon::now()->addMinutes(10);
         Log::factory()->create();
 
-        $unfilledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $unfilledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between($startDate, $endDate)->get();
         $this->assertCount(1, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $filledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->fillBetween($startDate, $endDate);
         $this->assertCount(2, $filledProjections);
@@ -77,12 +77,12 @@ class ProjectionCollectionTest extends TestCase
         $this->travel(10)->minutes();
         Log::factory()->create();
 
-        $unfilledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $unfilledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->between($startDate, $endDate)->get();
         $this->assertCount(2, $unfilledProjections);
 
-        $filledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $filledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->fillBetween($startDate, $endDate);
         $this->assertCount(3, $filledProjections);
@@ -95,7 +95,7 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function missing_periods_are_filled_with_default_content()
     {
-        $filledProjections = Projection::fromProjector(SinglePeriodProjection::class)
+        $filledProjections = Projection::fromProjection(SinglePeriodProjection::class)
             ->period('5 minutes')
             ->fillBetween(now(), Carbon::now()->addMinutes(10));
 
@@ -197,5 +197,11 @@ class ProjectionCollectionTest extends TestCase
         $filledCollection = $collection->fillBetween(now(), now()->addMinutes(5));
 
         $this->assertEquals($filledCollection->last()->projection_name, SinglePeriodProjection::class);
+    }
+
+    /** @test */
+    public function it_is_formatted_to_a_time_series()
+    {
+        // @todo
     }
 }
