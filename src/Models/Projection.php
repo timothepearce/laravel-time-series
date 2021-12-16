@@ -72,6 +72,8 @@ class Projection extends Model
     public function segment(): array
     {
         return [
+            'projection_name' => $this->projection_name,
+            'period' => $this->period,
             'start_date' => $this->start_date->toDateTimeString(),
             'end_date' => $this->end_date->toDateTimeString(),
             'content' => $this->content,

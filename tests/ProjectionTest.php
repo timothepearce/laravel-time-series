@@ -196,6 +196,8 @@ class ProjectionTest extends TestCase
         $firstProjection = Log::factory()->create(['created_at' => today()])->firstProjection();
 
         $this->assertEquals([
+            'projection_name' => $firstProjection->projection_name,
+            'period' => $firstProjection->period,
             'start_date' => today()->toDateTimeString(),
             'end_date' => today()->addMinutes(5)->subSecond()->toDateTimeString(),
             'content' => $firstProjection->content,
