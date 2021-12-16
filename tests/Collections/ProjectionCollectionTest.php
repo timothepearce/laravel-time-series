@@ -209,8 +209,6 @@ class ProjectionCollectionTest extends TestCase
 
         $timeSeriesCollection = $collection->toTimeSeries(today(), today()->addMinutes(5));
 
-        ray($collection->toTimeSeries(now(), now()->addMinutes(10)));
-
         $this->assertEquals(Projection::first()->segment(), $timeSeriesCollection->first());
     }
 }
