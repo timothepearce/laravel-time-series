@@ -22,8 +22,7 @@ class ProjectionCollection extends Collection
         Carbon      $endDate,
         string|null $projectionName = null,
         string|null $period = null,
-    ): self
-    {
+    ): self {
         $projections = $this->fillBetween($startDate, $endDate, $projectionName, $period);
 
         return new self($projections->map->segment());
@@ -39,8 +38,7 @@ class ProjectionCollection extends Collection
         Carbon      $endDate,
         string|null $projectionName = null,
         string|null $period = null,
-    ): self
-    {
+    ): self {
         [$projectionName, $period] = $this->resolveTypeParameters($projectionName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
@@ -181,9 +179,9 @@ class ProjectionCollection extends Collection
         while ($cursorDate->notEqualTo($endDate)):
             $cursorDate->add($periodQuantity, $periodType);
 
-            if ($cursorDate->notEqualTo($endDate)) {
-                $allProjectionsDates->push(clone $cursorDate);
-            }
+        if ($cursorDate->notEqualTo($endDate)) {
+            $allProjectionsDates->push(clone $cursorDate);
+        }
         endwhile;
 
         return $allProjectionsDates;
