@@ -202,6 +202,15 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function it_is_formatted_to_a_time_series()
     {
-        // @todo
+        Log::factory()->create(['created_at' => today()]);
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $timeSeriesCollection = $collection->toTimeSeries(today(), today()->addMinutes(5));
+
+        ray($collection->toTimeSeries(now(), now()->addMinutes(10)));
+
+        $this->assertEquals(Projection::first()->segment(), $timeSeriesCollection->first());
     }
 }
