@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar\Commands;
 
 use Illuminate\Console\Command;
 use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\Quasar\Quasar;
 
 class DropProjectionsCommand extends Command
 {
@@ -40,13 +41,33 @@ class DropProjectionsCommand extends Command
 
     /**
      * Executes the command operations.
-     * @todo ask confirmation in production
      */
     public function handle(): void
     {
+        if (!$this->askConfirmation()) {
+            return;
+        }
+
         if (empty($this->argument('projection'))) {
             Projection::query()->delete();
             return;
         }
+
+        collect($this->argument('projection'))->each(function (string $projectionName) {
+            $projection = app(Quasar::class)->resolveProjectionModel($projectionName);
+
+            Projection::fromProjection($projection)->delete();
+        });
+
+        $this->info('The projections have been dropped!');
+    }
+
+    private function askConfirmation()
+    {
+        if (config('app.env') === 'production' && !$this->option('force')) {
+            return $this->confirm("Projections will be deleted. Do you wish to continue?");
+        }
+
+        return true;
     }
 }

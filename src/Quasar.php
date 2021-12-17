@@ -27,6 +27,14 @@ class Quasar
     }
 
     /**
+     * Resolves the projection model from the given name.
+     */
+    public function resolveProjectionModel(string $projectionName): string
+    {
+        return "App\\Models\\Projections\\$projectionName";
+    }
+
+    /**
      * Resolves the floor date from the given period.
      */
     public function resolveFloorDate(Carbon $date, string $period): CarbonInterface
