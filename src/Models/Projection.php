@@ -171,7 +171,7 @@ class Projection extends Model
      */
     private function guessProjectionName(): string
     {
-        if (! is_null($this->projectionName)) {
+        if (!is_null($this->projectionName)) {
             return $this->projectionName;
         }
 
@@ -187,6 +187,6 @@ class Projection extends Model
      */
     private function callFromChild(): bool
     {
-        return get_class() !== get_called_class();
+        return get_class($this) !== get_called_class();
     }
 }
