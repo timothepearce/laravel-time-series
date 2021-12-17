@@ -27,7 +27,7 @@ class Quasar
     }
 
     /**
-     * Resolves the projection start date.
+     * Resolves the floored date from the given period.
      */
     public function resolveFlooredDate(Carbon $date, string $period): CarbonInterface
     {
