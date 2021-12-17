@@ -44,7 +44,7 @@ class DropProjectionsCommand extends Command
      */
     public function handle(): void
     {
-        if (!$this->askConfirmation()) {
+        if (! $this->askConfirmation()) {
             return;
         }
 
@@ -65,7 +65,7 @@ class DropProjectionsCommand extends Command
 
     private function askConfirmation()
     {
-        if (config('app.env') === 'production' && !$this->option('force')) {
+        if (config('app.env') === 'production' && ! $this->option('force')) {
             return $this->confirm("Projections will be deleted. Do you wish to continue?");
         }
 

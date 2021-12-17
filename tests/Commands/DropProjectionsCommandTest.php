@@ -44,7 +44,6 @@ class DropProjectionsCommandTest extends TestCase
         $this->assertDatabaseCount('quasar_projections', 1);
     }
 
-
     /**
      * Mocks the `resolveProjectableModels` methods from the Quasar class.
      */
@@ -52,7 +51,7 @@ class DropProjectionsCommandTest extends TestCase
     {
         $this->partialMock(
             Quasar::class,
-            fn(MockInterface $mock) => $mock
+            fn (MockInterface $mock) => $mock
                 ->shouldReceive('resolveProjectionModel')
                 ->andReturns($projectionModel)
         );
