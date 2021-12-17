@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\CarbonInterface;
+
 return [
 
     /*
@@ -17,6 +19,11 @@ return [
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
+
+    /*
+     * The day of the beginning of the week.
+     */
+    'beginning_of_the_week' => CarbonInterface::MONDAY,
 
     /*
      * When enabled, Cargo will delete the projections when the related model is also deleted.

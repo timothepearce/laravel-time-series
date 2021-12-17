@@ -3,6 +3,7 @@
 namespace TimothePearce\Quasar;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use TimothePearce\Quasar\Models\Projection;
 
@@ -11,8 +12,9 @@ class Projector
     public function __construct(
         protected Model  $projectedModel,
         protected string $projectionName,
-        protected string $eventName
-    ) {
+        protected string $eventName,
+    )
+    {
     }
 
     /**
@@ -20,7 +22,7 @@ class Projector
      */
     public function handle(): void
     {
-        if (! $this->hasCallableMethod()) {
+        if (!$this->hasCallableMethod()) {
             return;
         }
 
@@ -39,6 +41,14 @@ class Projector
                 $this->createOrUpdateGlobalPeriod() :
                 $this->parsePeriod($period);
         });
+    }
+
+    /**
+     * The key used to query the projection.
+     */
+    public function key(): bool|int|string
+    {
+        return (new $this->projectionName())->key($this->projectedModel);
     }
 
     /**
@@ -66,12 +76,10 @@ class Projector
      */
     private function parsePeriod(string $period): void
     {
-        [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
-
-        $projection = $this->findProjection($period, (int)$quantity, $periodType);
+        $projection = $this->findProjection($period);
 
         is_null($projection) ?
-            $this->createProjection($period, (int)$quantity, $periodType) :
+            $this->createProjection($period) :
             $this->updateProjection($projection);
     }
 
@@ -91,26 +99,26 @@ class Projector
     /**
      * Finds the projection if it exists.
      */
-    private function findProjection(string $period, int $quantity, string $periodType): Projection|null
+    private function findProjection(string $period): Projection|null
     {
         return Projection::firstWhere([
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', $this->projectedModel->created_at->floorUnit($periodType, $quantity)],
+            ['start_date', app(Quasar::class)->resolveFlooredDate($this->projectedModel->created_at, $period)],
         ]);
     }
 
     /**
      * Creates the projection.
      */
-    private function createProjection(string $period, int $quantity, string $periodType): void
+    private function createProjection(string $period): void
     {
         $this->projectedModel->projections()->create([
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => $this->projectedModel->created_at->floorUnit($periodType, $quantity),
+            'start_date' => app(Quasar::class)->resolveFlooredDate($this->projectedModel->created_at, $period),
             'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent()),
         ]);
     }
@@ -148,14 +156,6 @@ class Projector
     }
 
     /**
-     * The key used to query the projection.
-     */
-    public function key(): bool|int|string
-    {
-        return (new $this->projectionName())->key($this->projectedModel);
-    }
-
-    /**
      * Merges the projected content with the given one.
      */
     private function mergeProjectedContent(array $content): array
@@ -187,5 +187,19 @@ class Projector
         return method_exists($this->projectionName, $callableMethod) ?
             (new $this->projectionName())->$callableMethod($content, $this->projectedModel) :
             (new $this->projectionName())->$defaultCallable($content, $this->projectedModel);
+    }
+
+    /**
+     * Resolves the projection start date.
+     */
+    private function resolveStartDate(string $periodType, int $quantity): Carbon
+    {
+        $startDate = $this->projectedModel->created_at->floorUnit($periodType, $quantity);
+
+        if (in_array($periodType, ['week', 'weeks'])) {
+            $startDate->startOfWeek(config('quasar.beginning_of_the_week'));
+        }
+
+        return $startDate;
     }
 }

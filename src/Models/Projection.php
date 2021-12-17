@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 use TimothePearce\Quasar\Collections\ProjectionCollection;
 use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
 use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
 use TimothePearce\Quasar\Models\Scopes\ProjectionScope;
+use TimothePearce\Quasar\Quasar;
 
 class Projection extends Model
 {
@@ -131,9 +131,8 @@ class Projection extends Model
             throw new MissingProjectionPeriodException();
         }
 
-        [$quantity, $periodType] = Str::of($this->queryPeriod)->split('/[\s]+/');
-        $betweenStartDate = $startDate->copy()->floorUnit($periodType, $quantity);
-        $betweenEndDate = $endDate->copy()->floorUnit($periodType, $quantity);
+        $betweenStartDate = app(Quasar::class)->resolveFlooredDate($startDate->copy(), $this->queryPeriod);
+        $betweenEndDate = app(Quasar::class)->resolveFlooredDate($endDate->copy(), $this->queryPeriod);
 
         return $query->whereBetween('start_date', [
             $betweenStartDate,
@@ -172,7 +171,7 @@ class Projection extends Model
      */
     private function guessProjectionName(): string
     {
-        if (! is_null($this->projectionName)) {
+        if (!is_null($this->projectionName)) {
             return $this->projectionName;
         }
 

@@ -2,6 +2,8 @@
 
 namespace TimothePearce\Quasar;
 
+use Carbon\CarbonInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -22,6 +24,22 @@ class Quasar
 
             return isset($classes[Projectable::class]);
         });
+    }
+
+    /**
+     * Resolves the projection start date.
+     */
+    public function resolveFlooredDate(Carbon $date, string $period): CarbonInterface
+    {
+        [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
+
+        $startDate = $date->floorUnit($periodType, $quantity);
+
+        if (in_array($periodType, ['week', 'weeks'])) {
+            $startDate->startOfWeek(config('quasar.beginning_of_the_week'));
+        }
+
+        return $startDate;
     }
 
     /**
@@ -58,7 +76,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }
