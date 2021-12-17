@@ -14,6 +14,7 @@ use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
 use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
+use TimothePearce\Quasar\Tests\Models\Projections\WeeklyPeriodProjection;
 
 class ProjectableTest extends TestCase
 {
@@ -137,6 +138,22 @@ class ProjectableTest extends TestCase
         $log = Log::factory()->create();
 
         $this->assertNotEmpty($log->projections);
+    }
+
+    /** @test */
+    public function it_projects_the_data_with_a_start_date_equals_to_the_beginning_of_the_week()
+    {
+        $this->travelTo(new Carbon('2021-12-17 00:00:00')); // wednesday
+        $log = $this->createModelWithProjections(Log::class, [
+            WeeklyPeriodProjection::class,
+        ]);
+
+        $projection = $log->projections(WeeklyPeriodProjection::class)->first();
+
+        $this->assertEquals(
+            Carbon::createFromDate(2021, 12, 13), // monday
+            $projection->start_date,
+        );
     }
 
     /** @test */
