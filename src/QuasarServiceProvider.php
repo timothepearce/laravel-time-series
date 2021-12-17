@@ -4,6 +4,7 @@ namespace TimothePearce\Quasar;
 
 use Illuminate\Support\ServiceProvider;
 use TimothePearce\Quasar\Commands\CreateProjectionCommand;
+use TimothePearce\Quasar\Commands\DropProjectionsCommand;
 use TimothePearce\Quasar\Commands\ProjectModelsCommand;
 
 class QuasarServiceProvider extends ServiceProvider
@@ -22,6 +23,7 @@ class QuasarServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CreateProjectionCommand::class,
+                DropProjectionsCommand::class,
                 ProjectModelsCommand::class,
             ]);
         }

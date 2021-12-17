@@ -9,8 +9,6 @@ use TimothePearce\Quasar\Quasar;
 
 class ProjectModelsCommand extends Command
 {
-    public const CONFIRMATION_MESSAGE = "Existing projections will be deleted. Do you wish to continue?";
-
     /**
      * The name and signature of the console command.
      *
@@ -75,7 +73,7 @@ class ProjectModelsCommand extends Command
             return true;
         }
 
-        return $this->confirm(self::CONFIRMATION_MESSAGE);
+        return $this->confirm("Existing projections will be deleted. Do you wish to continue?");
     }
 
     /**

@@ -106,7 +106,7 @@ class ProjectionCollection extends Collection
     {
         $this->assertUniqueProjectionName();
 
-        return $projectionName ?? $this->guessProjectorName();
+        return $projectionName ?? $this->guessProjectionName();
     }
 
     /**
@@ -154,7 +154,7 @@ class ProjectionCollection extends Collection
      *
      * @throws EmptyProjectionCollectionException
      */
-    private function guessProjectorName(): string
+    private function guessProjectionName(): string
     {
         return $this->first()->projection_name;
     }
