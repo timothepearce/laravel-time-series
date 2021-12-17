@@ -50,6 +50,7 @@ class DropProjectionsCommand extends Command
 
         if (empty($this->argument('projection'))) {
             Projection::query()->delete();
+
             return;
         }
 
