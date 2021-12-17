@@ -171,7 +171,7 @@ class Projection extends Model
      */
     private function guessProjectionName(): string
     {
-        if (!is_null($this->projectionName)) {
+        if (! is_null($this->projectionName)) {
             return $this->projectionName;
         }
 
