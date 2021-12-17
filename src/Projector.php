@@ -13,7 +13,8 @@ class Projector
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName,
-    ) {
+    )
+    {
     }
 
     /**
@@ -21,7 +22,7 @@ class Projector
      */
     public function handle(): void
     {
-        if (! $this->hasCallableMethod()) {
+        if (!$this->hasCallableMethod()) {
             return;
         }
 
@@ -104,7 +105,7 @@ class Projector
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', app(Quasar::class)->resolveFlooredDate($this->projectedModel->created_at, $period)],
+            ['start_date', app(Quasar::class)->resolveFloorDate($this->projectedModel->created_at, $period)],
         ]);
     }
 
@@ -117,7 +118,7 @@ class Projector
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => app(Quasar::class)->resolveFlooredDate($this->projectedModel->created_at, $period),
+            'start_date' => app(Quasar::class)->resolveFloorDate($this->projectedModel->created_at, $period),
             'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent()),
         ]);
     }

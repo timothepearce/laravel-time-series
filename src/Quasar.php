@@ -27,9 +27,9 @@ class Quasar
     }
 
     /**
-     * Resolves the floored date from the given period.
+     * Resolves the floor date from the given period.
      */
-    public function resolveFlooredDate(Carbon $date, string $period): CarbonInterface
+    public function resolveFloorDate(Carbon $date, string $period): CarbonInterface
     {
         [$quantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
@@ -76,7 +76,7 @@ class Quasar
         )[1];
 
         return collect(explode('/', $relativePath))
-            ->map(fn ($pathSegment) => Str::ucfirst($pathSegment))
+            ->map(fn($pathSegment) => Str::ucfirst($pathSegment))
             ->join('\\');
     }
 }

@@ -131,8 +131,8 @@ class Projection extends Model
             throw new MissingProjectionPeriodException();
         }
 
-        $betweenStartDate = app(Quasar::class)->resolveFlooredDate($startDate->copy(), $this->queryPeriod);
-        $betweenEndDate = app(Quasar::class)->resolveFlooredDate($endDate->copy(), $this->queryPeriod);
+        $betweenStartDate = app(Quasar::class)->resolveFloorDate($startDate->copy(), $this->queryPeriod);
+        $betweenEndDate = app(Quasar::class)->resolveFloorDate($endDate->copy(), $this->queryPeriod);
 
         return $query->whereBetween('start_date', [
             $betweenStartDate,
@@ -171,7 +171,7 @@ class Projection extends Model
      */
     private function guessProjectionName(): string
     {
-        if (! is_null($this->projectionName)) {
+        if (!is_null($this->projectionName)) {
             return $this->projectionName;
         }
 
