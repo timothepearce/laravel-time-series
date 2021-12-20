@@ -58,12 +58,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": {
-        "packagist.org": false,
-        "private-packagist": {
-            "type": "composer",
-            "url": "https://repo.packagist.com/timothepearce/"
-        }
-    }
+    "prefer-stable": true
 }
