@@ -4,7 +4,7 @@ namespace TimothePearce\Quasar\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use TimothePearce\Quasar\Jobs\ProcessProjection;
+use TimothePearce\Quasar\Jobs\ComputeProjection;
 use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Projector;
 
@@ -28,7 +28,7 @@ trait Projectable
     public function projectModel(string $eventName): void
     {
         config('quasar.queue') ?
-            ProcessProjection::dispatch($this, $eventName) :
+            ComputeProjection::dispatch($this, $eventName) :
             $this->bootProjectors($eventName);
     }
 

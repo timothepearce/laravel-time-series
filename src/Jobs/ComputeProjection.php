@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ProcessProjection implements ShouldQueue
+class ComputeProjection implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
