@@ -34,7 +34,7 @@ class TestCase extends Orchestra
     protected function defineEnvironment($app)
     {
         $app['config']->set('quasar.queue', false);
-        $app['config']->set('quasar.models_namespace', 'TimothePearce\\Quasar\\Tests\\Models\\');
+        $app['config']->set('quasar.models_namespace', 'TimothePearce\\Quasar\\Tests\\Models');
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',
