@@ -10,7 +10,7 @@ return [
     'models_namespace' => 'App\\Models\\',
 
     /*
-     * When enabled, Cargo will process the projections on a queue.
+     * When enabled, Quasar will process the projections on a queue.
      */
     'queue' => false,
 
@@ -24,14 +24,4 @@ return [
      * The day of the beginning of the week.
      */
     'beginning_of_the_week' => CarbonInterface::MONDAY,
-
-    /*
-     * When enabled, Cargo will delete the projections when the related model is also deleted.
-     */
-    // 'on_cascade_delete' => false,
-
-    /*
-     * When enabled,
-     */
-    // 'enable_api' => false
 ];
