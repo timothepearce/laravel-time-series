@@ -5,7 +5,7 @@ use Carbon\CarbonInterface;
 return [
 
     /*
-     * Your models namespace.
+     * Your models' namespace.
      */
     'models_namespace' => 'App\\Models',
 
