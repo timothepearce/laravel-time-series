@@ -74,8 +74,6 @@ class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
      * Lists the available periods.
-     *
-     * @var string[]
      */
     public array \$periods = [];
 
@@ -118,8 +116,6 @@ class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
      * Lists the available periods.
-     *
-     * @var string[]
      */
     public array \$periods = [];
 
