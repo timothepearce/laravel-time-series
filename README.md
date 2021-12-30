@@ -1,13 +1,11 @@
-# Laravel Quasar
-
 <h1 align="center">
     <img src="https://timothepearce.github.io/laravel-quasar-docs/img/logo.svg" width="32px" height="32px" /> Laravel Quasar
 </h1>
 
-    [![Latest Version on Packagist](https://img.shields.io/packagist/v/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
-    [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/run-tests?label=tests)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3Arun-tests+branch%3Amain)
-    [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/Check%20&%20fix%20styling?label=code%20style)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-    [![Total Downloads](https://img.shields.io/packagist/dt/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/run-tests?label=tests)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/timothepearce/laravel-quasar/Check%20&%20fix%20styling?label=code%20style)](https://github.com/timothepearce/laravel-quasar/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/timothepearce/laravel-quasar.svg?style=flat-square)](https://packagist.org/packages/timothepearce/laravel-quasar)
 
 <p align="center">Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, etc.) from you Eloquent models.</p>
 
