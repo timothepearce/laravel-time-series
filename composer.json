@@ -1,6 +1,6 @@
 {
     "name": "timothepearce/laravel-quasar",
-    "description": "Laravel Quasar allows you to easily build, maintain and recover data projections.",
+    "description": "Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, etc.) from you Eloquent models.",
     "type": "library",
     "keywords": [
         "LaravelQuasar",
