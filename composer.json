@@ -7,9 +7,11 @@
         "laravel-quasar",
         "laravel",
         "quasar",
+        "stats",
         "statistics",
         "projections",
-        "projectors"
+        "projectors",
+        "aggregator"
     ],
     "homepage": "https://github.com/timothepearce/laravel-quasar",
     "license": "MIT",
