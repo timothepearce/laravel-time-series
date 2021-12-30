@@ -1,7 +1,7 @@
 # Laravel Quasar
 
 <h1 align="center">
-    <img src="https://timothepearce.github.io/laravel-quasar-docs/img/logo.svg" /> Laravel Quasar
+    <img src="https://timothepearce.github.io/laravel-quasar-docs/img/logo.svg" width="32px" height="32px" /> Laravel Quasar
 </h1>
 
 <p align="center">
