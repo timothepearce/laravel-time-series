@@ -13,12 +13,16 @@
 
 <a href="https://github.com/timothepearce/laravel-quasar/actions/workflows/run-tests.yml">
     <img src="https://github.com/timothepearce/laravel-quasar/actions/workflows/run-tests.yml/badge.svg" alt="">
-</a> 
+</a>
+</p>
+
+<p align="center">
+Build your time-series with ease
 </p>
 
 ## About
 
-Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, etc.) from you Eloquent models.
+Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time-series, etc.) from you Eloquent models.
 
 ## Installation
 
