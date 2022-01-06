@@ -73,12 +73,12 @@ use TimothePearce\Quasar\Models\Projection;
 class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
-     * Lists the available periods.
+     * The projected periods.
      */
     public array \$periods = [];
 
     /**
-     * The default projection content.
+     * The projection default content.
      */
     public function defaultContent(): array
     {
@@ -86,7 +86,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     }
 
     /**
-     * Compute the projection.
+     * The "created" hook for projectable models.
      */
     public function projectableCreated(array \$content, Model \$model): array
     {
@@ -115,12 +115,12 @@ use TimothePearce\Quasar\Models\Projection;
 class ProjectionClass extends Projection implements ProjectionContract
 {
     /**
-     * Lists the available periods.
+     * The projected periods.
      */
     public array \$periods = [];
 
     /**
-     * The default projection content.
+     * The projection default content.
      */
     public function defaultContent(): array
     {
@@ -128,7 +128,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     }
 
     /**
-     * The key used to query the projection.
+     * The projection key.
      */
     public function key(Model \$model): string
     {
@@ -136,7 +136,7 @@ class ProjectionClass extends Projection implements ProjectionContract
     }
 
     /**
-     * Compute the projection.
+     * The "created" hook for projectable models.
      */
     public function projectableCreated(array \$content, Model \$model): array
     {
