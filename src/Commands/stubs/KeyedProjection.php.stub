@@ -3,8 +3,8 @@
 namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Models\Projection;
 use TimothePearce\Quasar\Contracts\ProjectionContract;
+use TimothePearce\Quasar\Models\Projection;
 
 class {{ class }} extends Projection implements ProjectionContract
 {
