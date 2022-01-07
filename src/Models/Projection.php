@@ -105,7 +105,7 @@ class Projection extends Model
      */
     public function scopeKey(Builder $query, array|string|int $keys): Builder
     {
-        if (gettype($keys) === 'array') {
+        if (is_array($keys)) {
             return $query->where(function ($query) use (&$keys) {
                 collect($keys)->each(function ($key, $index) use (&$query) {
                     return $index === 0 ?
