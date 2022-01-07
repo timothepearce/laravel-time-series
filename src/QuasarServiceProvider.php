@@ -30,7 +30,7 @@ class QuasarServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registesr any application services.
+     * Registers any application services.
      */
     public function register(): void
     {

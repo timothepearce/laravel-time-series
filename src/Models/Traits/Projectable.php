@@ -55,9 +55,9 @@ trait Projectable
             $query->where('projection_name', $projectionName);
         }
 
-        if (isset($periods) && gettype($periods) === 'string') {
+        if (isset($periods) && is_string($periods)) {
             $query->where('period', $periods);
-        } elseif (isset($periods) && gettype($periods) === 'array') {
+        } elseif (isset($periods) && is_array($periods)) {
             $query->where(function ($query) use (&$periods) {
                 collect($periods)->each(function (string $period, $key) use (&$query) {
                     $key === 0 ?
