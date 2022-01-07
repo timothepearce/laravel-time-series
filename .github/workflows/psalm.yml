@@ -26,9 +26,6 @@ jobs:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
 
-      - name: Set Packagist authentication
-        run: composer config --global --auth http-basic.repo.packagist.com TimothePearce ${{ secrets.PRIVATE_PACKAGIST_TOKEN }}
-
       - name: Run composer install
         run: composer install -n --prefer-dist
 
