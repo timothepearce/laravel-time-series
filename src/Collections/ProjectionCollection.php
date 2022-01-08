@@ -14,6 +14,7 @@ use TimothePearce\Quasar\Models\Projection;
 class ProjectionCollection extends Collection
 {
     /**
+     * Converts the collection to a time-series made of 'segments'.
      *
      * @throws EmptyProjectionCollectionException|MultiplePeriodsException|MultipleProjectionsException|OverlappingFillBetweenDatesException
      */
@@ -63,7 +64,7 @@ class ProjectionCollection extends Collection
      */
     private function resolveTypeParameters(string|null $projectionName, string|null $period): array
     {
-        if ($this->count() === 0 && $this->shouldGuessTypeParameters($projectionName, $period)) {
+        if ($this->count() === 0 && $this->shouldResolveTypeParameters($projectionName, $period)) {
             throw new EmptyProjectionCollectionException();
         }
 
@@ -90,9 +91,9 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Asserts the parameters should be guessed.
+     * Asserts the parameters should be resolved.
      */
-    private function shouldGuessTypeParameters(string|null $projectionName, string|null $period): bool
+    private function shouldResolveTypeParameters(string|null $projectionName, string|null $period): bool
     {
         return is_null($projectionName) || is_null($period);
     }
@@ -100,7 +101,7 @@ class ProjectionCollection extends Collection
     /**
      * Resolves the projector name.
      *
-     * @throws MultipleProjectionsException|EmptyProjectionCollectionException
+     * @throws MultipleProjectionsException
      */
     private function resolveProjectionName(string|null $projectionName): string
     {
@@ -150,9 +151,7 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Guess the projector name.
-     *
-     * @throws EmptyProjectionCollectionException
+     * Guesses the projector name.
      */
     private function guessProjectionName(): string
     {
@@ -160,7 +159,7 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Guess the period.
+     * Guesses the period.
      */
     private function guessPeriod(): string
     {

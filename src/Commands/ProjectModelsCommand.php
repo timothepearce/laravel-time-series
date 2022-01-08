@@ -77,7 +77,7 @@ class ProjectModelsCommand extends Command
     }
 
     /**
-     * Get the provided projectable models or guess them.
+     * Get the provided projectable models or resolve them.
      */
     private function getProjectableModels(): Collection
     {
