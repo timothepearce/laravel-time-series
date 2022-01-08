@@ -57,7 +57,7 @@ class DropProjectionsCommand extends Command
         collect($this->argument('projection'))->each(function (string $projectionName) {
             $projection = app(Quasar::class)->resolveProjectionModel($projectionName);
 
-            Projection::fromProjection($projection)->delete();
+            Projection::name($projection)->delete();
         });
 
         $this->info('The projections have been dropped!');
