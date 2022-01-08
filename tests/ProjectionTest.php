@@ -203,4 +203,19 @@ class ProjectionTest extends TestCase
             'content' => $firstProjection->content,
         ], $firstProjection->segment());
     }
+
+    /** @test */
+    public function it_is_converted_to_a_time_series()
+    {
+        $log = Log::factory()->create(['created_at' => today()]);
+
+        $timeSeries = SinglePeriodProjection::period('5 minutes')
+            ->toTimeSeries(
+                today(),
+                today()->addMinutes(15)
+            );
+
+        $this->assertCount(3, $timeSeries);
+        $this->assertEquals($log->firstProjection()->segment(), $timeSeries->first());
+    }
 }

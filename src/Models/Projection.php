@@ -125,7 +125,7 @@ class Projection extends Model
      */
     public function scopeBetween(Builder $query, Carbon $startDate, Carbon $endDate): Builder
     {
-        $this->guessProjectionName();
+        $this->resolveProjectionName();
 
         if (is_null($this->queryPeriod)) {
             throw new MissingProjectionPeriodException();
@@ -152,9 +152,20 @@ class Projection extends Model
         return $projections->fillBetween(
             $startDate,
             $endDate,
-            $this->guessProjectionName(),
+            $this->resolveProjectionName(),
             $this->queryPeriod,
         );
+    }
+
+    /**
+     * Constraints the query to the fill between scope, then executes it and converts the results to a time-series.
+     * @throws MissingProjectionNameException
+     * @throws MissingProjectionPeriodException
+     */
+    public function scopeToTimeSeries(Builder $query, Carbon $startDate, Carbon $endDate): ProjectionCollection
+    {
+        return $query->fillBetween($startDate, $endDate)
+            ->toTimeSeries($startDate, $endDate);
     }
 
     /**
@@ -166,10 +177,10 @@ class Projection extends Model
     }
 
     /**
-     * Guesses the projection name.
+     * Resolves the projection name.
      * @throws MissingProjectionNameException
      */
-    private function guessProjectionName(): string
+    private function resolveProjectionName(): string
     {
         if (! is_null($this->projectionName)) {
             return $this->projectionName;
@@ -187,6 +198,6 @@ class Projection extends Model
      */
     private function callFromChild(): bool
     {
-        return get_class($this) !== get_called_class();
+        return self::class !== get_called_class();
     }
 }
