@@ -79,7 +79,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_projection_for_each_interval_when_a_model_with_projections_is_created()
+    public function it_creates_a_projection_for_each_period_when_a_model_with_projections_is_created()
     {
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
 
@@ -87,7 +87,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_existing_projection_when_the_interval_is_in_completion()
+    public function it_gets_the_existing_projection_when_the_period_is_in_completion()
     {
         $this->travelTo(Carbon::today());
         Log::factory()->create();
@@ -99,7 +99,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_new_projection_when_the_interval_is_ended()
+    public function it_creates_a_new_projection_when_the_period_is_ended()
     {
         $this->travelTo(Carbon::today());
         Log::factory()->create();
@@ -211,7 +211,7 @@ class ProjectableTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_a_projection_for_a_single_projectable_type_and_interval()
+    public function it_updates_a_projection_for_a_single_projectable_type_and_period()
     {
         $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjection::class]);
         $message = $this->createModelWithProjections(Message::class, [MultiplePeriodsProjection::class]);
