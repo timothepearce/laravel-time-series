@@ -46,12 +46,10 @@ class ProjectionCollection extends Collection
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
 
-        $allPeriods->each(function (string $projectionPeriod) use (&$projectionName, &$period, &$allProjections) {
-            $projection = $this->firstWhere('start_date', $projectionPeriod);
+        $allPeriods->each(function (string $currentPeriod) use (&$projectionName, &$period, &$allProjections) {
+            $projection = $this->firstWhere('start_date', $currentPeriod);
 
-            is_null($projection) ?
-                $allProjections->push($this->makeEmptyProjection($projectionName, $period, $projectionPeriod)) :
-                $allProjections->push($projection);
+            $allProjections->push($projection ?? $this->makeEmptyProjection($projectionName, $period, $currentPeriod));
         });
 
         return $allProjections;
