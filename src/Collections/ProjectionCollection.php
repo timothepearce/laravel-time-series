@@ -58,7 +58,7 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Validates and resolve the type parameters.
+     * Validates and resolves the type parameters.
      *
      * @throws EmptyProjectionCollectionException|MultipleProjectionsException|MultiplePeriodsException
      */
@@ -72,7 +72,7 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Validates and resolve the dates parameters.
+     * Validates and resolves the dates parameters.
      *
      * @throws OverlappingFillBetweenDatesException
      */
@@ -99,7 +99,7 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Resolves the projector name.
+     * Resolves the projection name.
      *
      * @throws MultipleProjectionsException
      */
