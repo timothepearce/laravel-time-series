@@ -69,7 +69,7 @@ class Projection extends Model
     /**
      * Converts the projection to a time-series segment.
      */
-    public function segment(): array
+    public function toSegment(): array
     {
         return [
             'projection_name' => $this->projection_name,

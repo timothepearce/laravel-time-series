@@ -201,7 +201,7 @@ class ProjectionTest extends TestCase
             'start_date' => today()->toDateTimeString(),
             'end_date' => today()->addMinutes(5)->subSecond()->toDateTimeString(),
             'content' => $firstProjection->content,
-        ], $firstProjection->segment());
+        ], $firstProjection->toSegment());
     }
 
     /** @test */
@@ -216,6 +216,6 @@ class ProjectionTest extends TestCase
             );
 
         $this->assertCount(3, $timeSeries);
-        $this->assertEquals($log->firstProjection()->segment(), $timeSeries->first());
+        $this->assertEquals($log->firstProjection()->toSegment(), $timeSeries->first());
     }
 }

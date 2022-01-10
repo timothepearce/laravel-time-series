@@ -26,7 +26,7 @@ class ProjectionCollection extends Collection
     ): self {
         $projections = $this->fillBetween($startDate, $endDate, $projectionName, $period);
 
-        return new self($projections->map->segment());
+        return new self($projections->map->toSegment());
     }
 
     /**
