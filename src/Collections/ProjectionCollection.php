@@ -56,6 +56,20 @@ class ProjectionCollection extends Collection
     }
 
     /**
+     * Converts the projections to segments.
+     */
+    public function toSegments(): self
+    {
+        $segments = new self([]);
+
+        $this->each(function ($projection) use (&$segments) {
+            $segments->push($projection->toSegment());
+        });
+
+        return $segments;
+    }
+
+    /**
      * Validates and resolves the type parameters.
      *
      * @throws EmptyProjectionCollectionException|MultipleProjectionsException|MultiplePeriodsException

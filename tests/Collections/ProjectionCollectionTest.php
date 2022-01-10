@@ -211,4 +211,17 @@ class ProjectionCollectionTest extends TestCase
 
         $this->assertEquals(Projection::first()->toSegment(), $timeSeriesCollection->first());
     }
+
+    /** @test */
+    public function it_converts_the_projections_to_segments()
+    {
+        Log::factory()->create();
+
+        /** @var ProjectionCollection $projections */
+        $projections = Projection::all();
+
+        $segments = $projections->toSegments();
+
+        $this->assertEquals(Projection::first()->toSegment(), $segments->first());
+    }
 }
