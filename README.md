@@ -1,6 +1,4 @@
-<h1 align="center">
-    <img src="https://timothepearce.github.io/laravel-quasar-docs/img/logo.svg" width="32px" height="32px" /> Laravel Quasar
-</h1>
+![Logo](./static/logo.svg)
 
 <p align="center">
 <a href="https://packagist.org/packages/timothepearce/laravel-quasar">
@@ -16,7 +14,7 @@
 </a>
 </p>
 
-<p align="center">
+<p align="center" style="font-style: italic">
 Build your time-series with ease
 </p>
 
