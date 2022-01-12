@@ -73,8 +73,8 @@ When you're implementing a projection, follow theses three steps:
 
 ### Query a Projection
 
-A Projection is an Eloquent model and is queried the same way,but keep in mind that the projections are all stored in a single table.
-That means you'll have to use scope methods to get the correct projections regarding the period or even the key you defined earlier.
+A Projection is an Eloquent model and is queried the same way, but keep in mind that the projections are all stored in a single table.
+That means you'll have to use scope methods to get the correct projections regarding the period you defined earlier:
 
 ```php
 MyProjection::period('1 day')
