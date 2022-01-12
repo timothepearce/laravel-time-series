@@ -22,15 +22,82 @@ Build your time series with ease
 
 Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time series, etc.) from you Eloquent models.
 
-## Installation
+## Documentation
+
+The full documentation can be found [here](https://timothepearce.github.io/laravel-quasar-docs).
+
+## Usage
+
+### Installation
 
 ```bash
 composer require timothepearce/laravel-quasar
 ```
 
-## Documentation
+### Migrate the tables
 
-The full documentation can be found [here](https://timothepearce.github.io/laravel-quasar-docs).
+```bash
+php artisan migrate
+```
+
+### Create a Projection
+
+```bash
+php artisan make:projection MyProjection
+```
+
+### Make a model projectable
+
+When you want to make your model projectable, you must add it the `Projectable` trait and define the `$projections` class attribute:
+
+```php
+use App\Models\Projections\MyProjection;
+use TimothePearce\Quasar\Projectable;
+
+class MyProjectableModel extends Model
+{
+    use Projectable;
+
+    protected array $projections = [
+        MyProjection::class,
+    ];
+}
+```
+
+### Implement a Projection
+
+When you're implementing a projection, follow theses three steps:
+* [Define your projection periods](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#define-your-projection-periods)
+* [Add a default content](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#define-the-default-content-of-your-projection)
+* [Bind your projection to the projectable models](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#implement-the-binding)
+
+### Query a Projection
+
+A Projection is an Eloquent model and is queried the same way,but keep in mind that the projections are all stored in a single table.
+That means you'll have to use scope methods to get the correct projections regarding the period or even the key you defined earlier.
+
+```php
+MyProjection::period('1 day')
+    ->between(
+        today()->subDay(), // start date
+        today(), // end date
+    )
+    ->get();
+```
+
+### Query a time series
+
+To get a time series from a projection model, use the toTimeSeries method:
+
+```php
+MyProjection::period('1 day')
+    ->toTimeSeries(
+        today()->subDay(),
+        today(),
+    );
+```
+
+Note that this method **fill the missing projections between the given dates** with the default content you defined earlier.
 
 ## Credits
 
