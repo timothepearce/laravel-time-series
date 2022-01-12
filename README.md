@@ -1,4 +1,5 @@
-![Logo](./static/logo.svg)
+![Logo](./static/logo.svg#gh-light-mode-only)
+![Logo](./static/logo_white.svg#gh-dark-mode-only)
 
 <p align="center">
 <a href="https://packagist.org/packages/timothepearce/laravel-quasar">
