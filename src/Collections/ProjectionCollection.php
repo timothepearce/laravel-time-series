@@ -14,7 +14,7 @@ use TimothePearce\Quasar\Models\Projection;
 class ProjectionCollection extends Collection
 {
     /**
-     * Converts the collection to a time-series made of 'segments'.
+     * Converts the collection to a time series made of 'segments'.
      *
      * @throws EmptyProjectionCollectionException|MultiplePeriodsException|MultipleProjectionsException|OverlappingFillBetweenDatesException
      */

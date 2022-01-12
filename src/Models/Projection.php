@@ -67,7 +67,7 @@ class Projection extends Model
     }
 
     /**
-     * Converts the projection to a time-series segment.
+     * Converts the projection to a time series segment.
      */
     public function toSegment(): array
     {
@@ -157,7 +157,7 @@ class Projection extends Model
     }
 
     /**
-     * Constraints the query to the fill between scope, then executes it and converts the results to a time-series.
+     * Constraints the query to the fill between scope, then executes it and converts the results to a time series.
      * @throws MissingProjectionNameException
      * @throws MissingProjectionPeriodException
      */

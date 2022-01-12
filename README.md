@@ -14,13 +14,13 @@
 </a>
 </p>
 
-<p align="center" style="font-style: italic">
-Build your time-series with ease
+<p align="center">
+Build your time series with ease
 </p>
 
 ## About
 
-Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time-series, etc.) from you Eloquent models.
+Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time series, etc.) from you Eloquent models.
 
 ## Installation
 
