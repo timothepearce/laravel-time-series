@@ -20,7 +20,7 @@ Build your time series with ease
 
 ## About
 
-Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time series, etc.) from you Eloquent models.
+Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time series, etc.) from your Eloquent models.
 
 ## Documentation
 
