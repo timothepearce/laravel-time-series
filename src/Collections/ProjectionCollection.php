@@ -39,17 +39,24 @@ class ProjectionCollection extends Collection
         Carbon      $endDate,
         string|null $projectionName = null,
         string|null $period = null,
+        callable|null $fillCallable = null,
     ): self {
         [$projectionName, $period] = $this->resolveTypeParameters($projectionName, $period);
         [$startDate, $endDate] = $this->resolveDatesParameters($period, $startDate, $endDate);
 
         $allPeriods = $this->getAllPeriods($startDate, $endDate, $period);
         $allProjections = new self([]);
+        $lastProjection = null;
 
-        $allPeriods->each(function (string $currentPeriod) use (&$projectionName, &$period, &$allProjections) {
+        $allPeriods->each(function (string $currentPeriod) use (&$projectionName, &$period, &$allProjections, &$fillCallable, &$lastProjection) {
             $projection = $this->firstWhere('start_date', $currentPeriod);
 
-            $allProjections->push($projection ?? $this->makeEmptyProjection($projectionName, $period, $currentPeriod));
+            $allProjections->push(is_null($projection) ?
+                $this->makeProjection($projectionName, $period, $currentPeriod, is_null($fillCallable) ? null : $fillCallable($lastProjection)) :
+                $projection
+            );
+
+            $lastProjection = $allProjections->last();
         });
 
         return $allProjections;
@@ -199,16 +206,21 @@ class ProjectionCollection extends Collection
     }
 
     /**
-     * Makes an empty projection from the given projector name.
+     * Makes a projection from the given projector name.
      */
-    private function makeEmptyProjection(string $projectionName, string $period, string $startDate): Projection
+    private function makeProjection(
+        string $projectionName,
+        string $period,
+        string $startDate,
+        array|null $content = null
+    ): Projection
     {
         return Projection::make([
             'projection_name' => $projectionName,
             'key' => null,
             'period' => $period,
             'start_date' => $startDate,
-            'content' => (new $projectionName())->defaultContent(),
+            'content' => $content ?? (new $projectionName())->defaultContent(),
         ]);
     }
 }
