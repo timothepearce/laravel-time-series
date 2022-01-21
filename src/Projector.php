@@ -67,7 +67,7 @@ class Projector
 
         is_null($projection) ?
             $this->createGlobalProjection() :
-            $this->updateProjection($projection);
+            $this->updateProjection($projection, '*');
     }
 
     /**
@@ -79,7 +79,7 @@ class Projector
 
         is_null($projection) ?
             $this->createProjection($period) :
-            $this->updateProjection($projection);
+            $this->updateProjection($projection, $period);
     }
 
     /**
@@ -118,7 +118,7 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
             'start_date' => app(Quasar::class)->resolveFloorDate($this->projectedModel->created_at, $period),
-            'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent()),
+            'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent(), $period),
         ]);
     }
 
@@ -132,16 +132,16 @@ class Projector
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => '*',
             'start_date' => null,
-            'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent()),
+            'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent(), '*'),
         ]);
     }
 
     /**
      * Updates the projection.
      */
-    private function updateProjection(Projection $projection): void
+    private function updateProjection(Projection $projection, string $period): void
     {
-        $projection->content = $this->mergeProjectedContent($projection->content);
+        $projection->content = $this->mergeProjectedContent($projection->content, $period);
 
         $projection->save();
     }
@@ -157,9 +157,9 @@ class Projector
     /**
      * Merges the projected content with the given one.
      */
-    private function mergeProjectedContent(array $content): array
+    private function mergeProjectedContent(array $content, string $period): array
     {
-        return array_merge($content, $this->resolveCallableMethod($content));
+        return array_merge($content, $this->resolveCallableMethod($content, $period));
     }
 
     /**
@@ -177,15 +177,15 @@ class Projector
     /**
      * Resolves the callable method.
      */
-    private function resolveCallableMethod(array $content): array
+    private function resolveCallableMethod(array $content, string $period): array
     {
         $modelName = Str::of($this->projectedModel::class)->explode('\\')->last();
         $callableMethod = lcfirst($modelName) . ucfirst($this->eventName);
         $defaultCallable = 'projectable' . ucfirst($this->eventName);
 
         return method_exists($this->projectionName, $callableMethod) ?
-            (new $this->projectionName())->$callableMethod($content, $this->projectedModel) :
-            (new $this->projectionName())->$defaultCallable($content, $this->projectedModel);
+            (new $this->projectionName())->$callableMethod($content, $this->projectedModel, $period) :
+            (new $this->projectionName())->$defaultCallable($content, $this->projectedModel, $period);
     }
 
     /**
