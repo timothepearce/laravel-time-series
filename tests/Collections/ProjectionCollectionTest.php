@@ -212,9 +212,10 @@ class ProjectionCollectionTest extends TestCase
             now()->addMinutes(10),
             SinglePeriodProjection::class,
             '5 minutes',
-            function(Projection $lastProjection) {
+            function (Projection $lastProjection) {
                 return $lastProjection->content;
-        });
+            }
+        );
 
         $this->assertEquals($filledCollection->last()->content, $filledCollection->first()->content);
     }

@@ -51,7 +51,8 @@ class ProjectionCollection extends Collection
         $allPeriods->each(function (string $currentPeriod) use (&$projectionName, &$period, &$allProjections, &$fillCallable, &$lastProjection) {
             $projection = $this->firstWhere('start_date', $currentPeriod);
 
-            $allProjections->push(is_null($projection) ?
+            $allProjections->push(
+                is_null($projection) ?
                 $this->makeProjection($projectionName, $period, $currentPeriod, is_null($fillCallable) ? null : $fillCallable($lastProjection)) :
                 $projection
             );
@@ -213,8 +214,7 @@ class ProjectionCollection extends Collection
         string $period,
         string $startDate,
         array|null $content = null
-    ): Projection
-    {
+    ): Projection {
         return Projection::make([
             'projection_name' => $projectionName,
             'key' => null,
