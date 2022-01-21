@@ -200,6 +200,27 @@ class ProjectionCollectionTest extends TestCase
     }
 
     /** @test */
+    public function it_fills_the_missing_period_with_the_given_callable()
+    {
+        Log::factory()->create();
+
+        /** @var ProjectionCollection $collection */
+        $collection = Projection::all();
+
+        $filledCollection = $collection->fillBetween(
+            now(),
+            now()->addMinutes(10),
+            SinglePeriodProjection::class,
+            '5 minutes',
+            function (Projection $lastProjection) {
+                return $lastProjection->content;
+            }
+        );
+
+        $this->assertEquals($filledCollection->last()->content, $filledCollection->first()->content);
+    }
+
+    /** @test */
     public function it_is_formatted_to_a_time_series()
     {
         Log::factory()->create(['created_at' => today()]);
