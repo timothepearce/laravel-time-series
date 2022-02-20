@@ -1,12 +1,12 @@
 <?php
 
-namespace TimothePearce\Quasar\Models\Traits;
+namespace TimothePearce\TimeSeries\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use TimothePearce\Quasar\Jobs\ComputeProjection;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Projector;
+use TimothePearce\TimeSeries\Jobs\ComputeProjection;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\Projector;
 
 trait Projectable
 {
@@ -27,7 +27,7 @@ trait Projectable
      */
     public function projectModel(string $eventName): void
     {
-        config('quasar.queue') ?
+        config('time-series.queue') ?
             ComputeProjection::dispatch($this, $eventName) :
             $this->bootProjectors($eventName);
     }
@@ -49,7 +49,7 @@ trait Projectable
         string|null       $projectionName = null,
         string|array|null $periods = null,
     ): MorphToMany {
-        $query = $this->morphToMany(Projection::class, 'projectable', 'quasar_projectables');
+        $query = $this->morphToMany(Projection::class, 'projectable', 'time_series_projectables');
 
         if (isset($projectionName)) {
             $query->where('projection_name', $projectionName);

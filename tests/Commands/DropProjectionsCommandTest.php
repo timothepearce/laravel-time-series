@@ -1,15 +1,15 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Commands;
+namespace TimothePearce\TimeSeries\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Mockery\MockInterface;
-use TimothePearce\Quasar\Quasar;
-use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
-use TimothePearce\Quasar\Tests\ProjectableFactory;
-use TimothePearce\Quasar\Tests\TestCase;
+use TimothePearce\TimeSeries\TimeSeries;
+use TimothePearce\TimeSeries\Tests\Models\Log;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodKeyedProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\TimeSeries\Tests\ProjectableFactory;
+use TimothePearce\TimeSeries\Tests\TestCase;
 
 class DropProjectionsCommandTest extends TestCase
 {
@@ -22,11 +22,11 @@ class DropProjectionsCommandTest extends TestCase
             SinglePeriodProjection::class,
             SinglePeriodKeyedProjection::class,
         ]);
-        $this->assertDatabaseCount('quasar_projections', 2);
+        $this->assertDatabaseCount('time_series_projections', 2);
 
-        Artisan::call("quasar:drop");
+        Artisan::call("time-series:drop");
 
-        $this->assertDatabaseCount('quasar_projections', 0);
+        $this->assertDatabaseCount('time_series_projections', 0);
     }
 
     /** @test */
@@ -37,20 +37,20 @@ class DropProjectionsCommandTest extends TestCase
             SinglePeriodProjection::class,
             SinglePeriodKeyedProjection::class,
         ]);
-        $this->assertDatabaseCount('quasar_projections', 2);
+        $this->assertDatabaseCount('time_series_projections', 2);
 
-        Artisan::call('quasar:drop SinglePeriodProjection');
+        Artisan::call('time-series:drop SinglePeriodProjection');
 
-        $this->assertDatabaseCount('quasar_projections', 1);
+        $this->assertDatabaseCount('time_series_projections', 1);
     }
 
     /**
-     * Mocks the `resolveProjectableModels` methods from the Quasar class.
+     * Mocks the `resolveProjectableModels` methods from the TimeSeries class.
      */
     private function mockResolveProjectableModels(string $projectionModel)
     {
         $this->partialMock(
-            Quasar::class,
+            TimeSeries::class,
             fn (MockInterface $mock) => $mock
                 ->shouldReceive('resolveProjectionModel')
                 ->andReturns($projectionModel)

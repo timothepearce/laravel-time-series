@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Contracts;
+namespace TimothePearce\TimeSeries\Contracts;
 
 interface ProjectionContract
 {

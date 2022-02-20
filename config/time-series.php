@@ -10,12 +10,12 @@ return [
     'models_namespace' => 'App\\Models',
 
     /*
-     * When enabled, Quasar will process the projections on a queue.
+     * When enabled, TimeSeries will process the projections on a queue.
      */
     'queue' => false,
 
     /*
-     * The specific queue name used by Quasar.
+     * The specific queue name used by TimeSeries.
      * Leave empty to use the default queue.
      */
     'queue_name' => '',

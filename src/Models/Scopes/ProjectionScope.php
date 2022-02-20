@@ -1,11 +1,11 @@
 <?php
 
-namespace TimothePearce\Quasar\Models\Scopes;
+namespace TimothePearce\TimeSeries\Models\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class ProjectionScope implements Scope
 {

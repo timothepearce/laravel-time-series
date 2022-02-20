@@ -1,16 +1,16 @@
 ![Logo](./static/logo.svg#gh-light-mode-only)![Logo](./static/logo_white.svg#gh-dark-mode-only)
 
 <p align="center">
-<a href="https://packagist.org/packages/timothepearce/laravel-quasar">
-    <img src="http://poser.pugx.org/timothepearce/laravel-quasar/v/unstable" alt="Latest unstable Version" />
+<a href="https://packagist.org/packages/timothepearce/laravel-time-series">
+    <img src="http://poser.pugx.org/timothepearce/laravel-time-series/v/unstable" alt="Latest unstable Version" />
 </a>
 
-<a href="https://packagist.org/packages/timothepearce/laravel-quasar">
-    <img src="http://poser.pugx.org/timothepearce/laravel-quasar/downloads" alt="Download count" />
+<a href="https://packagist.org/packages/timothepearce/laravel-time-series">
+    <img src="http://poser.pugx.org/timothepearce/laravel-time-series/downloads" alt="Download count" />
 </a>
 
-<a href="https://github.com/timothepearce/laravel-quasar/actions/workflows/run-tests.yml">
-    <img src="https://github.com/timothepearce/laravel-quasar/actions/workflows/run-tests.yml/badge.svg" alt="">
+<a href="https://github.com/timothepearce/laravel-time-series/actions/workflows/run-tests.yml">
+    <img src="https://github.com/timothepearce/laravel-time-series/actions/workflows/run-tests.yml/badge.svg" alt="">
 </a>
 </p>
 
@@ -20,18 +20,18 @@ Build your time series with ease
 
 ## About
 
-Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, time series, etc.) from your Eloquent models.
+Laravel Time Series provides an API to projects data from your Eloquent models and convert them to time series.
 
 ## Documentation
 
-The full documentation can be found [here](https://timothepearce.github.io/laravel-quasar-docs).
+The full documentation can be found [here](https://timothepearce.github.io/laravel-time-series-docs).
 
 ## Usage
 
 ### Installation
 
 ```bash
-composer require timothepearce/laravel-quasar
+composer require timothepearce/laravel-time-series
 ```
 
 ### Migrate the tables
@@ -52,7 +52,7 @@ When you want to make your model projectable, you must add it the `Projectable` 
 
 ```php
 use App\Models\Projections\MyProjection;
-use TimothePearce\Quasar\Projectable;
+use TimothePearce\TimeSeries\Projectable;
 
 class MyProjectableModel extends Model
 {
@@ -67,9 +67,9 @@ class MyProjectableModel extends Model
 ### Implement a Projection
 
 When you're implementing a projection, follow theses three steps:
-* [Define your projection periods](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#define-your-projection-periods)
-* [Add a default content](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#define-the-default-content-of-your-projection)
-* [Bind your projection to the projectable models](https://timothepearce.github.io/laravel-quasar-docs/getting-started/implement-a-projection#implement-the-binding)
+* [Define your projection periods](https://timothepearce.github.io/laravel-time-series-docs/getting-started/implement-a-projection#define-your-projection-periods)
+* [Add a default content](https://timothepearce.github.io/laravel-time-series-docs/getting-started/implement-a-projection#define-the-default-content-of-your-projection)
+* [Bind your projection to the projectable models](https://timothepearce.github.io/laravel-time-series-docs/getting-started/implement-a-projection#implement-the-binding)
 
 ### Query a Projection
 
@@ -102,7 +102,7 @@ Note that this method **fill the missing projections between the given dates** w
 ## Credits
 
 - [Timothé Pearce](https://github.com/timothepearce)
-- [All contributors](https://github.com/timothepearce/laravel-quasar/contributors)
+- [All contributors](https://github.com/timothepearce/laravel-time-series/contributors)
 
 ## License
 

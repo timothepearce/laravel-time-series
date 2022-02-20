@@ -1,20 +1,20 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests;
+namespace TimothePearce\TimeSeries\Tests;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
-use TimothePearce\Quasar\Jobs\ComputeProjection;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Models\Message;
-use TimothePearce\Quasar\Tests\Models\Projections\GlobalPeriodProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodKeyedProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
-use TimothePearce\Quasar\Tests\Models\Projections\WeeklyPeriodProjection;
+use TimothePearce\TimeSeries\Jobs\ComputeProjection;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\Tests\Models\Log;
+use TimothePearce\TimeSeries\Tests\Models\Message;
+use TimothePearce\TimeSeries\Tests\Models\Projections\GlobalPeriodProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\MultiplePeriodsProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodKeyedProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjectionWithCallable;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
+use TimothePearce\TimeSeries\Tests\Models\Projections\WeeklyPeriodProjection;
 
 class ProjectableTest extends TestCase
 {
@@ -23,7 +23,7 @@ class ProjectableTest extends TestCase
     /** @test */
     public function it_creates_the_projection_on_model_created_event()
     {
-        $this->assertDatabaseCount('quasar_projections', 0);
+        $this->assertDatabaseCount('time_series_projections', 0);
         $log = Log::factory()->create();
 
         $projection = $log->firstProjection();
@@ -83,7 +83,7 @@ class ProjectableTest extends TestCase
     {
         $this->createModelWithProjections(Log::class, [MultiplePeriodsProjection::class]);
 
-        $this->assertDatabaseCount('quasar_projections', 8);
+        $this->assertDatabaseCount('time_series_projections', 8);
     }
 
     /** @test */
@@ -95,7 +95,7 @@ class ProjectableTest extends TestCase
         $this->travel(3)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('quasar_projections', 1);
+        $this->assertDatabaseCount('time_series_projections', 1);
     }
 
     /** @test */
@@ -107,14 +107,14 @@ class ProjectableTest extends TestCase
         $this->travel(6)->minutes();
         Log::factory()->create();
 
-        $this->assertDatabaseCount('quasar_projections', 2);
+        $this->assertDatabaseCount('time_series_projections', 2);
     }
 
     /** @test */
     public function it_dispatch_a_job_when_the_queue_config_is_enabled()
     {
         Queue::fake();
-        config(['quasar.queue' => true]);
+        config(['time-series.queue' => true]);
 
         Log::factory()->create();
 
@@ -125,7 +125,7 @@ class ProjectableTest extends TestCase
     public function it_dispatch_a_job_to_the_named_queue()
     {
         Queue::fake();
-        config(['quasar.queue' => true, 'quasar.queue_name' => 'named']);
+        config(['time-series.queue' => true, 'time-series.queue_name' => 'named']);
 
         Log::factory()->create();
 

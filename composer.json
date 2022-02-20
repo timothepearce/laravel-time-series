@@ -1,19 +1,19 @@
 {
-    "name": "timothepearce/laravel-quasar",
-    "description": "Laravel Quasar provides an API to create and maintain data projections (statistics, aggregates, etc.) from you Eloquent models.",
+    "name": "timothepearce/laravel-time-series",
+    "description": "Laravel Time Series provides an API to create and maintain projected data from you Eloquent models, and represent them as time-series.",
     "type": "library",
     "keywords": [
-        "LaravelQuasar",
-        "laravel-quasar",
+        "LaravelTimeSeries",
+        "laravel-time-series",
         "laravel",
-        "quasar",
+        "time-series",
         "stats",
         "statistics",
         "projections",
         "projectors",
         "aggregator"
     ],
-    "homepage": "https://github.com/timothepearce/laravel-quasar",
+    "homepage": "https://github.com/timothepearce/laravel-time-series",
     "license": "MIT",
     "authors": [
         {
@@ -36,13 +36,13 @@
     },
     "autoload": {
         "psr-4": {
-            "TimothePearce\\Quasar\\": "src"
+            "TimothePearce\\TimeSeries\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TimothePearce\\Quasar\\Tests\\": "tests",
-            "TimothePearce\\Quasar\\Tests\\Database\\Factories\\": "tests/database/factories"
+            "TimothePearce\\TimeSeries\\Tests\\": "tests",
+            "TimothePearce\\TimeSeries\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "scripts": {
@@ -51,12 +51,15 @@
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TimothePearce\\Quasar\\QuasarServiceProvider"
+                "TimothePearce\\TimeSeries\\TimeSeriesServiceProvider"
             ]
         }
     },

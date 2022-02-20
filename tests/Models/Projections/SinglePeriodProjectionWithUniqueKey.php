@@ -1,10 +1,10 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Models\Projections;
+namespace TimothePearce\TimeSeries\Tests\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Contracts\ProjectionContract;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Contracts\ProjectionContract;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class SinglePeriodProjectionWithUniqueKey extends Projection implements ProjectionContract
 {

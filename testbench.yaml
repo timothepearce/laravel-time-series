@@ -1,2 +1,2 @@
 providers:
-  - TimothePearce\Quasar\QuasarServiceProvider
+  - TimothePearce\TimeSeries\TimeSeriesServiceProvider

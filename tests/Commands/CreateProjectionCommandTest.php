@@ -1,10 +1,10 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Commands;
+namespace TimothePearce\TimeSeries\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use TimothePearce\Quasar\Tests\TestCase;
+use TimothePearce\TimeSeries\Tests\TestCase;
 
 class CreateProjectionCommandTest extends TestCase
 {
@@ -67,8 +67,8 @@ class CreateProjectionCommandTest extends TestCase
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Contracts\ProjectionContract;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Contracts\ProjectionContract;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class ProjectionClass extends Projection implements ProjectionContract
 {
@@ -109,8 +109,8 @@ CLASS;
 namespace App\Models\Projections;
 
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Contracts\ProjectionContract;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Contracts\ProjectionContract;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class ProjectionClass extends Projection implements ProjectionContract
 {

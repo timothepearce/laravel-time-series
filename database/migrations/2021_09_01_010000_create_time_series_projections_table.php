@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('quasar_projections', function (Blueprint $table) {
+        Schema::create('time_series_projections', function (Blueprint $table) {
             $table->id();
 
             $table->string('projection_name');
@@ -24,6 +24,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('quasar_projections');
+        Schema::dropIfExists('time_series_projections');
     }
 };

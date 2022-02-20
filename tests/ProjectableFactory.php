@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests;
+namespace TimothePearce\TimeSeries\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 

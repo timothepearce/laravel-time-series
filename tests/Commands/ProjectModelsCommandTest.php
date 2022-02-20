@@ -1,14 +1,14 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Commands;
+namespace TimothePearce\TimeSeries\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Mockery\MockInterface;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Quasar;
-use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Models\Message;
-use TimothePearce\Quasar\Tests\TestCase;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\TimeSeries;
+use TimothePearce\TimeSeries\Tests\Models\Log;
+use TimothePearce\TimeSeries\Tests\Models\Message;
+use TimothePearce\TimeSeries\Tests\TestCase;
 
 class ProjectModelsCommandTest extends TestCase
 {
@@ -25,11 +25,11 @@ class ProjectModelsCommandTest extends TestCase
         Log::factory()->create();
         Log::query()->delete();
         $this->assertDatabaseCount('logs', 0);
-        $this->assertDatabaseCount('quasar_projections', 1);
+        $this->assertDatabaseCount('time_series_projections', 1);
 
-        Artisan::call("quasar:project Log --force");
+        Artisan::call("time-series:project Log --force");
 
-        $this->assertDatabaseCount('quasar_projections', 0);
+        $this->assertDatabaseCount('time_series_projections', 0);
     }
 
     /** @test */
@@ -38,11 +38,11 @@ class ProjectModelsCommandTest extends TestCase
         Log::factory()->create();
         Projection::query()->delete();
         $this->assertDatabaseCount('logs', 1);
-        $this->assertDatabaseCount('quasar_projections', 0);
+        $this->assertDatabaseCount('time_series_projections', 0);
 
-        Artisan::call("quasar:project Log");
+        Artisan::call("time-series:project Log");
 
-        $this->assertDatabaseCount('quasar_projections', 1);
+        $this->assertDatabaseCount('time_series_projections', 1);
     }
 
     /** @test */
@@ -53,19 +53,19 @@ class ProjectModelsCommandTest extends TestCase
         Message::query()->delete();
 
         $this->assertDatabaseCount('messages', 1);
-        $this->assertDatabaseCount('quasar_projections', 0);
+        $this->assertDatabaseCount('time_series_projections', 0);
 
-        Artisan::call("quasar:project Message --with-trashed");
-        $this->assertDatabaseCount('quasar_projections', 1);
+        Artisan::call("time-series:project Message --with-trashed");
+        $this->assertDatabaseCount('time_series_projections', 1);
     }
 
     /**
-     * Mocks the `resolveProjectableModels` methods from the Quasar class.
+     * Mocks the `resolveProjectableModels` methods from the TimeSeries class.
      */
     private function mockResolveProjectableModels()
     {
         $this->partialMock(
-            Quasar::class,
+            TimeSeries::class,
             fn (MockInterface $mock) => $mock
                 ->shouldReceive('resolveProjectableModels')
                 ->andReturns(["Log"])
