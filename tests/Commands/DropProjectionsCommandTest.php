@@ -4,12 +4,12 @@ namespace TimothePearce\TimeSeries\Tests\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Mockery\MockInterface;
-use TimothePearce\TimeSeries\TimeSeries;
 use TimothePearce\TimeSeries\Tests\Models\Log;
 use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodKeyedProjection;
 use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
 use TimothePearce\TimeSeries\Tests\ProjectableFactory;
 use TimothePearce\TimeSeries\Tests\TestCase;
+use TimothePearce\TimeSeries\TimeSeries;
 
 class DropProjectionsCommandTest extends TestCase
 {

@@ -5,10 +5,10 @@ namespace TimothePearce\TimeSeries\Tests\Commands;
 use Illuminate\Support\Facades\Artisan;
 use Mockery\MockInterface;
 use TimothePearce\TimeSeries\Models\Projection;
-use TimothePearce\TimeSeries\TimeSeries;
 use TimothePearce\TimeSeries\Tests\Models\Log;
 use TimothePearce\TimeSeries\Tests\Models\Message;
 use TimothePearce\TimeSeries\Tests\TestCase;
+use TimothePearce\TimeSeries\TimeSeries;
 
 class ProjectModelsCommandTest extends TestCase
 {
