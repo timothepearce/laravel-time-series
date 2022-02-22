@@ -17,8 +17,6 @@ return new class extends Migration {
             $table->json('content');
 
             $table->timestamps();
-
-            // @todo Add composite key?
         });
     }
 
