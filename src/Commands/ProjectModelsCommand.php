@@ -1,11 +1,11 @@
 <?php
 
-namespace TimothePearce\Quasar\Commands;
+namespace TimothePearce\TimeSeries\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Quasar;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\TimeSeries;
 
 class ProjectModelsCommand extends Command
 {
@@ -14,7 +14,7 @@ class ProjectModelsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'quasar:project {model?*} {--force} {--with-trashed}';
+    protected $signature = 'time-series:project {model?*} {--force} {--with-trashed}';
 
     /**
      * The console command description.
@@ -82,7 +82,7 @@ class ProjectModelsCommand extends Command
     private function getProjectableModels(): Collection
     {
         return empty($this->argument('model')) ?
-            app(Quasar::class)->resolveProjectableModels() :
+            app(TimeSeries::class)->resolveProjectableModels() :
             $this->resolveModelFromArgument();
     }
 
@@ -92,7 +92,7 @@ class ProjectModelsCommand extends Command
     private function resolveModelFromArgument(): Collection
     {
         return collect($this->argument('model'))->map(
-            fn (string $modelName) => config('quasar.models_namespace') . '\\' . $modelName
+            fn (string $modelName) => config('time-series.models_namespace') . '\\' . $modelName
         );
     }
 }

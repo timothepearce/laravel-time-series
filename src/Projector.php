@@ -1,11 +1,11 @@
 <?php
 
-namespace TimothePearce\Quasar;
+namespace TimothePearce\TimeSeries;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class Projector
 {
@@ -104,7 +104,7 @@ class Projector
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', app(Quasar::class)->resolveFloorDate($this->projectedModel->created_at, $period)],
+            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->created_at, $period)],
         ]);
     }
 
@@ -117,7 +117,7 @@ class Projector
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => app(Quasar::class)->resolveFloorDate($this->projectedModel->created_at, $period),
+            'start_date' => app(TimeSeries::class)->resolveFloorDate($this->projectedModel->created_at, $period),
             'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent(), $period),
         ]);
     }
@@ -196,7 +196,7 @@ class Projector
         $startDate = $this->projectedModel->created_at->floorUnit($periodType, $quantity);
 
         if (in_array($periodType, ['week', 'weeks'])) {
-            $startDate->startOfWeek(config('quasar.beginning_of_the_week'));
+            $startDate->startOfWeek(config('time-series.beginning_of_the_week'));
         }
 
         return $startDate;

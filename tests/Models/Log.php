@@ -1,11 +1,11 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Models;
+namespace TimothePearce\TimeSeries\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use TimothePearce\Quasar\Models\Traits\Projectable;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\TimeSeries\Models\Traits\Projectable;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
 
 class Log extends Model
 {

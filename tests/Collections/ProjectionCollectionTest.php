@@ -1,19 +1,19 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Collections;
+namespace TimothePearce\TimeSeries\Tests\Collections;
 
 use Illuminate\Support\Carbon;
-use TimothePearce\Quasar\Collections\ProjectionCollection;
-use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
-use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
-use TimothePearce\Quasar\Exceptions\MultipleProjectionsException;
-use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
-use TimothePearce\Quasar\Tests\ProjectableFactory;
-use TimothePearce\Quasar\Tests\TestCase;
+use TimothePearce\TimeSeries\Collections\ProjectionCollection;
+use TimothePearce\TimeSeries\Exceptions\EmptyProjectionCollectionException;
+use TimothePearce\TimeSeries\Exceptions\MultiplePeriodsException;
+use TimothePearce\TimeSeries\Exceptions\MultipleProjectionsException;
+use TimothePearce\TimeSeries\Exceptions\OverlappingFillBetweenDatesException;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\Tests\Models\Log;
+use TimothePearce\TimeSeries\Tests\Models\Projections\MultiplePeriodsProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\TimeSeries\Tests\ProjectableFactory;
+use TimothePearce\TimeSeries\Tests\TestCase;
 
 class ProjectionCollectionTest extends TestCase
 {

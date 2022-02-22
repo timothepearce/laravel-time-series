@@ -1,11 +1,11 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests;
+namespace TimothePearce\TimeSeries\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as Orchestra;
-use TimothePearce\Quasar\QuasarServiceProvider;
+use TimothePearce\TimeSeries\TimeSeriesServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -14,14 +14,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'TimothePearce\\Quasar\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'TimothePearce\\TimeSeries\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            QuasarServiceProvider::class,
+            TimeSeriesServiceProvider::class,
         ];
     }
 
@@ -33,8 +33,8 @@ class TestCase extends Orchestra
      */
     protected function defineEnvironment($app)
     {
-        $app['config']->set('quasar.queue', false);
-        $app['config']->set('quasar.models_namespace', 'TimothePearce\\Quasar\\Tests\\Models');
+        $app['config']->set('time-series.queue', false);
+        $app['config']->set('time-series.models_namespace', 'TimothePearce\\TimeSeries\\Tests\\Models');
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver' => 'sqlite',

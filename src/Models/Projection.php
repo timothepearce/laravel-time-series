@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Models;
+namespace TimothePearce\TimeSeries\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
-use TimothePearce\Quasar\Collections\ProjectionCollection;
-use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
-use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
-use TimothePearce\Quasar\Models\Scopes\ProjectionScope;
-use TimothePearce\Quasar\Quasar;
+use TimothePearce\TimeSeries\Collections\ProjectionCollection;
+use TimothePearce\TimeSeries\Exceptions\MissingProjectionNameException;
+use TimothePearce\TimeSeries\Exceptions\MissingProjectionPeriodException;
+use TimothePearce\TimeSeries\Models\Scopes\ProjectionScope;
+use TimothePearce\TimeSeries\TimeSeries;
 
 class Projection extends Model
 {
     use HasFactory;
 
-    protected $table = 'quasar_projections';
+    protected $table = 'time_series_projections';
 
     protected $guarded = [];
 
@@ -63,7 +63,7 @@ class Projection extends Model
      */
     public function from(string $modelName): MorphToMany
     {
-        return $this->morphedByMany($modelName, 'projectable', 'quasar_projectables');
+        return $this->morphedByMany($modelName, 'projectable', 'time_series_projectables');
     }
 
     /**
@@ -197,7 +197,7 @@ class Projection extends Model
      */
     private function resolveFloorDate(Carbon $date): Carbon
     {
-        return app(Quasar::class)->resolveFloorDate($date->copy(), $this->queryPeriod);
+        return app(TimeSeries::class)->resolveFloorDate($date->copy(), $this->queryPeriod);
     }
 
     /**

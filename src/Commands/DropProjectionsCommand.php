@@ -1,10 +1,10 @@
 <?php
 
-namespace TimothePearce\Quasar\Commands;
+namespace TimothePearce\TimeSeries\Commands;
 
 use Illuminate\Console\Command;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Quasar;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\TimeSeries;
 
 class DropProjectionsCommand extends Command
 {
@@ -13,14 +13,14 @@ class DropProjectionsCommand extends Command
      *
      * @var string
      */
-    public $name = 'quasar:drop';
+    public $name = 'time-series:drop';
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'quasar:drop {projection?*} {--force}';
+    protected $signature = 'time-series:drop {projection?*} {--force}';
 
     /**
      * The console command description.
@@ -55,7 +55,7 @@ class DropProjectionsCommand extends Command
         }
 
         collect($this->argument('projection'))->each(function (string $projectionName) {
-            $projection = app(Quasar::class)->resolveProjectionModel($projectionName);
+            $projection = app(TimeSeries::class)->resolveProjectionModel($projectionName);
 
             Projection::name($projection)->delete();
         });

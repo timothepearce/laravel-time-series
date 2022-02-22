@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Commands;
+namespace TimothePearce\TimeSeries\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;

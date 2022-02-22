@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('quasar_projectables', function (Blueprint $table) {
+        Schema::create('time_series_projectables', function (Blueprint $table) {
             $table->foreignId('projection_id')
-                ->constrained('quasar_projections')
+                ->constrained('time_series_projections')
                 ->onDelete('cascade');
 
             $table->unsignedBigInteger('projectable_id');
@@ -21,6 +21,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('quasar_projectables');
+        Schema::dropIfExists('time_series_projectables');
     }
 };

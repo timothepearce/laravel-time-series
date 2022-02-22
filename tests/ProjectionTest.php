@@ -1,16 +1,16 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests;
+namespace TimothePearce\TimeSeries\Tests;
 
 use Illuminate\Support\Carbon;
-use TimothePearce\Quasar\Collections\ProjectionCollection;
-use TimothePearce\Quasar\Exceptions\MissingProjectionNameException;
-use TimothePearce\Quasar\Exceptions\MissingProjectionPeriodException;
-use TimothePearce\Quasar\Models\Projection;
-use TimothePearce\Quasar\Tests\Models\Log;
-use TimothePearce\Quasar\Tests\Models\Projections\MultiplePeriodsProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjection;
-use TimothePearce\Quasar\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
+use TimothePearce\TimeSeries\Collections\ProjectionCollection;
+use TimothePearce\TimeSeries\Exceptions\MissingProjectionNameException;
+use TimothePearce\TimeSeries\Exceptions\MissingProjectionPeriodException;
+use TimothePearce\TimeSeries\Models\Projection;
+use TimothePearce\TimeSeries\Tests\Models\Log;
+use TimothePearce\TimeSeries\Tests\Models\Projections\MultiplePeriodsProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\SinglePeriodProjectionWithUniqueKey;
 
 class ProjectionTest extends TestCase
 {

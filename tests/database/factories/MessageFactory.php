@@ -1,9 +1,9 @@
 <?php
 
-namespace TimothePearce\Quasar\Tests\Database\Factories;
+namespace TimothePearce\TimeSeries\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use TimothePearce\Quasar\Tests\Models\Message;
+use TimothePearce\TimeSeries\Tests\Models\Message;
 
 class MessageFactory extends Factory
 {

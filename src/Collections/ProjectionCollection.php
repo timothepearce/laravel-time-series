@@ -1,15 +1,15 @@
 <?php
 
-namespace TimothePearce\Quasar\Collections;
+namespace TimothePearce\TimeSeries\Collections;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use TimothePearce\Quasar\Exceptions\EmptyProjectionCollectionException;
-use TimothePearce\Quasar\Exceptions\MultiplePeriodsException;
-use TimothePearce\Quasar\Exceptions\MultipleProjectionsException;
-use TimothePearce\Quasar\Exceptions\OverlappingFillBetweenDatesException;
-use TimothePearce\Quasar\Models\Projection;
+use TimothePearce\TimeSeries\Exceptions\EmptyProjectionCollectionException;
+use TimothePearce\TimeSeries\Exceptions\MultiplePeriodsException;
+use TimothePearce\TimeSeries\Exceptions\MultipleProjectionsException;
+use TimothePearce\TimeSeries\Exceptions\OverlappingFillBetweenDatesException;
+use TimothePearce\TimeSeries\Models\Projection;
 
 class ProjectionCollection extends Collection
 {

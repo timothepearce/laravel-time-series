@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Jobs;
+namespace TimothePearce\TimeSeries\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,7 +21,7 @@ class ComputeProjection implements ShouldQueue
      */
     public function __construct(protected Model $model, protected string $eventName)
     {
-        $this->onQueue(config('quasar.queue_name'));
+        $this->onQueue(config('time-series.queue_name'));
     }
 
     /**

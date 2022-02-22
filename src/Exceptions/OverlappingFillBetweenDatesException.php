@@ -1,6 +1,6 @@
 <?php
 
-namespace TimothePearce\Quasar\Exceptions;
+namespace TimothePearce\TimeSeries\Exceptions;
 
 use Exception;
 

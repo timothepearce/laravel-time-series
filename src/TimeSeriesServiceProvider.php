@@ -1,13 +1,13 @@
 <?php
 
-namespace TimothePearce\Quasar;
+namespace TimothePearce\TimeSeries;
 
 use Illuminate\Support\ServiceProvider;
-use TimothePearce\Quasar\Commands\CreateProjectionCommand;
-use TimothePearce\Quasar\Commands\DropProjectionsCommand;
-use TimothePearce\Quasar\Commands\ProjectModelsCommand;
+use TimothePearce\TimeSeries\Commands\CreateProjectionCommand;
+use TimothePearce\TimeSeries\Commands\DropProjectionsCommand;
+use TimothePearce\TimeSeries\Commands\ProjectModelsCommand;
 
-class QuasarServiceProvider extends ServiceProvider
+class TimeSeriesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstraps the package services.
@@ -15,8 +15,8 @@ class QuasarServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/quasar.php' => config_path('quasar.php'),
-        ], 'quasar-config');
+            __DIR__ . '/../config/time-series.php' => config_path('time-series.php'),
+        ], 'time-series-config');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
@@ -35,12 +35,12 @@ class QuasarServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/quasar.php',
-            'quasar'
+            __DIR__ . '/../config/time-series.php',
+            'time-series'
         );
 
-        $this->app->singleton(Quasar::class, function () {
-            return new Quasar();
+        $this->app->singleton(TimeSeries::class, function () {
+            return new TimeSeries();
         });
     }
 }

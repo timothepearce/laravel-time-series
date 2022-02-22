@@ -1,15 +1,15 @@
 <?php
 
-namespace TimothePearce\Quasar;
+namespace TimothePearce\TimeSeries;
 
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use TimothePearce\Quasar\Models\Traits\Projectable;
+use TimothePearce\TimeSeries\Models\Traits\Projectable;
 
-class Quasar
+class TimeSeries
 {
     /**
      * Resolves the projectable models from the app.
@@ -44,7 +44,7 @@ class Quasar
         $startDate = $date->floorUnit($periodType, $quantity);
 
         if (in_array($periodType, ['week', 'weeks'])) {
-            $startDate->startOfWeek(config('quasar.beginning_of_the_week'));
+            $startDate->startOfWeek(config('time-series.beginning_of_the_week'));
         }
 
         return $startDate;
