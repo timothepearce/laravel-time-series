@@ -4,11 +4,9 @@
 <a href="https://packagist.org/packages/timothepearce/laravel-time-series">
     <img src="http://poser.pugx.org/timothepearce/laravel-time-series/v/unstable" alt="Latest unstable Version" />
 </a>
-
 <a href="https://packagist.org/packages/timothepearce/laravel-time-series">
     <img src="http://poser.pugx.org/timothepearce/laravel-time-series/downloads" alt="Download count" />
 </a>
-
 <a href="https://github.com/timothepearce/laravel-time-series/actions/workflows/run-tests.yml">
     <img src="https://github.com/timothepearce/laravel-time-series/actions/workflows/run-tests.yml/badge.svg" alt="">
 </a>
