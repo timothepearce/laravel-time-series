@@ -20,7 +20,7 @@ Build your time series with ease
 
 ## About
 
-Laravel Time Series provides an API to projects data from your Eloquent models and convert them to time series.
+Laravel Time Series provides an API to projects data from your Eloquent models, and convert them to time series.
 
 ## Documentation
 
