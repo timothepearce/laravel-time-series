@@ -24,7 +24,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^9.0"
+        "illuminate/contracts": "^9.0|^10.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.0",
