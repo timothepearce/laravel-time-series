@@ -10,8 +10,6 @@ use TimothePearce\TimeSeries\Projector;
 
 trait Projectable
 {
-    public string $dateColumn = 'created_at';
-
     /**
      * Boots the trait.
      */

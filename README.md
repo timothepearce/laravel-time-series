@@ -56,6 +56,8 @@ class MyProjectableModel extends Model
 {
     use Projectable;
 
+    public string $dateColumn = 'created_at';
+
     protected array $projections = [
         MyProjection::class,
     ];
