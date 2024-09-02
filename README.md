@@ -61,6 +61,27 @@ class MyProjectableModel extends Model
     ];
 }
 ```
+If you want to use a different date field from your Model instead of created_at then do the following :
+  
+```php
+use App\Models\Projections\MyProjection;
+use TimothePearce\TimeSeries\Projectable;
+
+class MyProjectableModel extends Model
+{
+    use Projectable;
+
+    public string $dateColumn = 'other_date_time';
+
+    protected $casts = [
+        'other_date_time' => 'datetime:Y-m-d H:00',
+    ];
+
+    protected array $projections = [
+        MyProjection::class,
+    ];
+}
+```
 
 ### Implement a Projection
 

@@ -104,7 +104,7 @@ class Projector
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->created_at, $period)],
+            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->projectedModel->dateColumn}, $period)],
         ]);
     }
 
@@ -117,7 +117,7 @@ class Projector
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => app(TimeSeries::class)->resolveFloorDate($this->projectedModel->created_at, $period),
+            'start_date' => app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->projectedModel->dateColumn}, $period),
             'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent(), $period),
         ]);
     }
@@ -193,7 +193,7 @@ class Projector
      */
     private function resolveStartDate(string $periodType, int $quantity): Carbon
     {
-        $startDate = $this->projectedModel->created_at->floorUnit($periodType, $quantity);
+        $startDate = $this->projectedModel->{$this->projectedModel->dateColumn}->floorUnit($periodType, $quantity);
 
         if (in_array($periodType, ['week', 'weeks'])) {
             $startDate->startOfWeek(config('time-series.beginning_of_the_week'));
