@@ -9,11 +9,17 @@ use TimothePearce\TimeSeries\Models\Projection;
 
 class Projector
 {
+    public string $dateColumn = 'created_at';
+
     public function __construct(
         protected Model  $projectedModel,
         protected string $projectionName,
         protected string $eventName,
     ) {
+        $projection = (new $this->projectionName());
+        if (isset($projection->dateColumn)) {
+            $this->dateColumn = $projection->dateColumn;
+        }
     }
 
     /**
@@ -104,7 +110,7 @@ class Projector
             ['projection_name', $this->projectionName],
             ['key', $this->hasKey() ? $this->key() : null],
             ['period', $period],
-            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->projectedModel->dateColumn}, $period)],
+            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->dateColumn}, $period)],
         ]);
     }
 
@@ -117,7 +123,7 @@ class Projector
             'projection_name' => $this->projectionName,
             'key' => $this->hasKey() ? $this->key() : null,
             'period' => $period,
-            'start_date' => app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->projectedModel->dateColumn}, $period),
+            'start_date' => app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->dateColumn}, $period),
             'content' => $this->mergeProjectedContent((new $this->projectionName())->defaultContent(), $period),
         ]);
     }
@@ -193,7 +199,7 @@ class Projector
      */
     private function resolveStartDate(string $periodType, int $quantity): Carbon
     {
-        $startDate = $this->projectedModel->{$this->projectedModel->dateColumn}->floorUnit($periodType, $quantity);
+        $startDate = $this->projectedModel->{$this->dateColumn}->floorUnit($periodType, $quantity);
 
         if (in_array($periodType, ['week', 'weeks'])) {
             $startDate->startOfWeek(config('time-series.beginning_of_the_week'));
