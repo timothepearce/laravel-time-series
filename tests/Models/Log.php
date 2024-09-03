@@ -18,4 +18,5 @@ class Log extends Model
      * The projections list.
      */
     protected array $projections = [SinglePeriodProjection::class];
+    public string $dateColumn = 'created_at';
 }
