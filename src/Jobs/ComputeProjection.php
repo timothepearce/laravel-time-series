@@ -14,7 +14,7 @@ class ComputeProjection implements ShouldQueue
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
-    use SerializesModels;
+    //use SerializesModels;
 
     /**
      * Create a new job instance.
