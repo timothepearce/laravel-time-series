@@ -149,7 +149,7 @@ class ProjectionTest extends TestCase
         $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
         $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
 
-        $numberOfProjections = Projection::key($log->id)->count();
+        $numberOfProjections = Projection::forKey($log->id)->count();
 
         $this->assertEquals(1, $numberOfProjections);
     }
@@ -160,7 +160,7 @@ class ProjectionTest extends TestCase
         $log = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
         $anotherLog = $this->createModelWithProjections(Log::class, [SinglePeriodProjectionWithUniqueKey::class]);
 
-        $numberOfProjections = Projection::key([$log->id, $anotherLog->id])->count();
+        $numberOfProjections = Projection::forKey([$log->id, $anotherLog->id])->count();
 
         $this->assertEquals(2, $numberOfProjections);
     }
