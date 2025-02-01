@@ -196,7 +196,7 @@ class ProjectionCollection extends Collection
         [$periodQuantity, $periodType] = Str::of($period)->split('/[\s]+/');
 
         while ($cursorDate->notEqualTo($endDate)):
-            $cursorDate->add($periodQuantity, $periodType);
+            $cursorDate->add((float)$periodQuantity, $periodType);
 
             if ($cursorDate->notEqualTo($endDate)) {
                 $allProjectionsDates->push(clone $cursorDate);
