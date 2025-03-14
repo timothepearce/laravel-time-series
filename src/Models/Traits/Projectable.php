@@ -52,7 +52,7 @@ trait Projectable
         $query = $this->morphToMany(Projection::class, 'projectable', 'time_series_projectables');
 
         if (isset($projectionName)) {
-            $query->where('projection_name', $projectionName);
+            $query->whereRaw('projection_name = ?', [$projectionName]);
         }
 
         if (isset($periods) && is_string($periods)) {
