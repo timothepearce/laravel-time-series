@@ -12,7 +12,7 @@ class TableReservationFactory extends Factory
     public function definition()
     {
         return [
-            'table_id'  => 1, //$this->random_int(1, 10),
+            'table_id' => 1, //$this->random_int(1, 10),
             'customer_name' => $this->faker->name,
             'reservation_date' => today()->addDays(10)->format('Y-m-d'),
             'reservation_made_date' => today()->format('Y-m-d H:00'),
@@ -20,5 +20,3 @@ class TableReservationFactory extends Factory
         ];
     }
 }
-
-

@@ -7,10 +7,9 @@ use TimothePearce\TimeSeries\Collections\ProjectionCollection;
 use TimothePearce\TimeSeries\Exceptions\MissingProjectionNameException;
 use TimothePearce\TimeSeries\Exceptions\MissingProjectionPeriodException;
 use TimothePearce\TimeSeries\Models\Projection;
-use TimothePearce\TimeSeries\Tests\Models\TableReservation;
-use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerMadeDayProjection;
 use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerDiningDayProjection;
-use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerDiningDayProjectionWithKey;
+use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerMadeDayProjection;
+use TimothePearce\TimeSeries\Tests\Models\TableReservation;
 
 class ProjectionWithConfigurableDateTest extends TestCase
 {
@@ -133,7 +132,7 @@ class ProjectionWithConfigurableDateTest extends TestCase
     public function it_gets_the_projections_between_the_given_dates_for_all_projections()
     {
         $tablereservation1 = TableReservation::factory()->create();
-         // 1 made_date = created_at = now(), reservation_date = now()+10 days, total_people = 2, number_reservation = 1
+        // 1 made_date = created_at = now(), reservation_date = now()+10 days, total_people = 2, number_reservation = 1
         $this->travel(15)->minutes();
         $tablereservation2 = TableReservation::factory()->create();
         // 2 made_date = created_at = now(), reservation_date = now()+10, total_people = 2+2, number_reservation = 1+1

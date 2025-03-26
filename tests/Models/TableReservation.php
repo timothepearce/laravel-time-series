@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TimothePearce\TimeSeries\Models\Traits\Projectable;
-use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerMadeDayProjection;
 use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerDiningDayProjection;
+use TimothePearce\TimeSeries\Tests\Models\Projections\TableReservationPerMadeDayProjection;
 
 class TableReservation extends Model
 {
@@ -16,7 +16,7 @@ class TableReservation extends Model
     use SoftDeletes;
 
     protected $casts = [
-        'reservation_date'      => 'datetime:Y-m-d',
+        'reservation_date' => 'datetime:Y-m-d',
         'reservation_made_date' => 'datetime:Y-m-d H:00',
     ];
     /**
