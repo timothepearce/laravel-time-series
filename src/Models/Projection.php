@@ -87,7 +87,7 @@ class Projection extends Model
     {
         $this->projectionName = $projectorName;
 
-        return $query->where('projection_name', $projectorName);
+        return $query->whereRaw('projection_name = ?', [$projectorName]);
     }
 
     /**

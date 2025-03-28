@@ -93,12 +93,13 @@ class Projector
      */
     private function findGlobalProjection(): Projection|null
     {
-        return Projection::firstWhere([
-            ['projection_name', $this->projectionName],
-            ['key', $this->hasKey() ? $this->key() : null],
-            ['period', '*'],
-            ['start_date', null],
-        ]);
+        return Projection::whereRaw('projection_name = ?', [$this->projectionName])
+             ->where([
+                 ['key', $this->hasKey() ? $this->key() : null],
+                 ['period', '*'],
+                 ['start_date', null],
+             ])
+             ->first();
     }
 
     /**
@@ -106,12 +107,14 @@ class Projector
      */
     private function findProjection(string $period): Projection|null
     {
-        return Projection::firstWhere([
-            ['projection_name', $this->projectionName],
-            ['key', $this->hasKey() ? $this->key() : null],
-            ['period', $period],
-            ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->dateColumn}, $period)],
-        ]);
+        return Projection::whereRaw('projection_name = ?', [$this->projectionName])
+             ->where([
+                 ['key', $this->hasKey() ? $this->key() : null],
+                 ['period', $period],
+                 ['start_date', app(TimeSeries::class)->resolveFloorDate($this->projectedModel->{$this->dateColumn}, $period),
+                 ],
+             ])
+             ->first();
     }
 
     /**

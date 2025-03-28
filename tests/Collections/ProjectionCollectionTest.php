@@ -223,7 +223,7 @@ class ProjectionCollectionTest extends TestCase
     /** @test */
     public function it_is_formatted_to_a_time_series()
     {
-        Log::factory()->create(['created_at' => today()]);
+        Log::factory()->create(['created_at' => today(), 'updated_at' => today()]);
 
         /** @var ProjectionCollection $collection */
         $collection = Projection::all();
